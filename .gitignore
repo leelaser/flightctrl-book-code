@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+# 反向注入留下的变异副本（正常情况下 finally 里会删掉）
+_l*_mut.py
+# 脚本跑出来的图（.png 是仓库里的产物，想重新生成就删掉再跑）
+# *.png
+
+# 内部产物：记录"哪些脚本是从素材教程并进来的"，对读者无意义
+_deposited_manifest.txt
