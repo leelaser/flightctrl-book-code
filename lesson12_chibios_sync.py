@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-第 12 课配套实验：ChibiOS 同步原语与优先级继承
+卷 5 第 3 章配套实验：ChibiOS 同步原语与优先级继承
 
     实验 1  mutex_t 的结构（从源码读）
     实验 2  ★★ PI 模拟：可传递的优先级继承
@@ -56,7 +56,7 @@ F_SCHEDULER_C = os.path.join(APM_ROOT, "libraries", "AP_HAL_ChibiOS",
 F_HALCLASS = os.path.join(APM_ROOT, "libraries", "AP_HAL_ChibiOS",
                           "HAL_ChibiOS_Class.cpp")
 # APM_ROOT = D:/.../APM/ardupilot-Copter-4.5.7/ardupilot-Copter-4.5.7
-# 三级 .. 才到 D:/DEVLib/PX4APM
+# 三级 .. 才到工作区根
 PX4_ROOT = os.path.normpath(os.path.join(APM_ROOT, "..", "..", "..", "PX4",
                                          "PX4-Autopilot"))
 F_NUTTX_MUTEX = os.path.join(PX4_ROOT, "platforms", "nuttx", "NuttX", "nuttx",
@@ -183,7 +183,7 @@ def exp1():
 
     ⚠ 关掉 CH_CFG_USE_MUTEXES 时，这两个字段会【消失】——
       于是任何直接用它们的代码【编译失败】。
-      第 10 课 3.4b 讲的 Scheduler.cpp:867 就是这个机制。
+      卷 5 第 1 章 3.4b 讲的 Scheduler.cpp:867 就是这个机制。
 """)
     print()
 
@@ -446,7 +446,7 @@ def exp3():
     head("实验 3：★ 「没有超时」的源码级证明")
 
     print("""
-  第 10 课说过 ChibiOS 的 mutex 没有超时版本。这个实验证明它，
+  卷 5 第 1 章说过 ChibiOS 的 mutex 没有超时版本。这个实验证明它，
   并且证明【这不是 ChibiOS 独有的】。
 """)
 
@@ -649,7 +649,7 @@ def exp3():
     │    「ChibiOS 怎么这么弱」这个判断是错的。                  │
     └──────────────────────────────────────────────────────────┘
 
-    FreeRTOS 能给的原因是：它的 mutex 【就是队列】（第 3 课），
+    FreeRTOS 能给的原因是：它的 mutex 【就是队列】（卷 4 第 8 章），
     超时是队列本来就有的能力。
 
     但代价是 —— 超时会破坏 PI 的不变量，需要额外机制来修（见文档 3.4 节）：
@@ -674,7 +674,7 @@ def exp4():
     head("实验 4：★★ chMtxForceReleaseS 是不是 ArduPilot 加的")
 
     print("""
-  《NuttX 教程》第 10 课说「ArduPilot fork 了 ChibiOS 并做了修改」。
+  《NuttX 教程》卷 6 第 10 章说「ArduPilot fork 了 ChibiOS 并做了修改」。
   这个实验给出一处【可逐条核实】的证据。
 
   分两步：
@@ -957,7 +957,7 @@ def exp5():
            not l.strip().startswith("*") and not l.strip().startswith("/*"):
             has_timer_field = True
             break
-    print("        %s" % ("★ 找到了 —— 本课结论需要重查" if has_timer_field
+    print("        %s" % ("★ 找到了 —— 本章结论需要重查" if has_timer_field
                           else "⇒ 零个。ch_thread 里没有定时器节点。"))
     print()
 
@@ -1008,7 +1008,7 @@ def exp5():
     print()
     print("""    ⇒ 就绪队列（scheduler）不在上面 —— 它通过
       __sch_ready_behind / __sch_ready_ahead 间接调用
-      ch_pqueue_insert_*（见第 11 课 1.3 节）。
+      ch_pqueue_insert_*（见卷 5 第 2 章 1.3 节）。
 
     ⇒ 所以准确的表述是：
 
@@ -1080,7 +1080,7 @@ EXPERIMENTS = {
 def main():
     print()
     hr("#")
-    print("#  第 12 课：ChibiOS 同步原语与优先级继承")
+    print("#  本章：ChibiOS 同步原语与优先级继承")
     print("#  配套实验")
     hr("#")
 

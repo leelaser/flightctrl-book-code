@@ -1,6 +1,6 @@
 """
 ============================================================================
- NuttX 教程 · 第 9 课 · 动手写一个 PX4 模块
+ 卷 6 第 8 章 · 动手写一个 PX4 模块
  配套实验代码
 ============================================================================
 
@@ -496,7 +496,7 @@ def exp3_parameters():
      │  第 3 层: Flash 存储                                          │
      │                                                             │
      │    脏参数 → 后台异步写入 flash                                │
-     │    用【裸 flash 接口】不做文件系统（第 8 课）                  │
+     │    用【裸 flash 接口】不做文件系统（卷 6 第 7 章）                  │
      │    双备份 + CRC + 原子切换                                    │
      └─────────────────────────────────────────────────────────────┘
 """)
@@ -1036,7 +1036,7 @@ void MyModule::Run()
 		sensor_accel_s accel;
 
 		if (_sensor_accel_sub.copy(&accel)) {
-			// 用 ISR 抓的时间戳（第 7 课）
+			// 用 ISR 抓的时间戳（卷 6 第 6 章）
 			_last_accel_timestamp = accel.timestamp_sample;
 
 			const float gain = _param_mymod_gain.get();
@@ -1152,14 +1152,14 @@ uint32 counter                  # 递增计数器（便于观察丢帧）
   ────────────────────────────────────────────────────────────────────
   【这个骨架里每部分对应前面哪一课】
 
-     · ModuleBase<MyModule>                 第 8 课（模块生命周期）
-     · px4::ScheduledWorkItem               第 7 课（WorkQueue / HRT）
-     · uORB::Publication / Subscription     第 6 课（uORB 就是 CDev）
-     · SubscriptionCallbackWorkItem         第 7 课（中断 → 下半部）
-     · perf_counter                         第 7 课（性能观测）
-     · DEFINE_PARAMETERS                    本课（参数系统）
-     · px4_add_module + Kconfig             第 8 课（构建系统）
-     · 裸 flash 参数存储                     第 8 课（绕过文件系统）
+     · ModuleBase<MyModule>                 卷 6 第 7 章（模块生命周期）
+     · px4::ScheduledWorkItem               卷 6 第 6 章（WorkQueue / HRT）
+     · uORB::Publication / Subscription     卷 6 第 5 章（uORB 就是 CDev）
+     · SubscriptionCallbackWorkItem         卷 6 第 6 章（中断 → 下半部）
+     · perf_counter                         卷 6 第 6 章（性能观测）
+     · DEFINE_PARAMETERS                    本章（参数系统）
+     · px4_add_module + Kconfig             卷 6 第 7 章（构建系统）
+     · 裸 flash 参数存储                     卷 6 第 7 章（绕过文件系统）
 
   ────────────────────────────────────────────────────────────────────
   【编译与测试】
@@ -1199,7 +1199,7 @@ uint32 counter                  # 递增计数器（便于观察丢帧）
 # ============================================================================
 if __name__ == "__main__":
     print("=" * 76)
-    print("  NuttX 教程 · 第 9 课 · 动手写一个 PX4 模块")
+    print("  卷 6 第 8 章 · 动手写一个 PX4 模块")
     print("=" * 76)
 
     exp1_module_startup()
@@ -1208,7 +1208,7 @@ if __name__ == "__main__":
     exp4_build_system()
     exp5_skeleton()
 
-    sep("本课小结")
+    sep("本章小结")
     print("""
   1. 模块入口 my_module_main → ModuleBase<T>::main → 分发到 start/stop/status
      它在【临时任务】里跑, 解析完命令就退出

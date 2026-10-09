@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""第 32 周 · 08 滤波与振动抑制 —— 可执行验证（陷波部分）
+"""卷 8 第 13 章 · 滤波与振动抑制 —— 可执行验证（陷波部分）
 
-配套课文：`10-ArduPilot算法全解/08-滤波与振动抑制.md`
+配套课文：`卷 8 第 13 章`
 源码：`ardupilot-Copter-4.7.1/libraries/Filter/NotchFilter.cpp`（151 行）
       `libraries/Filter/HarmonicNotchFilter.cpp`（573 行）
       `libraries/AP_GyroFFT/AP_GyroFFT.cpp`（1482 行）

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-第 22 周 · 02 ArduPilot 软件架构 —— 配套实验
+卷 8 第 2 章 · ArduPilot 软件架构 —— 配套实验
 
     实验 1  任务表调度器：AP_Scheduler::run() 到底怎么跑
     实验 2  ★★ 实时性是怎么保证的：max_time_micros、滑落、未达成、自动降速
@@ -23,7 +23,7 @@
     任务表里的每一项（名字、频率、max_time_micros、优先级）
     **全部抄自 ArduCopter/Copter.cpp:112-...** 的真实表格。
 
-  ★★ 本课的核心问题是：
+  ★★ 本章的核心问题是：
 
     「PX4 用『模块 + 消息总线』，ArduPilot 用『一张任务表』。
       那这张表凭什么能保证实时性？某个任务超时了会怎么样？」
@@ -31,7 +31,7 @@
   答案在 libraries/AP_Scheduler/AP_Scheduler.cpp:182-308（run）
   和 :339-421（loop）这两段里 —— 本脚本把它们逐行翻译成 Python。
 
-参考（路径相对 D:/DEVLib/PX4APM/APM/ardupilot-Copter-4.5.7/ardupilot-Copter-4.5.7/）：
+参考（路径相对 $SRC_APM/）：
     libraries/AP_Scheduler/AP_Scheduler.h        Task 结构 / 快速任务枚举
     libraries/AP_Scheduler/AP_Scheduler.cpp      调度主循环
     ArduCopter/Copter.cpp                         ★ 真实的 Copter 任务表
@@ -42,11 +42,11 @@
     libraries/AP_InertialSensor/AP_InertialSensor.cpp   振动指标
     libraries/AP_InertialSensor/LogStructure.h    VIBE 消息
 
-★ 任务表是怎么"保证实时性"的、和《FreeRTOS+ChibiOS 教程》第 20 课的关系：
+★ 任务表是怎么"保证实时性"的、和卷 5 第 11 章的关系：
 
-  《FreeRTOS+ChibiOS 教程》第 20 课讲的是【内核侧】——
+  卷 5 第 11 章讲的是【内核侧】——
   ChibiOS 怎么给这些线程排优先级、HAL 怎么把中断和数据搬进来。
-  本课讲的是【应用层】—— 这张任务表是谁写的、每一项什么意思、
+  本章讲的是【应用层】—— 这张任务表是谁写的、每一项什么意思、
   超时以后系统怎么反应。两者互补，不重复。
 """
 
@@ -191,7 +191,7 @@ class Scheduler:
 
     # -- run()   AP_Scheduler.cpp:182-308 -----------------------------------
     def run(self, time_available):
-        """★ 这是本课最核心的一段。
+        """★ 这是本章最核心的一段。
 
         逐行对照 AP_Scheduler.cpp:190-298：
             for (i = 0; i < _num_tasks; i++) {
@@ -337,7 +337,7 @@ def exp1():
        AP ：所有任务【都写在一张表里】，由一个调度器统一决定
             （表在 ArduCopter/Copter.cpp:112 起）
 
-    ⇐ 这两种做法的差别，本课 §22.2 会讲透。先看这张表长什么样。
+    ⇐ 这两种做法的差别，本章 §22.2 会讲透。先看这张表长什么样。
 """)
 
     sub("① 真实的 Copter 任务表（节选，抄自 Copter.cpp）")
@@ -604,7 +604,7 @@ def exp2():
     ★ 更重要的是：**降速这件事本身会出现在日志里。**
       地面分析时看到 extra_loop_us 长期很大，
       就知道"这架飞机的 CPU 不够用了"，该优化了。
-      （这就是本教程第 24 课要讲的"从日志看问题"的一部分。）
+      （这就是本教程卷 10 第 2 章要讲的"从日志看问题"的一部分。）
 """)
 
 
@@ -1146,7 +1146,7 @@ def exp4():
         · 同一次飞行里不同阶段可以有不同的消息集
         · 甚至可以把【参数值】也当成一种 FMT 消息写进去
 
-    ★★ 对比 PX4 的 ULog（第 24 课详讲）：
+    ★★ 对比 PX4 的 ULog（卷 10 第 2 章详讲）：
       ULog 也是自描述的，但它用的是 **消息定义 + 订阅列表**，
       而且有更强的类型系统。两者的目标一样，
       实现上 ULog 更适合"按 topic 回放"，DataFlash 更适合"顺序扫描"。
@@ -1168,7 +1168,7 @@ def exp4():
        35.0  22.0     ← ★★ 危险：EKF 会被污染，姿态开始漂
        68.0  41.0     ← ★★ 必炸：加速度计已经饱和/限幅
 
-    ★★ 振动的计算方式（两个飞控不一样，第 24 课会把两个都写出来）：
+    ★★ 振动的计算方式（两个飞控不一样，卷 10 第 2 章会把两个都写出来）：
 
       ArduPilot（libraries/AP_InertialSensor/AP_InertialSensor.cpp:2119-2143）：
 
@@ -1244,7 +1244,7 @@ def exp4():
            说明飞行器已经【没有余量】了，再大一点的扰动就控制不住
          · 这是"炸机前最后一次机会"的信号
 
-    ★ 这三件事都属于"从日志发现问题"，第 24 课会给出完整的检查清单。
+    ★ 这三件事都属于"从日志发现问题"，卷 10 第 2 章会给出完整的检查清单。
 """)
 
 
@@ -1271,7 +1271,7 @@ def main():
         print("  全部实验结束。")
         print("=" * W)
         print("""
-  ★ 一句话回顾本课：
+  ★ 一句话回顾本章：
 
       PX4      ：模块 + 消息总线  → 赢在【解耦】
       ArduPilot：一张任务表       → 赢在【确定性】

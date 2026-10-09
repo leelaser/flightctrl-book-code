@@ -7,6 +7,7 @@
                  问"模型被改坏了，脚本抓不抓得到"
 """
 import io
+import _srcdirs
 import os
 import shutil
 import subprocess
@@ -15,8 +16,8 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-REPO = r'D:\DEVLib\PX4APM\APM\ardupilot-Copter-4.7.1'
-TUT = r'D:\DEVLib\PX4APM\飞控学习教程'
+REPO = _srcdirs.src("APM_471")
+TUT = _srcdirs.src("MAT")
 SRC = os.path.join(HERE, 'lesson51_jsbsim.py')
 # ★ 变异脚本必须落在原脚本所在目录（`__file__` 相对路径），否则它在读源码树那步就崩
 TMP = os.path.join(tempfile.gettempdir(), '_l51_mut.py')

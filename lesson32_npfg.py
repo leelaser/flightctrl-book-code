@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-第 20.6 周 · 07 NPFG：非线性路径跟随与抗风 —— 配套实验
+卷 3 第 7 章 · NPFG：非线性路径跟随与抗风 —— 配套实验
 
     实验 1  ★★  方位矢量：把「前视点」换成「方向场」（前视角是二次的）
     实验 2  ★★  track_error_bound 为什么随地速变；track_proximity 在干嘛
@@ -62,9 +62,9 @@
         :500-508 updateRollSetpoint() —— roll = atan(a_lat/g)，限幅，且只取有限值
 
 参考：
-    第 5 章 06-制导层与L1算法.md（本课的上一课，L1 的几何）
-    第 5 章 03-位置与速度控制.md（$a=g\tan\theta$ 的反解）
-    第 4 章 06-PX4-ECL-EKF2完全解析.md（风估计从哪里来）
+    卷 3 第 6 章（本章的上一课，L1 的几何）
+    卷 3 第 3 章（$a=g\tan\theta$ 的反解）
+    卷 2 第 8 章（风估计从哪里来）
 """
 
 import math
@@ -223,7 +223,7 @@ def track_proximity(laa):
 
 
 def bearing_vec(unit_path_tangent, laa, signed_track_error):
-    """npfg.cpp:293-303 —— 方位矢量（本课的核心概念）
+    """npfg.cpp:293-303 —— 方位矢量（本章的核心概念）
 
     unit_path_normal  : 把切矢转 90°（源码注释写的是 right handed 90 deg）
     unit_track_error  : 垂直于路径、指向路径方向的单位矢（即「回来」的方向）
@@ -329,7 +329,7 @@ def ref_air_velocity(wind_vel, bvec, wind_cross_bearing, wind_dot_bearing,
 
     if bearing_is_feasible(wind_cross_bearing, wind_dot_bearing, airspeed_max, wind_speed) and en_wind_reg:
         if wind_dot_bearing <= 0.0:
-            # ★★★ 本课最重要的一行
+            # ★★★ 本章最重要的一行
             # 「we only increment the airspeed to regulate, but not overcome, excess wind
             #   NOTE: in the terminal condition, this will result in a zero ground velocity configuration」
             return wind_vel.copy(), "③-空速给定=风矢量"
@@ -757,7 +757,7 @@ def exp4():
         rows.append(["%.1f" % ws_, "%.3f" % norm2(av),
                      "%+.3f" % gv[0], "%.3f" % norm2(gv), br])
     tab(rows, ["逆风 [m/s]", "空速给定 [m/s]", "地速 x [m/s]", "|地速| [m/s]", "走了哪个分支"])
-    print("""  ★★★ **这张表是本课最重要的结果。** 一行一行读：
+    print("""  ★★★ **这张表是本章最重要的结果。** 一行一行读：
 
     · 0 → 19 m/s：地速从 20 一路降到 1，空速给定保持名义值 20 —— 正常飞行。
     · **21 ~ 25 m/s：地速被精确压到 0。** 空速给定 = 逆风分量（21 → 25）。
@@ -813,22 +813,22 @@ def exp4():
     print("""  ⇒ **实测：地速 = 2 × 风速**（21 → 42，22 → 44，24 → 48），
     和注释说的「零地速」完全相反。
 
-  ★ 怎么理解这件事？三种可能，本课不下定论但把线索摆出来：
+  ★ 怎么理解这件事？三种可能，本章不下定论但把线索摆出来：
 
     ① **注释是错的**（或过期）。这个分支的算式就是 `air_vel_ref = wind_vel`，
        按定义只能得到 2× 风。
     ② **注释描述的是"意图"**：作者想要的效果是「顶住风、原地不动」，
        而那需要 `air_vel_ref = -wind_vel`（空速反向顶风）。
        代码少了一个负号，或者注释描述的是尚未实现的目标。
-    ③ **本课的解读有误**：可能 PX4 在这个上下文里对 `wind_vel` 的符号
+    ③ **本章的解读有误**：可能 PX4 在这个上下文里对 `wind_vel` 的符号
        另有约定。本脚本核对过 `air_vel = ground_vel - wind_vel`（:82）
        和 `vehicle_local_position.msg` 里「wind velocity in local NED frame」
        的定义，两者是自洽的 —— 但**这不排除调用方传入了别的约定**。
 
-  ⚠️ **本课的处理原则**：把**实测数字**（2× 风速）和**源码原文**（零地速）
+  ⚠️ **本章的处理原则**：把**实测数字**（2× 风速）和**源码原文**（零地速）
     都摆出来，指出它们不一致，**不替上游下"这是 bug"的结论**。
     要下定论，得去读 `FixedwingPositionControl` 传给 `guideToPath` 的
-    `_wind_vel` 到底是什么符号 —— 那超出本课的范围了。
+    `_wind_vel` 到底是什么符号 —— 那超出本章的范围了。
 
   ★ 但有一条是可以确定的：**这个文件头部自己写着**（npfg.hpp:47-49）
 
@@ -845,7 +845,7 @@ def exp4():
   Small, Low-speed, Fixed-wing UAVs in Strong Winds》——
   「关于倒着飞：防止小型低速固定翼在强风中的失控漂移」。
 
-  对比 L1 在这种风下的行为（第 06 课 §20.5.7.2）：
+  对比 L1 在这种风下的行为（卷 3 第 6 章）：
     · L1 只看地速，不知道风；
     · 强风下它算出的修正方向可能是**反的**，因为地速矢量已经被风扭曲；
     · ArduPilot 的补丁（用机头方向重构地速）只是**防止指令反向**，
@@ -893,7 +893,7 @@ def exp4():
         ["`NPFG_UB_PERIOD`", "1（开）", "周期上限（保跟踪稳定）"],
     ]
     tab(rows, ["参数", "默认", "作用"])
-    print("""  ⚠️ **一个容易读错的细节**（第 06 课也提过类似的）：
+    print("""  ⚠️ **一个容易读错的细节**（卷 3 第 6 章也提过类似的）：
     `npfg.hpp` 里 `en_track_keeping_` 的**类内初值是 false**（:304），
     但对应的参数 `NPFG_TRACK_KEEP` 默认是 **1** —— 运行期实际是 **true**。
     这个差异来自「类内初值」和「参数默认值」是两套东西，

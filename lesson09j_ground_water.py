@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-lesson09j_ground_water.py —— 03b 章 05 课《地面与水下载具》配套仿真
+lesson09j_ground_water.py —— 卷 1 第 13 章《地面与水下载具》配套仿真
 
     实验 1  差速转向：第六次出现蝶形结构
     实验 2  转弯半径 -> 角速度：为什么分两步算
@@ -82,19 +82,19 @@ def exp1_differential():
    ''')
 
     tbl = [
-        ('03 章 02 课', '多旋翼 ±0.5', 'normalise_rpy_factors'),
-        ('03 章 04 课', 'V 尾 / 飞翼混控', 'channel_function_mixer'),
-        ('03b-02 课', '直升机斜盘', 'add_servo_angle'),
-        ('03b-03 课', '尾坐式 roll', 'throttle ± roll*0.5'),
-        ('03b-03 课', '共轴偏航', 'thrust ± 0.5*yaw'),
-        ('★ 本课', '差速车左右轮', 'throttle ± steering'),
+        ('卷 1 第 8 章', '多旋翼 ±0.5', 'normalise_rpy_factors'),
+        ('卷 1 第 10 章', 'V 尾 / 飞翼混控', 'channel_function_mixer'),
+        ('卷 1 第 11 章', '直升机斜盘', 'add_servo_angle'),
+        ('卷 1 第 12 章', '尾坐式 roll', 'throttle ± roll*0.5'),
+        ('卷 1 第 12 章', '共轴偏航', 'thrust ± 0.5*yaw'),
+        ('★ 本章', '差速车左右轮', 'throttle ± steering'),
     ]
     print('   %-16s %-26s %s' % ('在哪', '做什么', '源码形式'))
     print('   ' + '─' * 70)
     for a, b, c in tbl:
         print('   %-16s %-26s %s' % (a, b, c))
     print()
-    print('   ★★★ 六次 —— 而且这是本课群最后一次见到它。')
+    print('   ★★★ 六次 —— 而且这是本章群最后一次见到它。')
     print('       每一次的物理都完全不同：')
     print('         电机力矩 / 气动舵面 / 斜盘位移 / 推力矢量 / 反扭矩 / 轮速')
 
@@ -158,11 +158,11 @@ def exp1_differential():
     print('     · ArduPilot：混控器【纯归一化】，几何在控制器侧')
     print('     · PX4：      运动学【显式含 L】，混控器吃到的是轮速')
     print()
-    print('   ★★★ 本课不判断哪个更好，只指出：')
+    print('   ★★★ 本章不判断哪个更好，只指出：')
     print('       同一个物理关系，被放在了管线的不同位置。')
 
     sub('(d) 数值对照')
-    print('   本课算例：轴距 L = 0.6 m，最大速度 v_max = 2.0 m/s')
+    print('   本章算例：轴距 L = 0.6 m，最大速度 v_max = 2.0 m/s')
     print()
     L = 0.6
     vmax = 2.0
@@ -245,7 +245,7 @@ def exp2_turn_radius():
     sub('(b) 数值：两种限幅方式的差别')
     R = 0.9          # Rover/Parameters.cpp:453-460 的 TURN_RADIUS 默认值
     A_MAX = 3.0      # 侧向加速度上限 m/s^2
-    print('   本课算例：R = %.1f m（ArduPilot 默认），a_lat 上限 = %.1f m/s^2'
+    print('   本章算例：R = %.1f m（ArduPilot 默认），a_lat 上限 = %.1f m/s^2'
           % (R, A_MAX))
     print('   ★ R 的默认值来自 Rover/Parameters.cpp:453-460（@Range: 0 10）')
     print()
@@ -525,7 +525,7 @@ def exp4_6dof():
     print('      垂直推进器【再怎么出力也顶不了一分前进推力】。')
     print('   => 所以两组必须【各自归一化、各自饱和】')
     print()
-    print('   ★★★ 这是本课群里【第一次】看到"执行器分成不可互换的组"。')
+    print('   ★★★ 这是本章群里【第一次】看到"执行器分成不可互换的组"。')
     print('       直升机（03b-02）是【单组】—— 虽然通道多，但都作用在桨盘上。')
     print('       VTOL（03b-03）是【两组但可切换】—— 升力组和推力组。')
     print('       而 ROV 是【两组并存且必须同时用】。')
@@ -612,7 +612,7 @@ def exp5_buoyancy():
 
     Fb = 40.0
     d = 0.15
-    print('   ★ 本课算例 F_b = %.0f N, d = %.2f m => 刚度 k = F_b*d = %.2f N·m/rad'
+    print('   ★ 本章算例 F_b = %.0f N, d = %.2f m => 刚度 k = F_b*d = %.2f N·m/rad'
           % (Fb, d, Fb * d))
     print()
     print('   %-14s %18s %18s' % ('倾斜角(°)', 'sin(theta)', '|tau| (N·m)'))
@@ -644,7 +644,7 @@ def exp5_buoyancy():
     print('   ★★ "Furuta 摆"就是一个【倒立摆】——')
     print('       说明水下姿态控制问题被归到了"摆"这一类里。')
     print()
-    print('   ⚠️ 本课不判断上面那段代码里 (0,0,0.15) 的符号'
+    print('   ⚠️ 本章不判断上面那段代码里 (0,0,0.15) 的符号'
           '对应"浮心在上"还是"在下"——')
     print('      那需要确定 dcm 的转置约定，源码里没有注释说明。')
     print('      ★ 但无论符号如何，【力矩形式】是一样的：k*sin(theta)。')
@@ -775,7 +775,7 @@ def exp6_medium():
     print('   ★★ 这就是为什么 05 课（03 章）那套"失效检测-降级-降落"逻辑')
     print('      在水下【没有对应物】—— 该保护的资产不一样。')
     print()
-    print('   ★★★ 而本课群到这里【第一次】遇到一个')
+    print('   ★★★ 而本章群到这里【第一次】遇到一个')
     print('       "物理会帮你"的载具 —— 前面五种都是"物理在跟你作对"。')
     return None
 

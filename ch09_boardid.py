@@ -28,6 +28,7 @@ PX4 的答案是一张**版本号表**。而这张表在**三个地方各有一�
 """
 
 import io
+import _srcdirs
 import os
 import re
 import unicodedata
@@ -41,8 +42,7 @@ def pad(s, n):
 
 # ---- 被检查的源码（读者的自研 BSP，已在 _check_citations.py 的 ROOTS 里）----
 BSPS = [
-    "D:/DEVLib/PX4APM/硬件/版本V1.4 - 从零开始手搓无人机-B站：千古八方的玩具/"
-    "PX4-FMU-v6x/fmu-v6x-qgbf-20251116/fmu-v6x-qgbf",
+    _srcdirs.src("BSP"),
 ]
 CFG_REL = "src/board_config.h"
 SPI_REL = "src/spi.cpp"
@@ -200,7 +200,7 @@ def main():
     print('口径：本脚本**直接解析真实源码**（不是抄正文里的数）：')
     print('      %s' % CFG_REL)
     print('      %s' % SPI_REL)
-    print('      根目录：D:/DEVLib/PX4APM/硬件/版本V1.4 …/fmu-v6x-qgbf/')
+    print('      根目录：' + BSPS[0])
     print('      ⇒ 源码改了，本脚本的结论会跟着变（这是刻意的）。')
     print('=' * 74)
     return 0

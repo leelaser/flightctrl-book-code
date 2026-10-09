@@ -1,0 +1,37 @@
+{
+  "tag": "aligned",
+  "maneuver": "level",
+  "time": "2026-09-29T09:32:38",
+  "build": {},
+  "metrics": {
+    "n_runs": 3,
+    "flew_any": false,
+    "max_alt_m_median": 22.07,
+    "max_alt_m_spread": 1.29,
+    "max_spd_median": 29.97,
+    "max_spd_spread": 5.27,
+    "frac_flying_median": 0.046,
+    "frac_flying_spread": 0.012,
+    "noise_pct_alt": 5.8
+  },
+  "per_run": [
+    {
+      "max_alt_m": 22.07,
+      "max_spd": 29.97,
+      "frac_flying": 0.046,
+      "flew": false
+    },
+    {
+      "max_alt_m": 22.07,
+      "max_spd": 29.97,
+      "frac_flying": 0.046,
+      "flew": false
+    },
+    {
+      "max_alt_m": 20.78,
+      "max_spd": 35.24,
+      "frac_flying": 0.058,
+      "flew": false
+    }
+  ]
+}

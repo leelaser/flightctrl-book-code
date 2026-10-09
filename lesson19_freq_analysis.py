@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-第 19 周 · 04 频域分析与系统辨识 —— 配套实验
+卷 3 第 4 章 · 频域分析与系统辨识 —— 配套实验
 
     实验 1  时域 vs 频域：同一个系统，两种看法
     实验 2  ★★ Bode 图：增益裕度 / 相位裕度 怎么读出来
@@ -36,8 +36,8 @@
       PX4        src/lib/mathlib/math/filter/NotchFilter.hpp:271-280
 
 参考：
-    第 5 章  05-控制理论/01-PID控制.md（ζ / ωn 与超调、上升时间的关系）
-    第 4 章  04-状态估计/01-概率论与高斯分布.md（最小二乘 / 协方差的味道）
+    卷 3 第 1 章（ζ / ωn 与超调、上升时间的关系）
+    卷 2 第 3 章（最小二乘 / 协方差的味道）
 """
 
 import math
@@ -328,7 +328,7 @@ def biquad_run(b, a, x):
 def exp1():
     head("实验 1  时域 vs 频域：同一个系统，两种看法")
 
-    print("  被控对象（本课统一用它）：标准二阶系统")
+    print("  被控对象（本章统一用它）：标准二阶系统")
     print()
     print("      G(s) = wn^2 / (s^2 + 2*zeta*wn*s + wn^2)")
     print()
@@ -369,7 +369,7 @@ def exp1():
                "2% 稳定时间 (s)", "末尾误差"])
 
     print("    ★ 时域给的就是这几个数：**超调、上升时间、稳定时间**。")
-    print("      教科书公式（第 1 课讲过）：")
+    print("      教科书公式（卷 3 第 1 章讲过）：")
     print("          超调 = exp(-pi*zeta/sqrt(1-zeta^2))")
     print("          上升时间 ≈ (pi - acos(zeta)) / (wn*sqrt(1-zeta^2))")
     print()
@@ -430,7 +430,7 @@ def exp1():
     print("    ★★ 注意 zeta = 0.707 那一行：")
     print("        谐振峰 = 0 dB（不鼓包），带宽最大。")
     print("        这就是「巴特沃斯（Butterworth）」—— 最平坦的幅频特性。")
-    print("        第 1 课讲的「zeta = 0.707 最好」在频域里的名字叫「最大平坦」。")
+    print("        卷 3 第 1 章讲的「zeta = 0.707 最好」在频域里的名字叫「最大平坦」。")
     print()
 
     # ---- ③ 时域 ↔ 频域 换算 ----
@@ -697,7 +697,7 @@ def exp2():
     print()
     print("      zeta ≈ PM / 100        （PM 用【度】）")
     print()
-    print("  代进第 1 课的超调公式 超调 = exp(-pi*zeta/sqrt(1-zeta^2))，")
+    print("  代进卷 3 第 1 章的超调公式 超调 = exp(-pi*zeta/sqrt(1-zeta^2))，")
     print("  就能从 Bode 图直接估出时域超调。验证一下：")
     print()
 
@@ -1313,7 +1313,7 @@ def exp3():
     print()
 
     # ---- ⑤ 从辨识结果反推 wn / zeta ----
-    sub("⑤ 从辨识结果反推 zeta / wn —— 接回第 1 课")
+    sub("⑤ 从辨识结果反推 zeta / wn —— 接回卷 3 第 1 章")
 
     wn_id, zeta_id, real_poles = arx_poles_to_wn_zeta(a1, a2, 1.0 / FS)
     print("  离散极点 z 到连续极点的映射：z = exp(s*dt) ⇒ s = ln(z)/dt")

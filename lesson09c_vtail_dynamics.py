@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-第 9.6 周 · 04 固定翼 V 尾动力学建模 —— 配套实验
+卷 1 第 10 章 · 固定翼 V 尾动力学建模 —— 配套实验
 
     实验 1  ★★  固定翼与多旋翼的根本区别（力依赖状态 + J 非对角）
     实验 2  ★★★ V 尾二面角的力分解（俯仰 ∝ cosΓ，偏航 ∝ sinΓ）
@@ -153,7 +153,7 @@ def exp1():
   => **同一个舵面偏度，在 V=10 m/s 和 V=30 m/s 下产生的力矩差 9 倍**
      （qbar ∝ V^2）。多旋翼完全没有这件事。
 
-  ★ 这是本课和 01/03 最大的分歧：
+  ★ 这是本章和 01/03 最大的分歧：
      多旋翼的 B 是一张**常数表**；
      固定翼的 B 每次都要用当前状态**现算**。
 """)
@@ -483,7 +483,7 @@ def exp4():
     print("      out1 = (in2 - in1) * gain = (elevator - rudder) * gain  -> k_vtail_right")
     print("      out2 = (in2 + in1) * gain = (elevator + rudder) * gain  -> k_vtail_left")
     print()
-    print("  本课推导（实验 2b）：")
+    print("  本章推导（实验 2b）：")
     print("      delta_L = delta_e + delta_r")
     print("      delta_R = delta_e - delta_r")
     print()
@@ -491,12 +491,12 @@ def exp4():
     print("     （通道正负号还要看 SERVOn_REVERSED，见 (d)。）")
 
     # 数值对照
-    sub("(c) 数值对照：本课公式 vs AP 公式")
+    sub("(c) 数值对照：本章公式 vs AP 公式")
 
     gain = 0.5      # MIXING_GAIN 默认值
     print("  取 MIXING_GAIN = %.1f（ArduPlane 默认），扫几组舵量：\n" % gain)
     print("      %-18s %12s %12s | %12s %12s" %
-          ("(pitch, rudder)", "AP right", "AP left", "本课 d_R", "本课 d_L"))
+          ("(pitch, rudder)", "AP right", "AP left", "本章 d_R", "本章 d_L"))
     print("      " + "-" * 74)
     for p, r in [(1.0, 0.0), (0.0, 1.0), (1.0, 1.0), (1.0, -1.0), (-0.5, 0.7)]:
         ap_r = (p - r) * gain
@@ -624,7 +624,7 @@ def exp5():
     print()
     print("  ★ 注意是**平方**，不是一次方 ——")
     print("    控制效能是 cosG/sinG（一次），稳定性是 cos²G/sin²G（二次）。")
-    print("    这是本课最容易写错的一个指数。")
+    print("    这是本章最容易写错的一个指数。")
     print()
     print("      Gamma     俯仰效能 cosG   俯仰稳定 cos²G    偏航效能 sinG   偏航稳定 sin²G")
     print("      " + "-" * 82)
@@ -710,7 +710,7 @@ def exp5():
       ------------------------------------------------------------
 
   => 实际机型是这几条的交集，典型 30~40°。
-     本课算出来的 Gamma* 只是其中一条，但它是**唯一一条有闭式解**的。
+     本章算出来的 Gamma* 只是其中一条，但它是**唯一一条有闭式解**的。
 """)
 
     if HAVE_PLT:
@@ -893,7 +893,7 @@ EXPERIMENTS = {
 def main():
     print()
     hr("#")
-    print("#  第 9.6 周 · 04 固定翼 V 尾动力学建模")
+    print("#  卷 1 第 10 章 · 固定翼 V 尾动力学建模")
     print("#  配套实验")
     hr("#")
 

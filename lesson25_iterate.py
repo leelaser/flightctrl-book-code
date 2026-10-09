@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-lesson25_iterate.py —— 第 25 周 03 课《控制律迭代方法论》配套演示
+lesson25_iterate.py —— 卷 10 第 3 章 《控制律迭代方法论》配套演示
 
     实验 1  原则一「问」    ：不解锁，问飞控为什么
     实验 2  原则四「量具自证」：编译目标数 vs 是否真重编
@@ -22,9 +22,21 @@ import glob
 import math
 import time
 
+import _srcdirs
+
 HERE = os.path.dirname(os.path.abspath(__file__))
-SITL_DIR = os.path.abspath(os.path.join(
-    HERE, "..", "..", "03b-机型动力学", "code", "sitl_delta_wing"))
+# 三角翼那套工程：**优先本仓库自带的那份**（读者走这条），
+# 其次素材线里的原件（作者机器上才有，路径靠 _srcdirs）。
+#   ★ 原来这里写的是 `HERE/../../03b-机型动力学/code/sitl_delta_wing` ——
+#     脚本住在素材线里时 `../..` 是对的，搬进书稿 `code/` 之后**少了一层**
+#     （`../..` 成了 `PX4APM` 而不是 `飞控学习教程/`）⇒ 实验 3、5 在作者自己
+#     机器上也一直走"找不到存档"那条分支，只是它不报错、只少打两张表。
+_SITL_CANDS = [
+    os.path.join(HERE, "sitl_delta_wing"),
+    _srcdirs.src("MAT", "03b-机型动力学", "code", "sitl_delta_wing"),
+]
+SITL_DIR = next((p for p in _SITL_CANDS
+                 if os.path.isdir(os.path.join(p, "iterate"))), _SITL_CANDS[0])
 RESULTS = os.path.join(SITL_DIR, "iterate", "results")
 
 
@@ -65,7 +77,7 @@ def exp1_ask():
         m.wait_heartbeat(timeout=8)
     except Exception as e:
         print("  ⚠️ 连不上 SITL（%s）" % type(e).__name__)
-        print("     先启动 SITL 再跑本实验。启动方法见 03b-06 课。")
+        print("     先启动 SITL 再跑本实验。启动方法见卷 1 第 15 章。")
         return
 
     print("  ✓ 已连接 SITL")

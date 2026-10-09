@@ -32,22 +32,29 @@ for f in *.py; do python "$f" >/dev/null 2>&1 || echo "❌ $f"; done
 
 ## 二、脚本要读的上游源码：`SRC_*` 环境变量
 
-有 26 处脚本要读上游源码（FreeRTOS / PX4 / ArduPilot / NuttX / 本书自研板的 BSP）。
-它们的位置由 **`_srcdirs.py`** 统一解析，**优先环境变量**：
+有 36 个脚本要读**本机上的源码树与素材目录**（FreeRTOS / PX4 / ArduPilot /
+NuttX / 本书自研板的 BSP / 真机日志 …）。它们的位置由 **`_srcdirs.py`**
+统一解析，**优先环境变量**：
 
 ```bash
 export SRC_FREERTOS=/path/to/FreeRTOS
-export SRC_PX4=/path/to/PX4-Autopilot
-export SRC_APM=/path/to/ardupilot            # Copter 4.5.7 / 4.7.1 / Plane 4.7.1 都指它
+export SRC_PX4=/path/to/PX4-Autopilot      # 1.15.4 那份用 SRC_PX4_115
+export SRC_APM=/path/to/ardupilot          # Copter 4.5.7；4.7.1 用 SRC_APM_471
+export SRC_PLANE=/path/to/ardupilot-Plane  # Plane 4.7.1
 export SRC_NUTTX=/path/to/nuttx
-export SRC_BSP=/path/to/fmu-v6x-qgbf         # 本书自研板的 BSP（卷 9）
+export SRC_BSP=/path/to/fmu-v6x-qgbf       # 本书自研板的 BSP（卷 9）
 ```
 
 **不设也能跑**：会回落到 `_srcdirs.py` 里 `DEFAULTS` 的路径（作者本机的）。
 那棵树你这里没有时，脚本会打印「未找到 …」并**跳过**相关实验，不会崩。
 想改默认值，改 `_srcdirs.py` 一个文件即可。
 
-> 书的正文里这些位置写作 `$SRC/…`（见各卷卷首语 §二）。
+- 完整键表（21 个：上游源码 / 自研硬件 / 素材与数据）见 `_srcdirs.py` 开头。
+- 脚本的文档字符串里出现的 `$SRC_XXX/子路径`，说的就是这个键。
+  它和**书里正文**的 `$SRC/<树名>`（见各卷卷首语 §二）是同一件事的两种写法：
+  书里一个根、代码里一棵树一个变量 —— 因为这几棵树在作者机器上并不同源同根，
+  统一成一个根反而会在读者那边对不上。
+- 取一个没登记的名字会**当场抛 KeyError**（早先返回空串，会让整段逻辑静默跳过）。
 
 ## 三、断言与「反向注入」
 

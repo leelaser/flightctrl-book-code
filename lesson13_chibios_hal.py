@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-第 13 课配套实验：ChibiOS 的 HAL 与板级支持
+卷 5 第 4 章配套实验：ChibiOS 的 HAL 与板级支持
 
     实验 1  三层配置的依赖关系（从源码读 include）
     实验 2  驱动模型的四层（量化行数）
@@ -544,7 +544,7 @@ def exp4():
     head("实验 4：ArduPilot 用了什么、绕过了什么")
 
     print("""
-  《NuttX 教程》第 10 课列了 10 项"绕过"。这个实验逐条核实，
+  《NuttX 教程》卷 6 第 10 章列了 10 项"绕过"。这个实验逐条核实，
   并给出一个量化指标：【侵入 LLD 层几处】。
 """)
 
@@ -653,7 +653,7 @@ def exp4():
         │
         ├─ 直接调 LLD ──────────────── ★ 上面数出来的几处
         │
-        └─ 直接改内核 ──────────────── ★ 1 处（chMtxForceReleaseS，第 12 课）
+        └─ 直接改内核 ──────────────── ★ 1 处（chMtxForceReleaseS，卷 5 第 3 章）
 
     ⇒ 健康的分布是"金字塔"：越深的侵入越少。
 
@@ -682,7 +682,7 @@ EXPERIMENTS = {
 def main():
     print()
     hr("#")
-    print("#  第 13 课：ChibiOS 的 HAL 与板级支持")
+    print("#  本章：ChibiOS 的 HAL 与板级支持")
     print("#  配套实验")
     hr("#")
 

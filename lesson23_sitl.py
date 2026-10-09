@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""《飞控学习教程》第 7 章 01 —— SITL 仿真环境搭建（配套脚本）
+"""卷 10 第 1 章 —— SITL 仿真环境搭建（配套脚本）
 
     python lesson23_sitl.py        # 跑全部 4 个实验
     python lesson23_sitl.py 1      # 只跑实验 1
@@ -21,10 +21,11 @@
 课程分工说明：
     本脚本讲的是【应用层】：数据从仿真器流到飞控应用层代码的那条路径。
     Gazebo 进程怎么调度、ChibiOS/POSIX 线程怎么创建，属于 RTOS/系统层，
-    详见《FreeRTOS+ChibiOS 教程》第 20 课，本脚本不重复。
+    详见卷 5 第 11 章，本脚本不重复。
 """
 
 import math
+import _srcdirs
 import os
 import shutil
 import sys
@@ -130,14 +131,14 @@ def bullet(items, indent=8):
 
 # 本机可能存在的源码树候选路径（从常见位置找）
 PX4_CANDIDATES = [
-    r"D:/DEVLib/PX4APM/PX4/PX4-Autopilot",
-    r"D:/DEVLib/PX4APM/PX4/PX4-Autopilot-1.15.4/PX4-Autopilot-1.15.4",
+    _srcdirs.src("PX4"),
+    _srcdirs.src("PX4_115"),
     r"~/PX4-Autopilot",
     r"~/src/PX4-Autopilot",
 ]
 
 AP_CANDIDATES = [
-    r"D:/DEVLib/PX4APM/APM/ardupilot-Copter-4.5.7/ardupilot-Copter-4.5.7",
+    _srcdirs.src("APM"),
     r"~/ardupilot",
     r"~/src/ardupilot",
 ]
@@ -267,7 +268,7 @@ def wsl_version():
 
 # 真机日志（SITL 跑不了时的【离线替代】）的候选位置
 ULOG_ROOTS = [
-    r"D:/DEVLib/PX4APM/PX4调参/ulog",
+    _srcdirs.src("ULOG"),
     r"~/PX4调参/ulog",
     r"~/Documents/Flight_Logs",
 ]
@@ -326,7 +327,7 @@ def exp1():
     tab(rows, ["检查项", "结果", "证据"], width=[16, 8, 44])
 
     print()
-    wrap("★★ 这一节是本课【最容易被误解】的地方，要分清三层：")
+    wrap("★★ 这一节是本章【最容易被误解】的地方，要分清三层：")
     bullet([
         "Windows 能不能原生跑 SITL：不能。SITL 编译出来的是一个 POSIX "
         "可执行文件（px4_sitl_default/bin/px4），它按 Linux 的进程 / 串口 / "
@@ -406,7 +407,7 @@ def exp1():
     for mod, why in [("pexpect", "sim_vehicle.py 用它启动子进程"),
                      ("mavproxy", "默认会拉起 MAVProxy 控制台"),
                      ("pymavlink", "MAVLink 通信 / DataFlash 日志"),
-                     ("pyulog", "PX4 ULog 解析（第 24 课、离线替代都用它）")]:
+                     ("pyulog", "PX4 ULog 解析（卷 10 第 2 章、离线替代都用它）")]:
         rows.append(["Python: " + mod,
                      "有" if have_module(mod) else "没有", why])
 
@@ -424,7 +425,7 @@ def exp1():
     tab(rows, ["检查项", "结果", "证据"], width=[16, 8, 44])
 
     print()
-    wrap("★ 这一行只要非 0，本课就【不会空手而归】：仿真告诉你算法对不对，"
+    wrap("★ 这一行只要非 0，本章就【不会空手而归】：仿真告诉你算法对不对，"
          "真机日志告诉你这套飞机实际长什么样 —— 后者反而是仿真给不了的。"
          "配套脚本 code/lesson23b_real_log.py 就是用这批日志做实验的，"
          "振动 RMS / FFT 主峰 / GPS 精度 / EKF 检验比全都从里面算。")
@@ -466,13 +467,13 @@ def exp1():
         wrap("  没有输出（或提示「没有已安装的分发版」）"
              "= 一个发行版都没有 = 没有 Linux 用户态可用。")
         print()
-        wrap("★ 所以本课的做法是【两条腿走路】：")
+        wrap("★ 所以本章的做法是【两条腿走路】：")
         bullet([
             "实验 2/3/4 继续做【数值演示】—— 链路上每一步都是确定的数学，"
             "用 numpy 就能讲透，不需要仿真器；",
             "另开一条线：用 code/lesson23b_real_log.py 做【真机日志实验】—— "
-            "第 24 课要用的振动 / GPS / EKF 指标，全部从真机数据里算出来；",
-            "想真跑 SITL 的读者，照 01-SITL仿真环境搭建.md 的 §23.6 在 WSL 里装。"
+            "卷 10 第 2 章要用的振动 / GPS / EKF 指标，全部从真机数据里算出来；",
+            "想真跑 SITL 的读者，照 卷 10 第 1 章 的 §23.6 在 WSL 里装。"
             "本机没装，所以那几步【没有在本机验证过】，文档里逐条标了"
             "【已验证】/【未验证】。",
         ])
@@ -802,7 +803,7 @@ def exp2():
     sub("⑤ 发布出去之后：这条数据在 uORB 里怎么走")
 
     print()
-    wrap("发布动作本身是 uORB 的活儿（第 21 课讲透了），这里只补充"
+    wrap("发布动作本身是 uORB 的活儿（卷 8 第 1 章讲透了），这里只补充"
          "本场景特有的两个数字：")
 
     print()
@@ -815,7 +816,7 @@ def exp2():
         width=[16, 18, 12, 26])
 
     print()
-    wrap("★ queue 长度 8 的含义（第 21 课 §21.2.5 的结论）：")
+    wrap("★ queue 长度 8 的含义（卷 8 第 1 章 的结论）：")
     wrap("  慢订阅者的稳态延迟 = o_queue - 1 = 7 代。")
     wrap("  250 Hz 发布 + 100 Hz 订阅，订阅者读到的是 7/250 = 28 ms 之前的数据。")
     wrap("  ★ 在真机上这是可以接受的（IMU 数据本来就带几毫秒延迟）；")
@@ -906,7 +907,7 @@ def exp3():
   ★ 但请注意：ArduPilot 也有跨线程的地方 ——
      定时器回调（generate_accel）跑在定时器线程，
      主循环跑在主线程，两者之间靠【采样缓冲的索引】同步，不是靠锁。
-     这部分属于 RTOS 层，详见《FreeRTOS+ChibiOS 教程》第 20 课。
+     这部分属于 RTOS 层，详见卷 5 第 11 章。
 """)
 
     sub("③ 数值演示：把 sitl_fdm 真值走一遍 generate_accel()")
@@ -1223,7 +1224,7 @@ def exp3():
         "· 把 SIM_ACC2_BIAS 设成一个明显错误的零偏 →",
         "  看飞控能不能检测到两个加速度计不一致，并隔离其中一个；",
         "· 把 SIM_GYR_FAIL_MSK 打开 → 模拟陀螺仪彻底不响应 →",
-        "  看会不会触发 EKF 的 failsafe（第 24 课）；",
+        "  看会不会触发 EKF 的 failsafe（卷 10 第 2 章）；",
         "· 把 SIM_VIB_MOT_MAX 设成 5 左右 + SIM_INS_THR_MIN 调低 →",
         "  模拟真实振动水平。这个 5 不是瞎猜的：",
         "  源码 :121-122 的注释写着「真机 180mm 机架在油门 0.2-0.8 时",
@@ -1257,7 +1258,7 @@ def exp4():
         ["MAVLink 协议与地面站交互", "能", "协议层是纯软件"],
         ["航线 / 任务 / 返航逻辑", "能", "用命令注入模拟各种情况"],
         ["飞行模式切换与解锁检查", "能", "可以构造任意前置条件"],
-        ["Failsafe 的触发条件", "能（条件可控）", "第 24 课详讲"],
+        ["Failsafe 的触发条件", "能（条件可控）", "卷 10 第 2 章详讲"],
         ["", "", ""],
         ["★ 传感器误差特性", "不能", "没有温漂、没有轴间不对齐、没有非线性"],
         ["★ 真实振动环境", "不能", "仿真加的是正弦，真机是宽频且随转速变"],
@@ -1486,10 +1487,10 @@ def exp4():
     print()
     print("  " + "-" * (W - 4))
     print("  四课收束：")
-    print("      第 21 课  PX4 怎么组织代码       -> 模块 + uORB")
-    print("      第 22 课  ArduPilot 怎么组织代码 -> 任务表 + 库")
-    print("      第 23 课  怎么验证（本课）       -> SITL（能测逻辑，测不了物理）")
-    print("      第 24 课  怎么发现真机的问题     -> 日志 + FailSafe")
+    print("      卷 8 第 1 章  PX4 怎么组织代码       -> 模块 + uORB")
+    print("      卷 8 第 2 章  ArduPilot 怎么组织代码 -> 任务表 + 库")
+    print("      本章  怎么验证（本章）       -> SITL（能测逻辑，测不了物理）")
+    print("      卷 10 第 2 章  怎么发现真机的问题     -> 日志 + FailSafe")
     print("  " + "-" * (W - 4))
 
 

@@ -1,6 +1,6 @@
 """
 ============================================================================
- NuttX 教程 · 第 3 课 · 写一个 NuttX 应用
+ 卷 6 第 2 章 · 写一个 NuttX 应用
  配套实验代码
 ============================================================================
 
@@ -12,8 +12,8 @@
    3. 命令 vs 任务                —— 演示阻塞 NSH 的后果
 
  素材来源:
-   D:/DEVLib/PX4APM/Nuttx/stm32h7_fmu-master/src/drivers/led/led_main.c
-   D:/DEVLib/PX4APM/Nuttx/stm32h7_fmu-master/src/modules/hello_nuttx/
+   $SRC_NUTTX_SRC/stm32h7_fmu-master/src/drivers/led/led_main.c
+   $SRC_NUTTX_SRC/stm32h7_fmu-master/src/modules/hello_nuttx/
 ============================================================================
 """
 
@@ -672,14 +672,14 @@ def exp3_command_vs_task():
 # ============================================================================
 if __name__ == "__main__":
     print("=" * 76)
-    print("  NuttX 教程 · 第 3 课 · 写一个 NuttX 应用")
+    print("  卷 6 第 2 章 · 写一个 NuttX 应用")
     print("=" * 76)
 
     exp1_led_call_chain()
     exp2_priv_data()
     exp3_command_vs_task()
 
-    sep("本课小结")
+    sep("本章小结")
     print("""
   1. NuttX 应用入口: <appname>_main(argc, argv) —— 命令式, 跑完返回
   2. 驱动 = 函数表(file_operations) + register_driver()
@@ -691,7 +691,7 @@ if __name__ == "__main__":
   5. 周期性任务必须用 px4_task_spawn_cmd
      在 xxx_main 里死循环会【阻塞 NSH】
 
-  素材: D:/DEVLib/PX4APM/Nuttx/stm32h7_fmu-master/
+  素材: $SRC_NUTTX_SRC/stm32h7_fmu-master/
 
   下一课: 逐行分析 px4_task_spawn_cmd()
 """)

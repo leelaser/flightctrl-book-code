@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-第 14 课配套实验：配置系统与构建
+卷 5 第 5 章配套实验：配置系统与构建
 
     实验 1  NuttX 的 Kconfig（规模 + 依赖语法）
     实验 2  ArduPilot 的 hwdef.dat（生成器的校验能力）
@@ -32,7 +32,7 @@ import sys
 
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.normpath(os.path.join(SCRIPT_DIR, "..", ".."))   # D:/DEVLib/PX4APM
+ROOT = os.path.normpath(os.path.join(SCRIPT_DIR, "..", ".."))   # 工作区根
 
 APM_ROOT = os.path.join(ROOT, "APM", "ardupilot-Copter-4.5.7",
                         "ardupilot-Copter-4.5.7")
@@ -481,7 +481,7 @@ def exp4():
     head("实验 4：★★ 校验能力对照 + 实测「依赖默认值」的风险")
 
     print("""
-  这一节是本课的重点。
+  这一节是本章的重点。
 
   第一部分：把三家的校验能力并排列出来。
   第二部分：★★ 实测「差量配置」的一个后果 ——
@@ -641,7 +641,7 @@ def exp4():
     ⚠ 所以「我们用了 Kconfig，所以配置是安全的」这个推论是错的。
       它只说明配置能被正确地【分发和展开】。
 
-    ★ 实证：《NuttX 教程》第 11 课发现的
+    ★ 实证：《NuttX 教程》卷 6 第 9 章发现的
       17/26 块 PX4 板卡的 RCC RGE 配置不匹配 ——
       语法合法（Kconfig 检查通过）、编译通过（#error 没触发），
       但【硬件上是错的】。
@@ -664,7 +664,7 @@ EXPERIMENTS = {
 def main():
     print()
     hr("#")
-    print("#  第 14 课：配置系统与构建")
+    print("#  本章：配置系统与构建")
     print("#  配套实验")
     hr("#")
 

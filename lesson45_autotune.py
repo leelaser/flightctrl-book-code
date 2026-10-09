@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-lesson45_autotune.py —— 第 11 篇《自动调参算法》配套自验证脚本
+lesson45_autotune.py —— 卷 8 第 16 章《自动调参算法》配套自验证脚本
 
 ArduPilot 里"自动调参"不是一个东西，是**三份互不共享代码的实现**：
   ① AC_AutoTune        （Copter 多旋翼 / 直升机；QuadPlane 的 QAutoTune，仅 SITL）
@@ -17,6 +17,7 @@ ArduPilot 里"自动调参"不是一个东西，是**三份互不共享代码的
 """
 
 import io
+import _srcdirs
 import math
 import os
 import re
@@ -41,8 +42,8 @@ print('[0] 定位源码（4.7.1 是本章基准版本）')
 print('=' * 76)
 
 REPO = None
-for cand in (r'D:\DEVLib\PX4APM\APM\ardupilot-Copter-4.7.1',
-             r'D:\DEVLib\PX4APM\APM\ardupilot-Plane-4.7.1'):
+for cand in (_srcdirs.src("APM_471"),
+             _srcdirs.src("PLANE")):
     if os.path.isdir(os.path.join(cand, 'libraries')):
         REPO = cand
         break
@@ -53,8 +54,8 @@ if REPO is None:
 
 # 4.5.7 用来做跨版本对照（教程 08 章的行号基准）
 OLD = None
-for cand in (r'D:\DEVLib\PX4APM\APM\ardupilot-Copter-4.5.7\ardupilot-Copter-4.5.7',
-             r'D:\DEVLib\PX4APM\APM\ardupilot-Copter-4.5.7'):
+for cand in (_srcdirs.src("APM"),
+             os.path.dirname(_srcdirs.src("APM"))):
     if os.path.isdir(os.path.join(cand, 'libraries', 'AC_AutoTune')):
         OLD = cand
         break
@@ -151,7 +152,7 @@ m = re.search(r'QUICKTUNE\s*=\s*(\d+)', rc_h)
 check(m is not None and int(m.group(1)) == 181,
       '★ AUX_FUNC::QUICKTUNE = %s（三段开关）' % (m.group(1) if m else '?'))
 check(re.search(r'CUSTOM_CONTROLLER\s*=\s*(\d+)', rc_h).group(1) == '109',
-      '   对照：AUX_FUNC::CUSTOM_CONTROLLER = 109（第 10 篇那个）')
+      '   对照：AUX_FUNC::CUSTOM_CONTROLLER = 109（卷 8 第 15 章那个）')
 
 # --- 载具归属：谁编译了谁 ---
 qt_in_copter = 'AP_Quicktune' in slurp('ArduCopter/wscript')

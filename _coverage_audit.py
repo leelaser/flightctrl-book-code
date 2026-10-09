@@ -65,7 +65,7 @@ def _find_root():
     cands = [
         os.path.dirname(here),                                    # 还在素材线里
         os.path.join(os.path.dirname(here), 'FreeRTOS-ChibiOS教程'),
-        r'D:\DEVLib\PX4APM\FreeRTOS-ChibiOS教程',
+        _srcdirs.src("MAT_RTOS"),
     ]
     for c in cands:
         if os.path.isdir(os.path.join(c, '01-FreeRTOS')):

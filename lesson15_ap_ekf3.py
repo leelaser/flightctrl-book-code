@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-第 4 周 · 07 ArduPilot EKF3 对比分析 —— 配套实验
+卷 2 第 9 章 · ArduPilot EKF3 对比分析 —— 配套实验
 
     实验 1  ★★ 状态向量并排对照表：同一个状态，两套协方差组织方式
     实验 2  ★★ 门限单位对照：sigma（PX4）vs 百分数（AP）+ 新息拒绝率
@@ -24,14 +24,14 @@
 
   源码根目录（本机，2026-09 核对过）：
 
-      AP  = D:/DEVLib/PX4APM/APM/ardupilot-Copter-4.5.7/ardupilot-Copter-4.5.7
-      PX4 = D:/DEVLib/PX4APM/PX4/PX4-Autopilot
+      AP  = $SRC_APM
+      PX4 = $SRC_PX4
 
   四个实验的主线都是同一句话：
 
       **同一件事，两种做法。**
 
-  实验 1 是本课最核心的发现 —— AP 和 PX4 的状态向量**逐项一一对应**，
+  实验 1 是本章最核心的发现 —— AP 和 PX4 的状态向量**逐项一一对应**，
   但一套把四元数当成 4 个槽位存进 24x24 的 P，另一套把姿态误差压成 3 个
   自由度存进 23x23 的 P。**信息量完全相同，索引方式完全不同。**
 
@@ -45,7 +45,7 @@
   连相对误差阈值（0.2）、限幅（+-1.0）、切换阈值（0.5）都一模一样。
 
 参考：
-    AP/libraries/AP_NavEKF3/          （本课主对象）
+    AP/libraries/AP_NavEKF3/          （本章主对象）
     AP/libraries/AP_NavEKF/EKFGSF_yaw.cpp
     PX4-Autopilot/src/modules/ekf2/EKF/
     PX4-Autopilot/src/modules/ekf2/EKF2Selector.cpp
@@ -104,7 +104,7 @@ def cw(s):
 def wtab(rows, headers):
     """和 tab() 一样，但按显示宽度对齐。
 
-    本课表格里中文很多，而 tab() 用的是 len()（CJK 只算 1 列），
+    本章表格里中文很多，而 tab() 用的是 len()（CJK 只算 1 列），
     会错位。tab() 本身保持与本教程其它课一字不差，这里包一层。
     """
     cols = len(headers)
@@ -382,7 +382,7 @@ SRC = {
     "ap_err_thresh": (AP + "/AP_NavEKF3.cpp", 639,
                       "AP_GROUPINFO(ERR_THRESH, 61, ..., 0.2)"),
     "ap_ok":         (AP + "/AP_NavEKF3.cpp", 1,
-                      "（本课主要引用文件之一：AP_NavEKF3.cpp）"),
+                      "（本章主要引用文件之一：AP_NavEKF3.cpp）"),
     "ap_better":     (AP + "/AP_NavEKF3.cpp", 962,
                       "betterCore = altCoreError <= -BETTER_THRESH;"),
     "ap_switch":     (AP + "/AP_NavEKF3.cpp", 979,
@@ -582,7 +582,7 @@ def exp1():
             PX4 给姿态误差只留了 3 个【自由度】(0..2)
           于是 AP 后面的所有状态索引都整体后移 1 位。
 
-       ★ 这就是本课最有价值的发现：
+       ★ 这就是本章最有价值的发现：
          **同一个状态向量，两套完全不同的协方差组织方式。**
          而这两种组织方式的【信息量完全相同】—— 见下面 ④ 的数值证明。
 """)
@@ -815,7 +815,7 @@ def chi2_cdf(gate, dof):
 def exp2():
     head("实验 2  ★★ 门限单位对照：sigma vs 百分数")
 
-    print("""  这是本课最容易踩的一个坑：
+    print("""  这是本章最容易踩的一个坑：
 
       PX4 的 EKF2_GPS_V_GATE  默认 5.0   —— 单位是【sigma】
       AP  的 EK3_VEL_I_GATE   默认 500   —— 单位是【百分数】
@@ -1355,7 +1355,7 @@ def exp3():
       ⇒ 于是 `estimator_aid_source3d_s` 这个 uORB 话题里，
         **创新、创新方差、检验比、有没有被融合**，一次性全在。
 
-    ★★★ 这是本课最实用的一个工程差异：
+    ★★★ 这是本章最实用的一个工程差异：
 
       **调试「为什么 GPS 被拒了」时**
         PX4  ：listener estimator_aid_source3d_s
@@ -1787,7 +1787,7 @@ def exp4():
     ]
     wtab(rows, ["项目", "AP EKF3", "PX4 EKF2"])
 
-    print("""    ★★★ 这张表是本课最值得记住的一张：
+    print("""    ★★★ 这张表是本章最值得记住的一张：
 
       **两个团队的 lane/instance 选择器是同一个算法。**
       阈值 0.2 / 限幅 1.0 / 切换 0.5 / 最短任期 10 秒 —— 全一样。
@@ -1918,7 +1918,7 @@ def exp4():
         都是「按分数走」或「听命令」，没有任何一处是
         「vehicle 说快 failsafe 了，你赶紧找个更好的 lane」。
 
-      ⇒ 这是本课少数几个**真正的方法论差异**，而不是实现差异：
+      ⇒ 这是本章少数几个**真正的方法论差异**，而不是实现差异：
         · AP 的思路：EKF 自己要多尽一份力去避免触发 failsafe；
         · PX4 的思路：EKF 只负责给出诚实的误差分数，
           failsafe 的决策完全交给 commander，
@@ -2092,7 +2092,7 @@ def exp4():
         PX4  ：看不到 lane/instance 变化，
               但 estimator_status 里 mag_test_ratio 会飙高，
               innovation 日志里能看到磁新息被拒。
-      这是本课最值得记住的一条实操知识。
+      这是本章最值得记住的一条实操知识。
 """)
     sub("⑤ lane / instance 上限与内存")
     src_banner(["ap_imumask", "ap_imumask_def", "ap_alloc", "px4_sel_max"],
@@ -2154,7 +2154,7 @@ def exp4():
     ]
     wtab(rows, ["", "维度", "怎么做", "关键差别"])
 
-    print("""    ★ 这一组是本课第一个「同一件事两种做法」：
+    print("""    ★ 这一组是本章第一个「同一件事两种做法」：
 
       · AP 把「有没有外部位置/速度参考」压缩成**一个三态枚举**
         PV_AidingMode。好处是逻辑互斥、不可能出现自相矛盾的状态；
@@ -2191,7 +2191,7 @@ def exp4():
         ["PX4", "结果语义", "mag_field_disturbed 是一个「环境被干扰」的标志",
          "后面的融合逻辑再去决定要不要继续用磁"],
         ["AP", "判据", "逐轴算 magTestRatio[i] = sq(innov) / (sq(MAX(0.01*gate,1)) * varInnov)",
-         "注意这是本课实验 2 里那个百分数门限的同一套公式"],
+         "注意这是本章实验 2 里那个百分数门限的同一套公式"],
         ["AP", "健康怎么定", "magHealth = 三轴 testRatio 全部 < 1.0",
          "不健康就直接 return，这一步不做磁融合"],
         ["AP", "长期一致性", "用 EK3_MAG_EF_LIM（默认 50 mGauss）限制「学到的地磁 - WMM 地磁」",
@@ -2305,14 +2305,14 @@ def exp4():
         而且掰完立刻把磁力计打成故障。
         所以 PX4 的偏航在磁干扰下更像「跳一下然后彻底不用磁」。
 
-    ★★★ 这就是本课最想让你带走的一个方法论：
+    ★★★ 这就是本章最想让你带走的一个方法论：
       同一个算法（EKF-GSF，连模型数 5 都是同一个数），
       在 AP 里是**一等公民的偏航源**，
       在 PX4 里是**应急备胎**。
       读源码时如果只读算法文件，这两个结论你一个都得不出来 ——
       必须去读**谁调用它、在哪个条件下调用**。
 
-    ★★★ 整个第 15 周的收尾：
+    ★★★ 整个本章的收尾：
       ArduPilot EKF3 和 PX4 EKF2 的数学内核几乎是同一套
       （同一个误差状态、同一套门限公式、同一个选择器评分），
       真正的差异全部在**工程外壳**上：

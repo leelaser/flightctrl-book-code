@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-第 17 课配套实验：串口 + SPI + I2C（HAL 具体驱动）
+卷 5 第 8 章配套实验：串口 + SPI + I2C（HAL 具体驱动）
 
     实验 1  ★★ 分层从哪看出来的（_serial_driver_data 宏 + osal 计数）
     实验 2  ★★ 串口的发送通路：队列 → 通知 → 中断逐字节
     实验 3  ★ 版本路由：同一个外设，不同 MCU 系列用不同的 LLD
     实验 4  ★ I2C 的状态机与四类错误
-    实验 5  ★★ RAM_MAP → flags → DMA 路由（和第 16 课接起来）
+    实验 5  ★★ RAM_MAP → flags → DMA 路由（和卷 5 第 7 章接起来）
 
 用法：
     python lesson17_hal_drivers.py 1
@@ -21,7 +21,7 @@
 
     · 真实的中断延迟、总线时序、波特率
     · osalSysLock / osalSysUnlock 的实际开销
-    · DMA 与缓存的交互（H7 上还有 D-Cache 一致性这一层，本课不展开）
+    · DMA 与缓存的交互（H7 上还有 D-Cache 一致性这一层，本章不展开）
     · 硬件 FIFO（USARTv3 支持，模拟里按"一次一个字节"算）
 
 源码版本：ArduPilot 4.5.7 pin 的 ChibiOS 6a85082c（内核 7.0.4）
@@ -123,7 +123,7 @@ def exp1():
     head("实验 1  ★★ 分层从哪看出来的")
 
     print("""
-  第 13 课讲了"ChibiOS 的驱动分四层"（HAL 框架 / LLD / 板级 / 应用）。
+  卷 5 第 4 章讲了"ChibiOS 的驱动分四层"（HAL 框架 / LLD / 板级 / 应用）。
   但**分层的证据在哪**？这一节把三条硬证据摆出来。
 """)
 
@@ -162,7 +162,7 @@ def exp1():
       ⇒ 框架层用的是 `osalSysLock` / `osalThreadEnqueueTimeoutS` /
         `osalDbgCheck` —— **OSAL（OS 抽象层）**。
         换一个 RTOS（或不用 RTOS）时，改的是 OSAL，不是 HAL。
-        （第 10 课 §1.3 提过"OSAL 的三种变体"，这里看到它为什么存在。）
+        （卷 5 第 1 章 提过"OSAL 的三种变体"，这里看到它为什么存在。）
 """)
 
     print("""  【证据三】框架调 LLD，走的是**虚函数表**
@@ -380,7 +380,7 @@ def exp2():
            hal_serial.h）。算一下：921600 波特率 ≈ 92160 字节/秒，
            **16 字节的队列约 174 µs 就发空了** ——
            也就是说应用方必须在这点时间内补上数据，否则就落到
-           "发空-重开"的循环里。（这也是为什么第 17 课 §5 会看到
+           "发空-重开"的循环里。（这也是为什么本章 会看到
            **ArduPilot 干脆不用这个队列，自己拿 DMA 做批处理**。）""")
 
     print("""
@@ -416,7 +416,7 @@ def exp3():
     head("实验 3  ★ 版本路由：同一个外设，不同 MCU 系列用不同的 LLD")
 
     print("""
-  第 13 课讲过"LLD 按**外设版本**切"。这一节给出实测的路由表。
+  卷 5 第 4 章讲过"LLD 按**外设版本**切"。这一节给出实测的路由表。
 
   规则在**每个 MCU 系列的 `platform.mk`** 里：哪个系列 include 哪个 LLD。
 """)
@@ -445,7 +445,7 @@ def exp3():
   ⇒ **同一个"串口"，H7 上是 `USARTv3`，F4 上是 `USARTv1`** ——
     两套完全独立的代码，只是**接口相同**（都实现 `sd_lld_*`）。
 
-  ★ 这就是第 13 课"四层模型"的兑现方式：
+  ★ 这就是卷 5 第 4 章"四层模型"的兑现方式：
     **换 MCU 系列 = 换 LLD 目录，上面三层一行不改。**
 
   ★★ 而且 ArduPilot 同时支持这两种板子（F4 的 Pixhawk1 / F405 和
@@ -581,10 +581,10 @@ def exp4():
 # ===========================================================================
 
 def exp5():
-    head("实验 5  ★★ RAM_MAP → flags → DMA 路由（和第 16 课接起来）")
+    head("实验 5  ★★ RAM_MAP → flags → DMA 路由（和卷 5 第 7 章接起来）")
 
     print("""
-  第 16 课讲了 `malloc.c` 用 flags 路由内存，`dma_flags` 决定谁算"能给 DMA"。
+  卷 5 第 7 章讲了 `malloc.c` 用 flags 路由内存，`dma_flags` 决定谁算"能给 DMA"。
   但**那些 flags 是从哪来的**？答案在这一课 ——
 
   它来自 **MCU 的物理内存拓扑**，写在 `hwdef/scripts/STM32H743xx.py` 里。
@@ -594,7 +594,7 @@ def exp5():
     if n:
         src(F_H743, n, n + 8, "H743 的 RAM_MAP（STM32H743xx.py）：")
 
-    print("""  那些数字是 flags。对照 `malloc.c` 的定义（第 16 课读过）：
+    print("""  那些数字是 flags。对照 `malloc.c` 的定义（卷 5 第 7 章读过）：
 """)
     n2 = find_line(F_MALLOC_C, r"#define MEM_REGION_FLAG_DMA_OK")
     if n2:
@@ -636,7 +636,7 @@ def exp5():
 
     hr("-")
     print("""
-  【验证】把第 16 课那个路由再跑一遍 —— 但这次用的 flags
+  【验证】把卷 5 第 7 章那个路由再跑一遍 —— 但这次用的 flags
          **直接来自 H743 的 RAM_MAP**，不是编的。
 """)
     hr("-")
@@ -701,7 +701,7 @@ def exp5():
              （它在 H7 的 D3 域，**只有 BDMA 引擎能访问**）
            · **SRAM3 / SRAM1-2**：标 ETH_SAFE ⇒ 给以太网 DMA 用
 
-      ★★ 而第 16 课那个 `dma_reserve_heap`（6 KB 救命内存）就是
+      ★★ 而卷 5 第 7 章那个 `dma_reserve_heap`（6 KB 救命内存）就是
          `malloc_dma()` 要来的 ⇒ **它其实是从 SRAM4 那一类内存里切的**。
          两课到这里完全接上了。""")
 
@@ -709,16 +709,16 @@ def exp5():
   ----------------------------------------------------------------------
   ⇒ **结论**：**"内存的物理属性"在两课之间闭环了：**
 
-        第 17 课（本课）：H743 的 RAM_MAP 说明 DTCM 不可 DMA
+        本章（本章）：H743 的 RAM_MAP 说明 DTCM 不可 DMA
               ↓ 由 hwdef 生成器写进 HAL_MEMORY_REGIONS
-        第 16 课：malloc.c 把每个区域变成一个堆 + 带 flags
+        卷 5 第 7 章：malloc.c 把每个区域变成一个堆 + 带 flags
               ↓ malloc_dma() 带着 DMA_OK 去要内存
-        本课 §2/§3：SPI/串口的 DMA 引擎拿到**能访问的**地址
+        本章 §2/§3：SPI/串口的 DMA 引擎拿到**能访问的**地址
 
   ★ 这三层任何一层写错，症状都是"**数据静默错误**"，
     而不是编译错误或崩溃 —— 这是飞控上最难查的一类问题。
 
-  ★★ 所以第 16 课那个 `dma_reserve_heap`（从 DMA 安全的内存里
+  ★★ 所以卷 5 第 7 章那个 `dma_reserve_heap`（从 DMA 安全的内存里
      切 6 KB 留着）不是随便挑的：**它挑的正是 SRAM4 那一类**。
 
   ----------------------------------------------------------------------
@@ -747,7 +747,7 @@ EXPERIMENTS = {
 def main():
     print()
     hr("#")
-    print("#  第 17 课：串口 + SPI + I2C（HAL 具体驱动）")
+    print("#  本章：串口 + SPI + I2C（HAL 具体驱动）")
     print("#  配套实验")
     hr("#")
 

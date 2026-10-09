@@ -31,6 +31,7 @@
 """
 
 import io
+import _srcdirs
 import os
 import re
 import sys
@@ -46,13 +47,13 @@ SELF_BOOK = os.path.join(ROOT, '书稿')
 # ROOTS 是**被引用源码**的索引，DOC_ROOTS 是**检查对象**所在处）。
 DOC_ROOTS = [
     ROOT,                                  # 本教程：FreeRTOS-ChibiOS教程
-    "D:/DEVLib/PX4APM/飞控学习教程",          # 姊妹教程：飞控学习教程
+    _srcdirs.src("MAT"),          # 姊妹教程：飞控学习教程
     # ★ 第三套教程（2026-09 补）——
     #   加飞控教程时**漏了它**，于是同一个错误又犯了一遍：
     #   NuttX 教程 11 课里的 `文件:行号` 同样从来没被验证过。
     #   ⇒ 教训升级：**每新加一套教程，必须同时把它登记进这里**，
     #     否则「加了检查器」给人的安全感是假的。
-    "D:/DEVLib/PX4APM/NuttX教程",
+    _srcdirs.src("DOC_NUTTX"),
     # ★★ 2026-10 补：**本书自己的书稿**（《飞控丛书》）。
     #   本脚本随 `deposit_scripts.py` 并进本书的 `code/` 之后，
     #   才第一次被用来扫书稿 —— 而它**一条都没扫到**：
@@ -69,8 +70,8 @@ DOC_ROOTS = [
 
 # 四个源码根 —— 本线的引用都落在这四棵树里
 ROOTS = [
-    "D:/DEVLib/PX4APM/FreeRTOS",
-    "D:/DEVLib/PX4APM/APM/ardupilot-Copter-4.5.7/ardupilot-Copter-4.5.7",
+    _srcdirs.src("FREERTOS"),
+    _srcdirs.src("APM"),
     # ★★ 2026-09 补第七棵树：**ArduPilot Plane 4.7.1** —— 固定翼那几课的真身。
     #   `03b-机型动力学/06、07、08` 与 `07-仿真与实验/03` 是**固定翼**的，
     #   它们引的 `SIM_Plane.cpp` / `ArduPlane/Plane.cpp` / `vehicleinfo.py`
@@ -85,9 +86,9 @@ ROOTS = [
     #   ⚠️ 只加 **Plane** 这一棵。盘上同时躺着 Copter/Rover/Sub 三棵 4.7.1，
     #   它们的 `libraries/` 与 Plane 树重复 —— 加进来只会把**同名文件的稀释放大 4 倍**
     #   （见本文件反复强调的「同名文件是这类检查器的天敌」），**一个引用也覆盖不到新的**。
-    "D:/DEVLib/PX4APM/APM/ardupilot-Plane-4.7.1",
-    "D:/DEVLib/PX4APM/PX4/PX4-Autopilot",
-    "D:/DEVLib/PX4APM/NuttX教程",
+    _srcdirs.src("PLANE"),
+    _srcdirs.src("PX4"),
+    _srcdirs.src("DOC_NUTTX"),
     # ★ NuttX **源码树**（2026-09 补）——
     #   注意：和上面那条「NuttX教程」是两回事，一个是教程文档，一个是上游源码。
     #   漏了它的症状极具迷惑性：把「NuttX教程」登记成文档根之后，
@@ -95,7 +96,7 @@ ROOTS = [
     #   而文件好好的在 `Nuttx/stm32h7_fmu-master/src/drivers/led/`，
     #   只是**源码索引里没有这棵树**。
     #   ⇒ 又一次印证那句话：**检查器报错，先分清是「文档错」还是「检查器瞎」。**
-    "D:/DEVLib/PX4APM/Nuttx",
+    _srcdirs.src("NUTTX_SRC"),
     # ★ 教程自己的根也要在（2026-09 补）——
     #   否则正文里「`code/lessonNN_xxx.py:288`」这种**自引用**会被判成
     #   "找不到文件"，而它明明就在旁边。
@@ -112,7 +113,7 @@ ROOTS = [
     #   本文件的 ROOTS 推出来的是 FreeRTOS-ChibiOS教程 自己，
     #   飞控教程在隔壁目录 ⇒ `os.walk` 根本走不到 ⇒ 引用再多也是黑盒。
     #   **检查器覆盖不到 = 没检查**，这正是它存在的意义。
-    "D:/DEVLib/PX4APM/飞控学习教程",
+    _srcdirs.src("MAT"),
     # ★ 读者的**自研硬件项目**（2026-09 补）。
     #   飞控教程第 6 章 03 课（板级支持包）会引用这块板子的 BSP，
     #   路径形如 `硬件/版本V1.4 .../fmu-v6x-qgbf/src/board_config.h:212`。
@@ -128,7 +129,7 @@ ROOTS = [
     #   ⇒ 教训：**「同名文件」是这类检查器的天敌**，
     #     它是为了容忍"同名文件里总有一个对"而放宽的，
     #     代价就是——**同名文件越多，假绿越容易**。
-    "D:/DEVLib/PX4APM/硬件",
+    _srcdirs.src("HW_ROOT"),
     # ★★ 2026-09 再补六棵树 —— 全部是**各课作者报上来的**，不是我想出来的。
     #   规律很清楚：**每写一门引用新素材的课，就要同时把那棵树登记进来**，
     #   否则那一课的引用**从一开始就是无检查状态**（本项目已经犯过三次：
@@ -140,12 +141,12 @@ ROOTS = [
     #     RTOS 02 任务与调度器 → betaflight/（协作式调度器）
     #     04-05 Mahony 课     → attitude_estimator_q/（旧快照，讲"模块怎么变简单"）
     #     01-04 DCM 课        → 方向余弦/（MatrixPilot 的 libDCM）
-    "D:/DEVLib/PX4APM/test",
-    "D:/DEVLib/PX4APM/QGC/qgroundcontrol-5.0.4",
-    "D:/DEVLib/PX4APM/PX4/c_library_v2-master",
-    "D:/DEVLib/PX4APM/betaflight",
-    "D:/DEVLib/PX4APM/attitude_estimator_q",
-    "D:/DEVLib/PX4APM/方向余弦",
+    _srcdirs.src("TEST"),
+    _srcdirs.src("QGC"),
+    _srcdirs.src("CLIB"),
+    _srcdirs.src("BF"),
+    _srcdirs.src("AEQ"),
+    _srcdirs.src("DCM"),
 ]
 
 # 引用的形态：  name.c:123   name.h:123-456   name.py:12,34

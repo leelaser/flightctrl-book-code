@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""《飞控学习教程》第 7 章 01 配套 —— 真机日志实战（SITL 的离线替代）
+"""卷 10 第 2 章 配套 —— 真机日志实战（SITL 的离线替代）
 
     python lesson23b_real_log.py        # 跑全部 5 个实验
     python lesson23b_real_log.py 1      # 只跑实验 1
@@ -10,14 +10,14 @@
     python lesson23b_real_log.py 5      # 只跑实验 5
 
 ★ 为什么会有这个脚本
-    第 23 课要验证的链路（仿真器 → 传感器 → EKF → 控制律）需要 SITL，
+    卷 10 第 1 章要验证的链路（仿真器 → 传感器 → EKF → 控制律）需要 SITL，
     而 SITL 需要 Linux/WSL —— 本机是 Windows，WSL 里一个发行版都没装，
     PX4/ArduPilot 也都没有编译产物。逐项证据见 `lesson23_sitl.py 1`。
     跑不了仿真，就用【真机日志】做离线实验：仿真能告诉你【算法对不对】，
     真机日志能告诉你【这套飞机实际是什么样】—— 后者反而是仿真给不了的。
 
 数据源（真机日志，非仿真）
-    D:/DEVLib/PX4APM/PX4调参/ulog/   下 53 份 .ulg，8 个日期目录
+    $SRC_ULOG/   下 53 份 .ulg，8 个日期目录
     机型 CUAV X7 Pro，固件 PX4 v1.14.4（commit 1555f2bd22，见实验 1 的鉴定）
 
 依赖
@@ -37,6 +37,7 @@
 """
 
 import os
+import _srcdirs
 import sys
 
 import numpy as np
@@ -142,13 +143,13 @@ ROOT = os.path.dirname(CH7)          # 教程根目录
 
 # 真机日志的候选根目录（本机 + 读者机器上常见的位置）
 ULOG_ROOTS = [
-    r"D:/DEVLib/PX4APM/PX4调参/ulog",
+    _srcdirs.src("ULOG"),
     os.path.join(ROOT, "..", "PX4调参", "ulog"),
     r"~/Documents/Flight_Logs",
     r"~/PX4调参/ulog",
 ]
 
-# 本课选定的 4 份日志（相对 ULOG_ROOTS 的路径）。
+# 本章选定的 4 份日志（相对 ULOG_ROOTS 的路径）。
 # ★ 刻意避开 09-进阶与创新/02 用过的 20250922/...log_13。
 PREFERRED = [
     r"2025-09-13/09_43_52.ulg",
@@ -157,7 +158,7 @@ PREFERRED = [
     r"20250926/log_30_2025-9-26-14-15-12.ulg",
 ]
 
-# 单份日志的大小上限（MB）。太大的读起来慢，本课不需要。
+# 单份日志的大小上限（MB）。太大的读起来慢，本章不需要。
 MAX_MB = 150
 
 
@@ -380,12 +381,12 @@ def exp1():
 
     print()
     wrap("★ 固件 commit 可以和本机 PX4 源码树对照，确凿地定位到版本：")
-    wrap("    cd D:/DEVLib/PX4APM/PX4/PX4-Autopilot")
+    wrap("    cd $SRC_PX4")
     wrap("    git describe --tags <上面那个 commit>")
-    wrap("  本课这 4 份日志给出的回答是 v1.14.4 —— 注意【不是】1.15.4。")
+    wrap("  本章这 4 份日志给出的回答是 v1.14.4 —— 注意【不是】1.15.4。")
     wrap("  本教程源码引用以 1.15.4 为准，两者在个别字段上确有差异（实验 5 会撞上一个）。")
 
-    sub("④ 本课选用哪 4 份")
+    sub("④ 本章选用哪 4 份")
 
     if exact:
         wrap("用的是 PREFERRED 里写死的 4 份（跨 4 个日期，且避开 09 课用过的日志）。")
@@ -523,7 +524,7 @@ def exp2(picked):
         width=[12, 6, 10, 10, 10])
 
     print()
-    wrap("★★ 这张表里藏着本课最重要的一个事实：")
+    wrap("★★ 这张表里藏着本章最重要的一个事实：")
     bullet([
         "飞控【内部】算振动指标的采样率是 IMU 的原始率 —— IMU0 是 2003 Hz；",
         "而日志里【能拿到】的最快加速度是 sensor_combined，只有 154~202 Hz，"
@@ -807,7 +808,7 @@ def exp5(profs):
     wrap("   ★ 结论没变（eph 不能用来下精度结论），但【依据】换了："
          "不是因为「它是个常数」，而是因为「它不随任何可见的环境量变化」。")
     print()
-    wrap("★ 所以本课的判断是：")
+    wrap("★ 所以本章的判断是：")
     bullet([
         "「eph < 2 m」这种结论【不能】从这批日志得出 —— eph 是接收机的"
         "【自评精度】，不是【实测误差】，两者不是一回事；",
@@ -905,11 +906,11 @@ def exp5(profs):
         "按 1.15.4 和 1.14.4 的源码都解释不了。",
     ])
     print()
-    wrap("★ 本课不给结论，只给两条建议：")
+    wrap("★ 本章不给结论，只给两条建议：")
     bullet([
         "判断削顶【不要】用 sensor_combined.gyro_clipping，"
         "用 vehicle_imu_status.gyro_clipping[3]（uint32 累计计数）—— "
-        "本课这 4 架次它几乎全是 0，说明陀螺其实没怎么削顶；",
+        "本章这 4 架次它几乎全是 0，说明陀螺其实没怎么削顶；",
         "遇到「源码说不可能、日志里就是有」的时候，先别改代码，"
         "先像这样把两侧证据都摆出来 —— 这本身就是一个可报告的问题。",
     ])

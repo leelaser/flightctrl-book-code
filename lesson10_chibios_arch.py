@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-第 10 课配套实验：ChibiOS 架构 —— RT / NIL / HAL
+卷 5 第 1 章配套实验：ChibiOS 架构 —— RT / NIL / HAL
 
     实验 1  两个内核的功能对照（数文件 + 数行，复现文档 2.2 节）
     实验 2  ★★ 许可证功能门控模拟（复现文档 3.1 节）
@@ -402,7 +402,7 @@ def exp1():
 
     这是「表驱动设计」的必然结果 —— idle 也是一个线程，
     只是优先级最低（NIL 里【下标越小优先级越高】，
-     见第 11 课）。既然所有线程都从表里来，idle 也得是表的一项。
+     见卷 5 第 2 章）。既然所有线程都从表里来，idle 也得是表的一项。
 
   ⇒ 所以「NIL 只能静态创建线程」的准确含义是：
 
@@ -419,7 +419,7 @@ def exp1():
 
      ⇒ 【一个优先级只能有一个线程】。
        所以 16 个线程的上限，本质是【16 个优先级档位】的上限。
-       （详见第 11 课）
+       （详见卷 5 第 2 章）
 """)
 
     print()
@@ -905,7 +905,7 @@ def exp2():
             --bootloader --outdir /tmp/bl2 \\
             libraries/AP_HAL_ChibiOS/hwdef/MatekH743/hwdef-bl.dat
 
-      完整分析见《FreeRTOS+ChibiOS 教程》第 12 课 §6.2c。
+      完整分析见卷 5 第 3 章c。
 """)
 
     # 期望值对照
@@ -1062,7 +1062,7 @@ def exp3():
         print("      ⇒ HAL 是内核的 %.1f 倍。" % (hal_l / rt_l))
         print("      ⇒ 【HAL 才是 ChibiOS 的主体，不是内核。】")
         print()
-        print("      对比《NuttX 教程》第 10 课：NuttX 的 arch/ 也是 265 万行，")
+        print("      对比《NuttX 教程》卷 6 第 10 章：NuttX 的 arch/ 也是 265 万行，")
         print("      同样大部分是厂商头文件。**这不是「谁代码写得多」，")
         print("      是「谁把厂商代码打包进来了」。**")
     print()
@@ -1213,7 +1213,7 @@ EXPERIMENTS = {
 def main():
     print()
     hr("#")
-    print("#  第 10 课：ChibiOS 架构 —— RT / NIL / HAL")
+    print("#  本章：ChibiOS 架构 —— RT / NIL / HAL")
     print("#  配套实验")
     hr("#")
 

@@ -6,6 +6,7 @@
   不能"把功能改坏"，只能**把判据改反**（假装它还在）。
 """
 import io
+import _srcdirs
 import os
 import subprocess
 import sys
@@ -13,7 +14,7 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-TUT = r'D:\DEVLib\PX4APM\飞控学习教程'
+TUT = _srcdirs.src("MAT")
 SRC = os.path.join(HERE, 'lesson50_hil.py')
 TMP = os.path.join(tempfile.gettempdir(), '_l50_mut.py')
 

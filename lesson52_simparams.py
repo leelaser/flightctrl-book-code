@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-lesson52_simparams.py —— 第 07 篇《SIM_* 参数全解》配套自验证脚本
+lesson52_simparams.py —— 卷 10 第 7 章《SIM_* 参数全解》配套自验证脚本
 
-本课的核心是**三个数**：319（源码定义行）/ 289（唯一短名）/ 593（运行时参数名）。
+本章的核心是**三个数**：319（源码定义行）/ 289（唯一短名）/ 593（运行时参数名）。
 这三个数都是**算出来的**，所以每条都要重算一遍并断言 —— 不能抄。
 
   [1] 定义条目数：310 + 9 = 319
@@ -26,6 +26,7 @@ lesson52_simparams.py —— 第 07 篇《SIM_* 参数全解》配套自验证�
 """
 
 import io
+import _srcdirs
 import os
 import re
 import sys
@@ -50,8 +51,8 @@ print('[0] 定位源码')
 print('=' * 76)
 
 REPO = None
-for cand in (r'D:\DEVLib\PX4APM\APM\ardupilot-Copter-4.7.1',
-             r'D:\DEVLib\PX4APM\APM\ardupilot-Plane-4.7.1'):
+for cand in (_srcdirs.src("APM_471"),
+             _srcdirs.src("PLANE")):
     if os.path.isdir(os.path.join(cand, 'libraries')):
         REPO = cand
         break
@@ -230,12 +231,12 @@ check(re.search(r'class GPSParms', sitlh) is not None,
       '★ `GPSParms` 也在 `SITL.h`')
 check(re.search(r'//\s*@Path:\s*./SITL_Baro.cpp', src) is not None,
       '★★ 而 `SITL.cpp` 里的 `// @Path: ./SITL_Baro.cpp` 指的是**参数文档**在哪 —— '
-      '**类型定义点 ≠ 文档点**，这是第 00 篇"注册点≠定义点"的又一面')
+      '**类型定义点 ≠ 文档点**，这是卷 8 第 5 章"注册点≠定义点"的又一面')
 
 
 # ---- 3.2 独立基准：ArduPilot 自己的生成器 ----
-# ★★★ 本课最重要的一步。前面 440 那个数是我自己数的 ——
-#   只要是"自己数自己的"，数错了就永远发现不了（本仓库第 00 篇记过这个坑）。
+# ★★★ 本章最重要的一步。前面 440 那个数是我自己数的 ——
+#   只要是"自己数自己的"，数错了就永远发现不了（卷 8 第 5 章记过这个坑）。
 #   所以这里引入一个**别人写的量具**：`Tools/autotest/param_metadata/param_parse.py`，
 #   ArduPilot 官方用来生成参数文档和 `apm.pdef.xml` 的工具。
 #   它的输出被固化成 `sim_pdef_arducopter471.txt`（生成命令见该文件头部）。
@@ -665,14 +666,14 @@ print('=' * 76)
 # ★★ 同上（见 lesson49 那段说明）：本脚本原本住在
 #    `飞控学习教程/07-仿真与实验/code/`，`dirname×3` 才等于教程根。
 #    搬到书稿 `code/` 后就少了一层 —— 实测会去开
-#    `D:\DEVLib\PX4APM\07-仿真与实验\01-SITL仿真环境搭建.md`。
+#    `工作区根\07-仿真与实验\01-SITL仿真环境搭建.md`。
 def _find_tut():
     here = os.path.dirname(os.path.abspath(__file__))
     cands = [
         os.path.dirname(os.path.dirname(here)),        # 还在素材树里
         os.path.join(here, '飞控学习教程'),
         os.path.join(os.path.dirname(here), '飞控学习教程'),
-        r'D:\DEVLib\PX4APM\飞控学习教程',
+        _srcdirs.src("MAT"),
     ]
     for c in cands:
         if os.path.isdir(os.path.join(c, '07-仿真与实验')):
@@ -714,7 +715,7 @@ check('4.5.7' in sec,
 check('899' not in sec and '868' in sec,
       '★★ 旧行号 `868` 只作为**反例**保留在说明里，表格里已经没有了')
 check('07-SIM参数全解.md' in sec,
-      '★ 且指向了本课（完整清点）')
+      '★ 且指向了本章（完整清点）')
 
 print()
 print('    ★★★ 顺带记：这个错误 `_check_citations.py` **抓不到** ——')

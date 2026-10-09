@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""第 28 周 · 01 任务系统与航线 —— AP_Mission 的可执行验证
+"""卷 8 第 6 章 · 任务系统与航线 —— AP_Mission 的可执行验证
 
-配套课文：`10-ArduPilot算法全解/01-任务系统与航线.md`
+配套课文：`卷 8 第 6 章`
 源码：`ardupilot-Plane-4.7.1/libraries/AP_Mission/`
       AP_Mission.cpp(3199) / AP_Mission.h(979) / AP_Mission_Commands.cpp(377)
 
@@ -411,7 +411,7 @@ check(MAX_DO_JUMP_SMALL < MAX_DO_JUMP_LARGE,
 
 print()
 print('    ⇒ ★ 课文 §5 的结论：DO_JUMP 超限【静默降级】，地面站看不出来。')
-print('      复杂循环应当改用 Lua 脚本（见 09-Lua脚本.md），而不是堆 DO_JUMP。')
+print('      复杂循环应当改用 Lua 脚本（见 卷 8 第 14 章），而不是堆 DO_JUMP。')
 
 print()
 print('=' * 74)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-lesson09i_control_surfaces.py —— 03b 章 04 课《控制面与固定翼变体》配套仿真
+lesson09i_control_surfaces.py —— 卷 1 第 10 章《控制面与固定翼变体》配套仿真
 
     实验 1  channel_function_mixer 的矩阵：精确解耦与条件数
     实验 2  MIXING_GAIN 的范围：0.5~1.2 是怎么定的
@@ -103,7 +103,7 @@ def exp1_mixer_matrix():
 
     sub('(c) ★★★ 加进气动矩阵：为什么它和 V 尾推导对得上')
     print('''
-   03 章 04 课（第 9.8 周）推导过 V 尾：
+   卷 1 第 10 章推导过 V 尾：
 
         两个舵面各偏转 delta_L, delta_R
         每个舵面的升力在【垂直】和【水平】两个方向分解
@@ -141,7 +141,7 @@ def exp1_mixer_matrix():
     print('        => 混控是【精确解耦】的，没有任何交叉耦合')
     print()
     print('   ★★★★★ 而条件数正好是 max(tanΓ, cotΓ) ——')
-    print('        这正是 03 章 04 课（第 9.8 周）§6.4 手推出来的那个式子！')
+    print('        这正是 卷 1 第 10 章手推出来的那个式子！')
     print()
     print('   ★★ 所以源码和手推完全一致：')
     print('        混控器负责【解耦】（蝶形矩阵是正交的）')
@@ -258,7 +258,7 @@ def exp2_mixing_gain():
     print('   ★ 如果 Gamma 很小，sin(Gamma) 接近 0 => 偏航几乎没权限')
     print('   ★★ 这时候就要把 g 调大来补 —— 代价是【牺牲截幅裕量】。')
     print()
-    print('   本课算例：Γ = 40°（cos = %.4f, sin = %.4f）' %
+    print('   本章算例：Γ = 40°（cos = %.4f, sin = %.4f）' %
           (math.cos(math.radians(40)), math.sin(math.radians(40))))
     print()
     print('   %-10s %16s %16s %14s' %
@@ -395,7 +395,7 @@ def exp3_mixing_offset():
     print('   ★★ 代价是：')
     print('       俯仰权限和滚转权限【不再正交】——')
     print('       打俯仰会带出滚转，反之亦然。')
-    print('   ★ 这是 03 章 04 课 §6.4 讲的「条件数」在【人为变差】。')
+    print('   ★ 这是 卷 1 第 10 章讲的「条件数」在【人为变差】。')
 
     sub('(b) ★★ 和 MIXING_GAIN 的分工')
     print('   %-18s %16s %16s' % ('', 'MIXING_GAIN', 'MIXING_OFFSET'))
@@ -420,7 +420,7 @@ def exp4_elevon_vtail():
     banner('实验 4 · elevon 与 vtail 是同一个函数')
 
     print('''
-   ★★★★ 本课最值得记住的一处（ArduPlane/servos.cpp:1009-1011，逐字）：
+   ★★★★ 本章最值得记住的一处（ArduPlane/servos.cpp:1009-1011，逐字）：
 
         // run vtail and elevon mixers
         channel_function_mixer(SRV_Channel::k_aileron, SRV_Channel::k_elevator,
@@ -490,13 +490,13 @@ def exp4_elevon_vtail():
        不是固定翼的 V 尾！
    ★ 枚举值 MOTOR_FRAME_TYPE_VTAIL = 4
      （libraries/AP_Motors/AP_Motors_Class.h:88）
-   ★★ 这就是 03b-01 课 §1.5 提到过的 VTAIL 机型，
-       它的源码注释里那个 sin(radians(40)) 就是 03 章 04 课的 Γ。
+   ★★ 这就是卷 1 第 9 章提到过的 VTAIL 机型，
+       它的源码注释里那个 sin(radians(40)) 就是卷 1 第 10 章的 Γ。
    ''')
     print('   ★★★ 命名撞车的教训：')
     print('        「V 尾」在固定翼里指【气动舵面布局】')
     print('        「VTAIL」在多旋翼里指【电机位置布局】')
-    print('      ★ 两者数学上都是 03 章 04 课那个 cos/sin 分解，')
+    print('      ★ 两者数学上都是卷 1 第 10 章那个 cos/sin 分解，')
     print('        但物理上毫无关系 —— 一个是舵面，一个是电机。')
     print('   ★★ 这正是 00 课 §0.6「机型是代码」要提醒的事：')
     print('      名字相同的两个东西，可能完全不是一回事。')
@@ -552,7 +552,7 @@ def exp5_coax():
    ★★★ 注意那个【除法】：roll_thrust **除以** thrust_out_actuator。
    ''')
 
-    print('   源码注释把理由讲得很清楚，本课把它写成公式：')
+    print('   源码注释把理由讲得很清楚，本章把它写成公式：')
     print()
     print('        舵面升力  F  ∝  alpha * v^2        （alpha = 攻角，v = 气流速度）')
     print('        旋翼静推力 T ∝  v^2                （动量理论：v 是下洗速度）')
@@ -607,13 +607,13 @@ def exp5_coax():
     print()
     print('   ★★★ 共轴的麻烦在于：它的姿态执行器【寄生在推力上】。')
     print('       推力变了，舵效跟着变 => 必须动态补偿。')
-    print('   ★★ 而 03b-01 课 §1.5 的单旋翼（AP_MotorsSingle）是同一个问题：')
+    print('   ★★ 而卷 1 第 9 章的单旋翼（AP_MotorsSingle）是同一个问题：')
     print('       「滑流舵效 ∝ 推力」—— 只是那边没有做除法补偿。')
     print()
     print('   ★ 这就引出一个对照：')
     print('        单旋翼：滑流舵效 ∝ 推力，但【没有补偿】')
     print('        共轴：  滑流舵效 ∝ 推力，【做了除法补偿】')
-    print('      ★ 本课不判断哪个更好，只指出：')
+    print('      ★ 本章不判断哪个更好，只指出：')
     print('        同一个物理效应，两处代码的处理方式不同。')
     return None
 

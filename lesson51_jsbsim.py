@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-lesson51_jsbsim.py —— 第 06 篇《JSBSim 建模》配套自验证脚本
+lesson51_jsbsim.py —— 卷 10 第 6 章《JSBSim 建模》配套自验证脚本
 
-本课与前几课的区别：**JSBSim 的模型是纯数据（XML）**。
+本章与前几课的区别：**JSBSim 的模型是纯数据（XML）**。
 所以「模型写得对不对」这件事可以在**不运行**的前提下机器校验 ——
 本脚本真的去解析那几个 XML，而不是只 grep 文本。
 
@@ -22,6 +22,7 @@ lesson51_jsbsim.py —— 第 06 篇《JSBSim 建模》配套自验证脚本
 """
 
 import io
+import _srcdirs
 import os
 import re
 import sys
@@ -46,8 +47,8 @@ print('[0] 定位源码（4.7.1）')
 print('=' * 76)
 
 REPO = None
-for cand in (r'D:\DEVLib\PX4APM\APM\ardupilot-Copter-4.7.1',
-             r'D:\DEVLib\PX4APM\APM\ardupilot-Plane-4.7.1'):
+for cand in (_srcdirs.src("APM_471"),
+             _srcdirs.src("PLANE")):
     if os.path.isdir(os.path.join(cand, 'libraries')):
         REPO = cand
         break
@@ -530,7 +531,7 @@ check(re.search(r'\{ "jsbsim",\s+JSBSim::create \}', slurp('libraries/AP_HAL_SIT
       '★★ 但底层注册**不区分机型**（`SITL_cmdline.cpp`）'
       ' ⇒ 给 copter 传 `--model jsbsim` 机制上可行，只是没人帮你配参数')
 check('cmd.extend(["--model", stuff["model"]])' in slurp('Tools/autotest/sim_vehicle.py'),
-      '★ `sim_vehicle.py` 把 frame 串原样透传成 `--model`（与第 14 篇同一条路）')
+      '★ `sim_vehicle.py` 把 frame 串原样透传成 `--model`（与卷 10 第 8 章同一条路）')
 check(re.search(r'const char \*jsbsim_model = "Rascal";', src_h) is not None,
       '★ 默认模型是 `Rascal`（`SIM_JSBSim.h`）')
 
@@ -561,7 +562,7 @@ print('    ★★★ 边界声明：')
 print('        · **已验证**：源码结构、进程模型、协议格式、结构体布局、')
 print('          XML 骨架与气动表单调性 —— 这些都是静态可确证的')
 print('        · **未验证**：装 JSBSim、跑 sim_vehicle、改 XML 之后飞机怎么飞')
-print('        · 本课比第 14 篇（RealFlight）多一层可验证性：')
+print('        · 本章比卷 10 第 8 章（RealFlight）多一层可验证性：')
 print('          RealFlight 的模型在模拟器里（读不到），JSBSim 的模型是文件（读得到）')
 
 

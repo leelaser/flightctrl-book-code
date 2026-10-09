@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-第 8 课 · 低功耗与 Tickless idle —— 配套实验
+卷 4 第 13 章 · 低功耗与 Tickless idle —— 配套实验
 
     实验 1 ★★  tickless 省了什么：数一数 tick 中断
     实验 2 ★★  prvGetExpectedIdleTime：四个「不能睡」的判断
@@ -17,7 +17,7 @@
 只需 numpy（画图需要 matplotlib）。
 
 =======================================================================
-参考源码（FreeRTOS-Kernel V11.1.0，D:/DEVLib/PX4APM/FreeRTOS/）
+参考源码（FreeRTOS-Kernel V11.1.0，$SRC_FREERTOS/）
 =======================================================================
 
 include/FreeRTOS.h:2698-2700  configEXPECTED_IDLE_TIME_BEFORE_SLEEP 必须 ≥ 2
@@ -122,7 +122,7 @@ def exp1():
   RTOS 的 tick 中断是【周期性】的：不管有没有活干，每 1/tick_hz 秒
   必然中断一次。而绝大多数嵌入式系统在大部分时间里是空闲的。
 
-  ★ 空闲时那次中断做了什么？（任务把第 2 课的五条链表串起来了）
+  ★ 空闲时那次中断做了什么？（任务把卷 4 第 7 章的五条链表串起来了）
 
       SysTick ISR
         → xTaskIncrementTick()
@@ -166,7 +166,7 @@ def exp1():
          * state task will exit the Blocked state. */
 
   ⇒ 它是**延时链表队头的到期时间**，在内核里一直是维护着的
-    （第 2 课讲过延时链表按到期时间排序，所以队头就是最近的）。
+    （卷 4 第 7 章讲过延时链表按到期时间排序，所以队头就是最近的）。
 
   所以 tickless **没有引入新数据结构** ——
   它只是把已有的 `xNextTaskUnblockTime` 用起来了。
@@ -287,7 +287,7 @@ def exp2():
        * time slicing is used then the very next tick interrupt must be
        * processed. */
 
-  ⇒ **时间片轮转是按 tick 切分的**（第 2 课讲过，靠 `pxIndex` 游标，
+  ⇒ **时间片轮转是按 tick 切分的**（卷 4 第 7 章讲过，靠 `pxIndex` 游标，
     而游标的推进发生在 tick 中断里）。
 
   ★★ 所以：**只要开了时间片轮转，且有 ≥2 个同优先级任务，
@@ -302,7 +302,7 @@ def exp2():
     FreeRTOS 的 `configUSE_TIME_SLICING` **默认是 1**（`FreeRTOS.h:2734-2736`），
     而 ArduPilot 的 ESP32 全树 grep `time_slicing` **零命中**
     （仓库里根本没有 `FreeRTOSConfig.h` —— 它是构建时的外部组件）。
-    ⇒ 按本课的纪律：**零命中 ⇒ 走默认值 ⇒ 时间片是开着的。**
+    ⇒ 按本章的纪律：**零命中 ⇒ 走默认值 ⇒ 时间片是开着的。**
 
     ⚠️ 这里原来写的是"飞控开发者**主动关掉**了它" —— **没有依据**，
       是"看到默认是 1 就以为飞控必然要改它"的想当然。
@@ -647,7 +647,7 @@ def exp4():
   ★ 注意 `!= 0` 这个写法 —— 它是**前瞻性设计**：
     以后加模式 3、4 时不用改那些 `#if`。
 
-  ⇒ 和本线第 10 课那条「`#if` 的判据方式本身就是设计信息」是同一个观察。
+  ⇒ 和本线卷 5 第 1 章那条「`#if` 的判据方式本身就是设计信息」是同一个观察。
 """)
 
     sub("③ ChibiOS 的对应机制：CH_CFG_ST_TIMEDELTA")
@@ -681,7 +681,7 @@ def exp4():
 """)
 
     sub("④ ★ 但 tickless 在 ChibiOS 里是【受许可证门控】的")
-    print("""  这是第 10 课已经挖过的一条，这里只把它接到本课的主题上。
+    print("""  这是卷 5 第 1 章已经挖过的一条，这里只把它接到本章的主题上。
 
   modules/ChibiOS/os/license/chrestrictions.h：
 
@@ -758,7 +758,7 @@ def exp4():
     判据不是"省不省电"，而是**"这个角色靠什么唤醒、对延迟多敏感"**。
 """)
 
-    sub("⑥ ★ 一句话总结本课")
+    sub("⑥ ★ 一句话总结本章")
     print("""  ┌──────────────────────────────────────────────────────────────┐
   │ tickless 的本质：                                             │
   │                                                              │
@@ -798,7 +798,7 @@ def main():
         args = sorted(EXPERIMENTS.keys())
     print()
     hr("#")
-    print("#  第 8 课 · 低功耗与 Tickless idle —— 配套实验")
+    print("#  卷 4 第 13 章 · 低功耗与 Tickless idle —— 配套实验")
     hr("#")
     for a in args:
         if a not in EXPERIMENTS:

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""第 31 周 · 07 风估计与磁偏角 —— 可执行验证
+"""卷 8 第 12 章 · 风估计与磁偏角 —— 可执行验证
 
-配套课文：`10-ArduPilot算法全解/07-风估计与磁偏角.md`
+配套课文：`卷 8 第 12 章`
 源码：`ardupilot-Copter-4.7.1/libraries/AP_Declination/`（`AP_Declination.cpp` 146 + `tables.cpp` 77）
       `libraries/AP_WindVane/AP_WindVane.cpp`（503）
       `libraries/AP_NavEKF3/`（风状态）
@@ -23,6 +23,7 @@
 运行：`python lesson41_wind.py`   —— 全部断言通过才返回 0
 """
 from __future__ import print_function
+import _srcdirs
 
 import io
 import math
@@ -48,8 +49,8 @@ def check(cond, msg):
 # 源码定位 —— ★ 找不到就【红】，不静默跳过
 # ══════════════════════════════════════════════════════════════
 CANDIDATES = [
-    r'D:\DEVLib\PX4APM\APM\ardupilot-Copter-4.7.1\libraries\AP_Declination',
-    r'D:\DEVLib\PX4APM\APM\ardupilot-Plane-4.7.1\libraries\AP_Declination',
+    _srcdirs.src("APM_471", "libraries", "AP_Declination"),
+    _srcdirs.src("PLANE", "libraries", "AP_Declination"),
 ]
 SRC_DIR = next((p for p in CANDIDATES if os.path.isdir(p)), None)
 print('=' * 74)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""第 29 周 · 05 避障三层 —— 可执行验证
+"""卷 8 第 10 章 · 避障三层 —— 可执行验证
 
-配套课文：`10-ArduPilot算法全解/05-避障三层.md`
+配套课文：`卷 8 第 10 章`
 源码：`ardupilot-Copter-4.7.1/libraries/AC_Avoidance/AC_Avoid.cpp`（1584 行）
       `ardupilot-Copter-4.7.1/libraries/AP_Math/control.cpp`（sqrt_controller / inv_sqrt_controller）
 

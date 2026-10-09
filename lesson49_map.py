@@ -14,7 +14,7 @@
   [6] 本章必须被**导出流水线**看见（文件名模式一改，build.py 会静默漏掉这一章）
 
 ★ 与上一版的区别（2026-10-02 改造）：
-  上一版校验的是**素材**那一篇（`飞控学习教程/10-ArduPilot算法全解/00-总览-算法地图.md`），
+  上一版校验的是**素材**那一篇（素材期的《算法地图》那一篇（现卷 8 第 5 章）），
   统计口径也是素材树。成书之后，读者手里只有书 —— 于是：
     · 校验对象 = 成书这一章
     · 统计范围 = **全书各章**（`书稿/卷*/第*.md`），并**排除本章自己**（自指污染）
@@ -26,6 +26,7 @@
 """
 
 import glob
+import _srcdirs
 import io
 import os
 import re
@@ -55,8 +56,8 @@ TXT = io.open(DOC, encoding='utf-8').read()
 
 # 源码树：本卷用 4.7.1（**不是**卷首语那份 4.5.7，两棵树的引用会错位）
 REPO = None
-for cand in (r'D:\DEVLib\PX4APM\APM\ardupilot-Copter-4.7.1',
-             r'D:\DEVLib\PX4APM\APM\ardupilot-Plane-4.7.1'):
+for cand in (_srcdirs.src("APM_471"),
+             _srcdirs.src("PLANE")):
     if os.path.isdir(os.path.join(cand, 'libraries')):
         REPO = cand
         break

@@ -1,0 +1,49 @@
+{
+  "tag": "verify5",
+  "maneuver": "level",
+  "time": "2026-09-29T09:39:37",
+  "build": {},
+  "metrics": {
+    "n_runs": 5,
+    "flew_any": false,
+    "max_alt_m_median": 20.78,
+    "max_alt_m_spread": 1.99,
+    "max_spd_median": 29.97,
+    "max_spd_spread": 9.2,
+    "frac_flying_median": 0.046,
+    "frac_flying_spread": 0.018,
+    "noise_pct_alt": 9.6
+  },
+  "per_run": [
+    {
+      "max_alt_m": 20.78,
+      "max_spd": 35.24,
+      "frac_flying": 0.058,
+      "flew": false
+    },
+    {
+      "max_alt_m": 20.08,
+      "max_spd": 26.04,
+      "frac_flying": 0.04,
+      "flew": false
+    },
+    {
+      "max_alt_m": 20.78,
+      "max_spd": 35.24,
+      "frac_flying": 0.058,
+      "flew": false
+    },
+    {
+      "max_alt_m": 22.07,
+      "max_spd": 29.97,
+      "frac_flying": 0.046,
+      "flew": false
+    },
+    {
+      "max_alt_m": 22.07,
+      "max_spd": 29.97,
+      "frac_flying": 0.046,
+      "flew": false
+    }
+  ]
+}

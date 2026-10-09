@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-lesson50_hil.py —— 第 05 篇《HIL 硬件在环：一个被删掉的功能》配套自验证脚本
+lesson50_hil.py —— 卷 10 第 5 章《HIL 硬件在环：一个被删掉的功能》配套自验证脚本
 
 **本脚本验的是一个"否定命题"**：HIL 在 4.7.1 里已经不存在了。
 
@@ -23,6 +23,7 @@ lesson50_hil.py —— 第 05 篇《HIL 硬件在环：一个被删掉的功能�
 """
 
 import io
+import _srcdirs
 import os
 import re
 import sys
@@ -46,8 +47,8 @@ print('[0] 定位源码')
 print('=' * 76)
 
 REPO = None
-for cand in (r'D:\DEVLib\PX4APM\APM\ardupilot-Copter-4.7.1',
-             r'D:\DEVLib\PX4APM\APM\ardupilot-Plane-4.7.1'):
+for cand in (_srcdirs.src("APM_471"),
+             _srcdirs.src("PLANE")):
     if os.path.isdir(os.path.join(cand, 'libraries')):
         REPO = cand
         break
@@ -56,10 +57,10 @@ if REPO is None:
     n_bad += 1
     sys.exit(1)
 
-PX4 = r'D:\DEVLib\PX4APM\PX4\PX4-Autopilot'
+PX4 = _srcdirs.src("PX4")
 HAVE_PX4 = os.path.isdir(PX4)
 MAVLINK_XML = None
-for c in (r'D:\DEVLib\PX4APM\PX4\c_library_v2-master\message_definitions\common.xml',
+for c in (_srcdirs.src("CLIB", "message_definitions", "common.xml"),
           os.path.join(PX4, 'src', 'modules', 'mavlink', 'mavlink',
                        'message_definitions', 'v1.0', 'common.xml')):
     if os.path.isfile(c):
@@ -272,7 +273,7 @@ check(re.search(r'//\s*@Values:[^\n]*0:None', slurp('libraries/AP_GPS/AP_GPS_Par
       '而 `7:HIL` 说的是"HIL 可用" —— **同一个落空行为，两种说法**')
 
 print()
-print('    ★★★ 死值的三种形态，本课占全了：')
+print('    ★★★ 死值的三种形态，本章占全了：')
 print('        · 枚举值还在      GPS_TYPE_HIL = 7')
 print('        · 为它写的分支还在 update_instance() / needs_uart() 各一处')
 print('        · **入口没了**     _detect_instance() 里没有它的 case')

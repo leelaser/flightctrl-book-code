@@ -1,6 +1,6 @@
 """
 ============================================================================
- NuttX 教程 · 第 7 课 · 中断处理与下半部
+ 卷 6 第 6 章 · 中断处理与下半部
  配套实验代码
 ============================================================================
 
@@ -671,7 +671,7 @@ def exp5_critical_section():
 
   这是一条无法绕过的硬约束。
 
-  NuttX 里关中断的两把锁 (第 5 课讲过):
+  NuttX 里关中断的两把锁 (卷 6 第 4 章讲过):
 
      enter_critical_section()   ── 关中断, 【无法被任何东西打断】
      sched_lock()               ── 只禁任务切换, 【中断照跑】
@@ -737,7 +737,7 @@ def exp5_critical_section():
 
      ④ 日志打印
         printf 可能触发串口输出、内存分配、字符串格式化
-        第 4 课看到 PX4 的 px4_task_spawn_cmd 里就有
+        卷 6 第 3 章看到 PX4 的 px4_task_spawn_cmd 里就有
         "ERROR: ... printf 在关中断里" 的教训
 
   【怎么自查】
@@ -785,7 +785,7 @@ def exp5_critical_section():
 
   【PX4 的实证】
 
-     第 5 课我们数过: PX4 全树只有 31 处 px4_enter_critical_section。
+     卷 6 第 4 章我们数过: PX4 全树只有 31 处 px4_enter_critical_section。
      而且几乎全部在:
 
        · uORB 的 ATOMIC_ENTER (包住一次 memcpy + 回调)
@@ -859,7 +859,7 @@ def exp5_critical_section():
 # ============================================================================
 if __name__ == "__main__":
     print("=" * 76)
-    print("  NuttX 教程 · 第 7 课 · 中断处理与下半部")
+    print("  卷 6 第 6 章 · 中断处理与下半部")
     print("=" * 76)
 
     exp1_latency()
@@ -868,7 +868,7 @@ if __name__ == "__main__":
     exp4_deadline_truncation()
     exp5_critical_section()
 
-    sep("本课小结")
+    sep("本章小结")
     print("""
   1. 中断延迟不可能为 0, 只能量化
      HRT 用 9 个计数器做直方图 —— 精度换内存
@@ -896,5 +896,5 @@ if __name__ == "__main__":
   7. NuttX 用 CONFIG_SCHED_CRITMONITOR 记录 crit_max (最坏值)
      PX4 只有 31 处关中断, 且都是几条指令 —— 设计纪律
 
-  下一课: 08-PX4如何用NuttX.md
+  下一课: 卷 6 第 7 章
 """)

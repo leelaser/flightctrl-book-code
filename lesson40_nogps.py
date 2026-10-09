@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""第 30 周 · 06 无 GPS 导航 —— 可执行验证
+"""卷 8 第 11 章 · 无 GPS 导航 —— 可执行验证
 
-配套课文：`10-ArduPilot算法全解/06-无GPS导航.md`
+配套课文：`卷 8 第 11 章`
 源码：`ardupilot-Copter-4.7.1/libraries/AP_NavEKF3/AP_NavEKF3_OptFlowFusion.cpp`（光流观测）
       `libraries/AP_NavEKF3/AP_NavEKF3.h`（DCM33FlowMin / FLOW_USE_*）
       `libraries/AP_NavEKF/AP_NavEKF_Source.{h,cpp}`（★ 源集机制）

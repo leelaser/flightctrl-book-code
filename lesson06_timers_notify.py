@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-第 6 课配套实验：软件定时器与任务通知
+卷 4 第 11 章配套实验：软件定时器与任务通知
 
 设计原则（延续三条纪律）：
   1. 每个论断都能落到 文件:行号
@@ -12,7 +12,7 @@
     python lesson06_timers_notify.py         # 全部
     python lesson06_timers_notify.py 2       # 只跑实验 2
 
-源码来源：D:/DEVLib/PX4APM/FreeRTOS/   （V11.1.0）
+源码来源：$SRC_FREERTOS/   （V11.1.0）
 """
 
 import io
@@ -197,7 +197,7 @@ def exp1_timer_async():
             xTimerStart(xTimer, xTicksToWait)
                                  ↑ 队列满时愿意等多久
         传 0 表示"不等，立刻返回失败"。传 portMAX_DELAY 会一直等
-        （但**不能在 ISR 里用非 0 的值** —— 见第 4 课）。
+        （但**不能在 ISR 里用非 0 的值** —— 见卷 4 第 9 章）。
 
   ================== 三个可以带走的点 ==================
 
@@ -223,8 +223,8 @@ def exp1_timer_async():
               xTaskNotifyGive(worker_task);   ✅ 只置标志 / 发通知
           }
 
-      ⇒ 这和第 4 课 3.4 节（ISR 只做最小动作）、
-        第 5 课 6.4 节（ISR 不分配内存）是同一个哲学：
+      ⇒ 这和卷 4 第 9 章 3.4 节（ISR 只做最小动作）、
+        卷 4 第 10 章 6.4 节（ISR 不分配内存）是同一个哲学：
         **共享的执行上下文，应该尽可能少做事。**
 """)
 
@@ -283,7 +283,7 @@ STATE_NAME = {
 
 
 def block_on_queue(task, queue_name):
-    """阻塞在队列上 —— 挂【两条】链表（第 3 课 3.1 节）"""
+    """阻塞在队列上 —— 挂【两条】链表（卷 4 第 8 章 3.1 节）"""
     task.in_event_list = queue_name
     task.in_delayed_list = True
 
@@ -315,7 +315,7 @@ def exp2_event_list_difference():
 
   **那句断言说：阻塞在通知上的任务，不应该在任何事件链表里。**
 
-  对比第 3 课 3.2 节讲的"TCB 需要两个 ListItem_t" —— 那是为
+  对比卷 4 第 8 章 3.2 节讲的"TCB 需要两个 ListItem_t" —— 那是为
   【队列/信号量】准备的。本实验把两者并排看。
 """)
 
@@ -337,7 +337,7 @@ def exp2_event_list_difference():
     print()
     print("      唤醒时：发送者要给【队列】发数据，内核执行")
     print("              listGET_OWNER_OF_HEAD_ENTRY(事件链表) 找出该唤醒谁")
-    print("              （第 3 课 3.4 节）")
+    print("              （卷 4 第 8 章 3.4 节）")
 
     print()
     print("  " + "=" * 74)
@@ -396,7 +396,7 @@ def exp2_event_list_difference():
       天然不支持"多个等待者竞争同一个对象"。
 
       ⚠ 关于"快 45%"这个数字：那是 FreeRTOS 官方 benchmark 的结果，
-        **源码里没有，需要在目标上实测**。本课标 [未亲验]。
+        **源码里没有，需要在目标上实测**。本章标 [未亲验]。
         但"为什么快"这个机制是上面这条 —— 源码可验证。
 """)
 
@@ -541,7 +541,7 @@ def exp3_notify_actions():
     print("""
   ================== 这正是「事件组」的能力 ==================
 
-      第 10 课 3.1 节讲过：NuttX 没有事件组，FreeRTOS 有。
+      卷 5 第 1 章 3.1 节讲过：NuttX 没有事件组，FreeRTOS 有。
       而 FreeRTOS 的"事件组"在【单接收者】场景下可以用任务通知模拟
       —— 就是 eSetBits。
 
@@ -692,7 +692,7 @@ EXPERIMENTS = {
 def main():
     print("""
 ================================================================================
- 第 6 课：软件定时器与任务通知
+ 本章：软件定时器与任务通知
  配套实验代码（FreeRTOS 部分的最后一课）
 
  实验列表：
@@ -717,7 +717,7 @@ def main():
 
     print("""
 ================================================================================
- 本课三条最重要的结论
+ 本章三条最重要的结论
 ================================================================================
 
 1. **软件定时器的架构是「守护任务 + 队列」，回调在守护任务里跑。**
@@ -731,7 +731,7 @@ def main():
    xTaskGenericNotify 里那句 configASSERT 揭示了一切：
        /* The task should not have been on an event list. */
        configASSERT( listLIST_ITEM_CONTAINER( &( pxTCB->xEventListItem ) ) == NULL );
-   对比第 3 课：队列/信号量需要两个 ListItem_t，通知只需要一个。
+   对比卷 4 第 8 章：队列/信号量需要两个 ListItem_t，通知只需要一个。
    因为通知是【点对点】的 —— 发送者直接指名接收者。
    ⇒ 省掉的是"插入/查找排序链表"这条完整路径。
 

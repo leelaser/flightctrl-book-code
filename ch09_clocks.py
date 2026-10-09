@@ -40,7 +40,7 @@ import os
 import re
 import sys
 
-PX4_BOARDS = r'D:\DEVLib\PX4APM\PX4\PX4-Autopilot\boards'
+PX4_BOARDS = _srcdirs.src("PX4", "boards")
 # ★ 是 NuttX 的 board.h（里面才有 STM32_PLLCFG_PLL1M 这些宏），
 #   不是 src/board_config.h —— 我改成 _srcdirs 时**按变量名猜错过一次**，
 #   是"重跑受影响脚本"这道检查把它抓出来的（cfg['xtal'] 成了 None）。

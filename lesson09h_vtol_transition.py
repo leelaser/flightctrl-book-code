@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-lesson09h_vtol_transition.py —— 03b 章 03 课《VTOL 与倾转旋翼》配套仿真
+lesson09h_vtol_transition.py —— 卷 1 第 12 章《VTOL 与倾转旋翼》配套仿真
 
     实验 1  倾转旋翼的推力矢量：cos 惩罚有多大
     实验 2  过渡走廊：机翼升力和旋翼推力谁接管
@@ -130,14 +130,14 @@ def exp1_tilt_vector():
         dm = math.degrees(math.acos(1.0 / tw))
         note = ''
         if tw == 1.957:
-            note = '<- 本课算例'
+            note = '<- 本章算例'
         if tw <= 1.5:
             note = '推力很紧，几乎不能倾转'
         print('   %-12.3f %12.2f %14s' % (tw, dm, note))
 
     tw = VEH['Tmax_rotor'] / VEH['W']
     print()
-    print('   ★ 本课算例：T/W = %.3f -> 零速下最多倾转到 %.1f°' % (tw, math.degrees(math.acos(1 / tw))))
+    print('   ★ 本章算例：T/W = %.3f -> 零速下最多倾转到 %.1f°' % (tw, math.degrees(math.acos(1 / tw))))
     print('   ★★ 想要零速就倾转到 90°，需要 T/W = 无穷大 —— 不可能。')
     print('   => 所以【过渡必须靠空速帮忙】：速度起来之后机翼接力。')
     return rows
@@ -376,7 +376,7 @@ def exp3_trajectory():
        一旦 T 超过 T_max，高度就守不住了 —— 这就是掉高的来源。
     ''')
 
-    print('   本课算例：')
+    print('   本章算例：')
     print('     目标过渡速度 V_level = %.2f m/s  (CL=%.2f)' %
           (V_level, VEH['CL_cruise']))
     print('     定高推力上限 T_hold   = %.1f N  (T_max 的 85%%，留 15%% 加速)' %
@@ -417,7 +417,7 @@ def exp3_trajectory():
     print('     A 保护走廊：倾转不超过 delta_max(V)，靠余量慢慢加速')
     print('     B 硬倾转：  按时间表一直倾，不管走廊')
     print()
-    print('   ★ 但先说一个【反直觉的观察】：在本课这台 T/W=1.96 的飞机上，')
+    print('   ★ 但先说一个【反直觉的观察】：在本章这台 T/W=1.96 的飞机上，')
     print('     两种策略几乎没差别 —— 因为推力余量足够大，')
     print('     走廊从一开始就很宽（V=0 时就有 %.1f°）。' %
           math.degrees(math.acos(VEH['W'] / (THRUST_MARGIN * VEH['Tmax_rotor']))))
@@ -537,7 +537,7 @@ def exp4_tailsitter():
     ''')
 
     hover_throttle = W / Tmax_prop
-    print('   本课算例的悬停油门 h = W/T_max = %.4f' % hover_throttle)
+    print('   本章算例的悬停油门 h = W/T_max = %.4f' % hover_throttle)
     print()
 
     sub('(b) ★★★ 抢出来的滚转权限：正好等于「推力余量 × 力臂」')

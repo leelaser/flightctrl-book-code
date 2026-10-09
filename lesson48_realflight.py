@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-lesson48_realflight.py —— 第 14 篇《RealFlight 仿真》配套自验证脚本
+lesson48_realflight.py —— 卷 10 第 8 章《RealFlight 仿真》配套自验证脚本
 
 本篇与前 13 篇的根本区别：
   前 13 篇验证的是**算法**（公式对不对），本篇验证的是**一座桥**（约定对不对）。
@@ -26,7 +26,7 @@ lesson48_realflight.py —— 第 14 篇《RealFlight 仿真》配套自验证�
   [9] 解析了但从不使用的字段
   [10] 启动路径：从 `-f` 到 `--model` 的完整透传
   [11] 13 个"连外部模拟器"后端的对照
-  [12] 兑现第 13 篇欠下的账：SITL 热气流模型
+  [12] 兑现卷 8 第 18 章欠下的账：SITL 热气流模型
 
 **诚实边界**：本机没有装 RealFlight（盘上零命中）、也没有任何 C/C++ 编译器，
 SITL 跑不起来 ⇒ **运行时路径在本机无法验证**。
@@ -36,6 +36,7 @@ SITL 跑不起来 ⇒ **运行时路径在本机无法验证**。
 """
 
 import io
+import _srcdirs
 import math
 import os
 import re
@@ -60,8 +61,8 @@ print('[0] 定位源码（4.7.1）')
 print('=' * 76)
 
 REPO = None
-for cand in (r'D:\DEVLib\PX4APM\APM\ardupilot-Copter-4.7.1',
-             r'D:\DEVLib\PX4APM\APM\ardupilot-Plane-4.7.1'):
+for cand in (_srcdirs.src("APM_471"),
+             _srcdirs.src("PLANE")):
     if os.path.isdir(os.path.join(cand, 'libraries')):
         REPO = cand
         break
@@ -576,7 +577,7 @@ check('AP_SIM_XPLANE_ENABLED' in src_cfg and 'AP_SIM_JSBSIM_ENABLED' in src_cfg,
 # ==========================================================================
 print()
 print('=' * 76)
-print('[12] 兑现第 13 篇欠下的账：SITL 的热气流模型')
+print('[12] 兑现卷 8 第 18 章欠下的账：SITL 的热气流模型')
 print('=' * 76)
 
 m = re.search(r'#define MAX_THERMALS (\d+)(.*?)\n    \}\n', src_ac, re.S)
@@ -606,7 +607,7 @@ for num, body in scen:
 check(re.search(r'w \+= thermals_w\[iThermal\]\*exp\(-r2/\(thermals_r\[iThermal\]\*thermals_r\[iThermal\]\)\)',
                 src_ac) is not None,
       '★★★ 核心公式：`w += W · exp(−r²/R²)` —— **与飞控侧 EKF 的测量模型同构**'
-      '（第 13 篇 §4.4 的那个高斯）')
+      '（卷 8 第 18 章的那个高斯）')
 src_sitl = slurp('libraries/SITL/SITL.cpp')
 check(re.search(r'// @Param: THML_SCENARI', src_sitl) is not None
       and re.search(r'AP_GROUPINFO\("THML_SCENARI",\s*12,\s*SIM,\s*thermal_scenario,\s*0\)', src_sitl) is not None,

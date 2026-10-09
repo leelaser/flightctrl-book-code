@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-第 21 周 · 01 PX4 软件架构与 uORB —— 配套实验
+卷 8 第 1 章 · PX4 软件架构与 uORB —— 配套实验
 
     实验 1  模块生命周期：start / status / stop 是一个状态机
     实验 2  ★★ uORB 的多播：一个环形缓冲 + 每个订阅者自己的 generation
@@ -23,7 +23,7 @@
     每个实验开头都写明"对应哪个文件的哪一段"，并且把关键的
     常量（队列长度、优先级、栈大小）**用源码里的真实数值**。
 
-  实验 2 是本课的重点：它要回答一个问题 ——
+  实验 2 是本章的重点：它要回答一个问题 ——
   "**一个发布者，多个订阅者，每个人读到的节奏还不一样，
     为什么不需要给每个人开一个队列？**"
 
@@ -32,7 +32,7 @@
       订阅 = 记住自己的 generation，自己算下标去读
   **⇒ 一份数据，N 个读指针。这就是多播。**
 
-参考（路径相对 D:/DEVLib/PX4APM/PX4/PX4-Autopilot/）：
+参考（路径相对 $SRC_PX4/）：
     platforms/common/uORB/uORBDeviceNode.cpp      发布 / 拷贝
     platforms/common/uORB/uORBDeviceNode.hpp      环形缓冲与下标计算
     platforms/common/uORB/Subscription.hpp        订阅者侧的 _last_generation
@@ -43,7 +43,7 @@
                                                   工作队列的配置表
 
 ★ RTOS 内核那一侧（线程怎么创建、优先级怎么排、信号量怎么实现）
-  见《FreeRTOS+ChibiOS 教程》第 20 课 —— 本课只讲应用层怎么用。
+  见卷 5 第 11 章 —— 本章只讲应用层怎么用。
 """
 
 import math
@@ -911,7 +911,7 @@ def exp3():
     class Queue:
         """FreeRTOS 语义的队列：满了以后 xQueueSend 阻塞。
 
-        真实实现在《FreeRTOS+ChibiOS 教程》第 3 课 ——
+        真实实现在卷 4 第 8 章 ——
         这里只保留"容量 + 阻塞"这两个语义。
         """
 
@@ -1203,8 +1203,8 @@ def exp4():
 
     ★ RTOS 那一侧（这个线程的优先级怎么设、怎么提权、
       和 ChibiOS 的 APM_MAIN_PRIORITY_BOOST 有什么区别）
-      见《FreeRTOS+ChibiOS 教程》第 20 课 §2.2 和 §2.3。
-      本课只回答"应用层为什么这么分"。
+      见卷 5 第 11 章。
+      本章只回答"应用层为什么这么分"。
 """)
 
     sub("⑤ 工作队列 vs 独立线程：怎么选")

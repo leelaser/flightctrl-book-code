@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""《飞控学习教程》第 7 章 02 —— 日志分析与 FailSafe（配套脚本）
+"""卷 10 第 2 章 —— 日志分析与 FailSafe（配套脚本）
 
     python lesson24_log_analysis.py        # 跑全部 4 个实验
     python lesson24_log_analysis.py 1      # 只跑实验 1
@@ -26,10 +26,11 @@
     本脚本讲的是【应用层】：日志文件格式、怎么从日志里读出问题、
     以及飞控应用层的 FailSafe 状态机。
     看门狗（Watchdog）怎么喂狗、任务怎么被抢占、优先级怎么排，
-    属于 RTOS/系统层，详见《FreeRTOS+ChibiOS 教程》第 20 课，本脚本不重复。
+    属于 RTOS/系统层，详见卷 5 第 11 章，本脚本不重复。
 """
 
 import math
+import _srcdirs
 import os
 import shutil
 import struct
@@ -151,14 +152,14 @@ def bullet(items, indent=4):
 # ============================================================================
 
 PX4_CANDIDATES = [
-    r"D:/DEVLib/PX4APM/PX4/PX4-Autopilot",
-    r"D:/DEVLib/PX4APM/PX4/PX4-Autopilot-1.15.4/PX4-Autopilot-1.15.4",
+    _srcdirs.src("PX4"),
+    _srcdirs.src("PX4_115"),
     r"~/PX4-Autopilot",
     r"~/src/PX4-Autopilot",
 ]
 
 AP_CANDIDATES = [
-    r"D:/DEVLib/PX4APM/APM/ardupilot-Copter-4.5.7/ardupilot-Copter-4.5.7",
+    _srcdirs.src("APM"),
     r"~/ardupilot",
     r"~/src/ardupilot",
 ]
@@ -169,9 +170,9 @@ LOG_CANDIDATES = [
     #   结果本机明明躺着 53 份真机 .ulg（PX4调参/ulog，8 个日期目录），
     #   脚本却报「真实 .ulg 日志 0 个」—— 检查器本身写错了候选路径，
     #   这是最隐蔽的一类错误：结论看起来像「环境不满足」，其实是「没找」。
-    r"D:/DEVLib/PX4APM/PX4调参/ulog",
+    _srcdirs.src("ULOG"),
     r"~/PX4调参/ulog",
-    r"D:/DEVLib/PX4APM/PX4/PX4-Autopilot/build/px4_sitl_default/rootfs/log",
+    _srcdirs.src("PX4", "build", "px4_sitl_default", "rootfs", "log"),
     r"~/Documents/Flight_Logs",
     r"~/Downloads",
 ]
@@ -756,7 +757,7 @@ def exp1():
         print("  " + "*" * (W - 4))
         print("  ★ 环境不满足，下面是原理性演示。")
         print("  " + "*" * (W - 4))
-        wrap("本机没有装 pyulog，也没有找到真实飞行日志。这不影响本课："
+        wrap("本机没有装 pyulog，也没有找到真实飞行日志。这不影响本章："
              "接下来我们会【自己造】一个合法的 ULog 二进制文件和一个合法的 "
              "DataFlash 日志，再用自己写的解析器读回来。"
              "造日志 - 写解析器 - 读回来 - 对答案，这条闭环比拿一条别人的日志"
@@ -1649,7 +1650,7 @@ def exp3():
 
     sub("⑤ ★★ 同一个振动，两种日志给出完全不同的数字")
 
-    wrap("这是本课最重要的一张表：把【同一个物理振动】同时喂给两套指标。"
+    wrap("这是本章最重要的一张表：把【同一个物理振动】同时喂给两套指标。"
          "A = 1 m/s²，PX4 侧采样率 250 Hz（SITL 的 IMU_INTEG_RATE），"
          "ArduPilot 侧滤波器采样率 1000 Hz：")
     print()
@@ -1964,7 +1965,7 @@ def exp4():
          "这样 FailSafe 永远不用碰控制器代码 —— 这也是「条件/动作解耦」的延伸。")
 
     print()
-    print("      对应的日志证据（本课实验 2 里就写进去了）：")
+    print("      对应的日志证据（本章实验 2 里就写进去了）：")
     print("        vehicle_status.nav_state   模式号")
     print("        vehicle_status.failsafe    非 0 表示 FailSafe 正在生效")
     print("        failsafe_flags             每个条件当前的布尔值")
@@ -1976,13 +1977,13 @@ def exp4():
          "再看 vehicle_status.nav_state 【切到了哪个模式】，"
          "最后回到振动/电机/EKF 的日志里找【条件为什么被置位】。")
 
-    sub("⑧ 本课收束")
+    sub("⑧ 本章收束")
 
     print()
-    print("      第 21 课  PX4 怎么组织代码        -> 模块 + uORB")
-    print("      第 22 课  ArduPilot 怎么组织代码  -> 任务表 + 库")
-    print("      第 23 课  怎么验证（SITL）        -> 能测逻辑，测不了物理")
-    print("      第 24 课  怎么发现真机的问题      -> 日志 + FailSafe（本课）")
+    print("      卷 8 第 1 章  PX4 怎么组织代码        -> 模块 + uORB")
+    print("      卷 8 第 2 章  ArduPilot 怎么组织代码  -> 任务表 + 库")
+    print("      卷 10 第 1 章  怎么验证（SITL）        -> 能测逻辑，测不了物理")
+    print("      本章  怎么发现真机的问题      -> 日志 + FailSafe（本章）")
     print()
     wrap("★ 一句话收尾：SITL 给你的是【可复现的假数据】，"
          "日志给你的是【不可复现的真数据】。"

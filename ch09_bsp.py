@@ -231,7 +231,7 @@ def main():
     print('=' * 74)
     print('口径：本脚本**直接解析真实源码**：')
     print('      default.px4board / src/spi.cpp / init/rc.board_sensors')
-    print('      根目录：D:/DEVLib/PX4APM/硬件/版本V1.4 …/fmu-v6x-qgbf/')
+    print('      根目录：' + BSP)
     print('      ⚠️ 差集是**待查项**：本脚本**只负责看见**，不判定谁对。')
     print('=' * 74)
     return 0

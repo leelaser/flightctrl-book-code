@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-lesson44_customctl.py —— 第 10 篇《自定义控制律》配套自验证脚本
+lesson44_customctl.py —— 卷 8 第 15 章《自定义控制律》配套自验证脚本
 
 主题：AC_CustomControl —— ArduPilot 官方给的「往姿态控制链路里插自己的控制器」
       的扩展点。它是**覆写式**（主控制器先跑，自定义控制器后跑并盖掉 mixer 输入），
@@ -16,6 +16,7 @@ lesson44_customctl.py —— 第 10 篇《自定义控制律》配套自验证�
 """
 
 import io
+import _srcdirs
 import math
 import os
 import random
@@ -44,8 +45,8 @@ print('[0] 定位 ArduPilot 源码')
 print('=' * 74)
 
 CANDIDATES = [
-    r'D:\DEVLib\PX4APM\APM\ardupilot-Copter-4.7.1',
-    r'D:\DEVLib\PX4APM\APM\ardupilot-Plane-4.7.1',
+    _srcdirs.src("APM_471"),
+    _srcdirs.src("PLANE"),
 ]
 REPO = next((p for p in CANDIDATES if os.path.isdir(os.path.join(p, 'libraries'))), None)
 if REPO is None:

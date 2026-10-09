@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-第 20 周 · 05 LQR 与 MPC 进阶 —— 配套实验
+卷 3 第 5 章 · LQR 与 MPC 进阶 —— 配套实验
 
     实验 1  ★   从 PID 到最优控制：倒立摆上 PID 和 LQR 的正面对决
     实验 2  ★★  Riccati 方程到底怎么解出来（不动点迭代 + 连续 Riccati ODE）
@@ -31,16 +31,16 @@
 
 【关于「飞控里到底用不用 LQR/MPC」】
 
-  这是本课唯一需要「查源码」而不是「推导」的结论。已核对：
+  这是本章唯一需要「查源码」而不是「推导」的结论。已核对：
 
-    PX4        D:/DEVLib/PX4APM/PX4/PX4-Autopilot/
+    PX4        $SRC_PX4/
                grep -ril "riccati" src/           → 0 个文件
                grep -rnw -i "lqr"    src/         → 0 处（只有一个 PDF 误匹配）
                grep -rn -i "prediction horizon|model predictive" src/ → 0 处
                PX4 里那个 MPC_ 参数前缀 = **M**ulticopter **P**osition **C**ontrol
                （参数定义在 src/modules/mc_pos_control/*.c，共 61 个）
 
-    ArduPilot  D:/DEVLib/PX4APM/APM/ardupilot-Copter-4.5.7/ardupilot-Copter-4.5.7/
+    ArduPilot  $SRC_APM/
                grep -ril "riccati" libraries/ ArduCopter/      → 0 个文件
                grep -rn -i "model predictive" libraries/ ArduCopter/ → 0 处
 
@@ -49,9 +49,9 @@
   那是 LQG 的**另一半**。
 
 参考：
-    第 4 章  04-状态估计/03-EKF扩展卡尔曼滤波.md（Q 和 R 的原始含义）
-    第 5 章  05-控制理论/01-PID控制.md（ζ / ωn）
-    第 5 章  05-控制理论/03-位置与速度控制.md（为什么位置环是串级）
+    卷 2 第 5 章（Q 和 R 的原始含义）
+    卷 3 第 1 章（ζ / ωn）
+    卷 3 第 3 章（为什么位置环是串级）
 """
 
 import itertools
@@ -292,7 +292,7 @@ def eig_str(M):
 
 
 # ===========================================================================
-# 倒立摆：本课的主角
+# 倒立摆：本章的主角
 # ===========================================================================
 #
 #   一根长度 l、质量 m 的杆，铰接在小车上（这里只考虑杆本身，车不动）。
@@ -416,7 +416,7 @@ def cost_int(ts, xs, us, Q, R, n_step):
 def disc_poles_to_cont(eigs, dt):
     """离散闭环极点 → 等价的连续极点（z = exp(s*dt) ⇒ s = ln(z)/dt）。
 
-    返回 (ωn, ζ) 列表 —— 直接和第 1 课的 ζ/ωn 对上。
+    返回 (ωn, ζ) 列表 —— 直接和卷 3 第 1 章的 ζ/ωn 对上。
     """
     out = []
     for z in np.asarray(eigs):
@@ -643,7 +643,7 @@ def exp1():
     print("      · 执行器只有一个（一个力矩 / 四个电机）")
     print("      · 状态有两个（角度 + 角速度），但传感器往往只给角度")
     print()
-    print("  这和第 18 课的位置环一模一样：**欠驱动 + 不稳定 + 串级**。")
+    print("  这和卷 3 第 3 章的位置环一模一样：**欠驱动 + 不稳定 + 串级**。")
     print()
 
     sub("① 模型：一根倒立的杆")
@@ -697,10 +697,10 @@ def exp1():
     print()
     print("  ⇒ **kp 有一个硬下界**：小于这个数，你给多少 D 都救不回来。")
     print("    物理意义：kp*theta 必须能提供「托住杆子」的最小力矩 m*g*l*sin(theta)。")
-    print("    这就是第 18 课讲的「前馈 / 工作点」—— 只不过这里的「工作点」")
+    print("    这就是卷 3 第 3 章讲的「前馈 / 工作点」—— 只不过这里的「工作点」")
     print("    是杆子的重力矩，必须靠反馈自己顶上去。")
     print()
-    print("  按第 1 课的配方选极点：zeta = 0.8, wn = 6 rad/s")
+    print("  按卷 3 第 1 章的配方选极点：zeta = 0.8, wn = 6 rad/s")
     print()
 
     ZETA_PD = 0.8
@@ -753,7 +753,7 @@ def exp1():
     print("      ⇒ ★★ **LQR 不是「另一种控制器」，它是「一种自动定 PD 参数的方法」。**")
     print("        对二阶系统，LQR 的解永远长成 PD 的样子；")
     print("        对四阶系统（位置+速度+角度+角速度），它长成")
-    print("        「位置P + 速度PD + 角度P + 角速度P」—— 也就是第 18 课的串级结构，")
+    print("        「位置P + 速度PD + 角度P + 角速度P」—— 也就是卷 3 第 3 章的串级结构，")
     print("        只不过每一层的增益是**一起算出来的**，不是一层层手调的。")
     print()
     print("      这也解释了为什么 LQR 有点「可望不可即」：")
@@ -1045,7 +1045,7 @@ def exp2():
     print("  让 J 最小的控制律是状态反馈  u_k = -K x_k，")
     print("  最优代价是状态的二次型  J* = x_0' P x_0。")
     print()
-    print("  ★★ 下面这三步是本课最核心的推导，一步都不许跳：")
+    print("  ★★ 下面这三步是本章最核心的推导，一步都不许跳：")
     print()
     print("  【第 1 步】写出「从 k 时刻出发」的剩余代价（值函数）：")
     print()
@@ -1511,7 +1511,7 @@ def exp3():
     # -------------------------------------------------------------------
     sub("① 对偶性：把两个 Riccati 方程并排放")
 
-    print("  本课实验 2 里，LQR 的代价矩阵满足（离散，DARE）：")
+    print("  本章实验 2 里，LQR 的代价矩阵满足（离散，DARE）：")
     print()
     print("      A'P A - P - A'P B (R + B'PB)^-1 B'P A + Q = 0")
     print()
@@ -2286,7 +2286,7 @@ def exp4():
                      ("例：%s" % hits[0].replace("\\", "/").split("/")[-1]) if hits else u"—"])
     tab(rows, ["搜什么", "命中", "例子"])
 
-    print("  ★★★ 结论（这就是本课最重要的工程判断）：")
+    print("  ★★★ 结论（这就是本章最重要的工程判断）：")
     print()
     print("    **PX4 和 ArduPilot 的飞控代码里，一行 LQR、一行 MPC 都没有。**")
     print()
@@ -2337,7 +2337,7 @@ def exp4():
     print("      **不是把 PID 换成最优控制，而是让最优控制去算 PID 的参数。**")
     print("      这条路绕开了 ②③④ 三条墙 —— 因为它最终交付的还是一组 PID。")
     print()
-    print("  ★★★ 所以本课真正的结论是：")
+    print("  ★★★ 所以本章真正的结论是：")
     print("      **LQR/MPC 的价值不在于「替换 PID」，而在于")
     print("        (a) 给你一把衡量 PID 好坏的尺子（J = ∫ x'Qx + u'Ru）；")
     print("        (b) 给你一套设计观测器的数学（Kalman / LQG）；")

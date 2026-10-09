@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-lesson46_emergency.py —— 第 12 篇《降落伞与特种失效》配套自验证脚本
+lesson46_emergency.py —— 卷 8 第 17 章《降落伞与特种失效》配套自验证脚本
 
 三个库、三种"回不去"的处置：
   ① AP_Parachute         —— 开伞。Copter + Plane 有，Sub/Rover 没有
@@ -16,6 +16,7 @@ lesson46_emergency.py —— 第 12 篇《降落伞与特种失效》配套自�
 """
 
 import io
+import _srcdirs
 import math
 import os
 import re
@@ -40,8 +41,8 @@ print('[0] 定位源码（4.7.1）')
 print('=' * 76)
 
 REPO = None
-for cand in (r'D:\DEVLib\PX4APM\APM\ardupilot-Copter-4.7.1',
-             r'D:\DEVLib\PX4APM\APM\ardupilot-Plane-4.7.1'):
+for cand in (_srcdirs.src("APM_471"),
+             _srcdirs.src("PLANE")):
     if os.path.isdir(os.path.join(cand, 'libraries')):
         REPO = cand
         break
@@ -707,7 +708,7 @@ check(doc_order == ['FWD_P', 'FWD_I', 'FWD_IMAX', 'FWD_D', 'FWD_FF', 'FWD_FLTE',
 check([x.replace('FWD_', '') for x in doc_order] != order,
       '★★ **两个顺序不一样**（注释把 D 放在第 4 位、FLTE 放第 6 位；'
       '真实槽位是 FLTE 第 4、D 第 5）—— 而且这段注释后面**没有配对的 AP_GROUPINFO**，'
-      '真正生效的表在 AC_PID_Basic 里。与第 10 篇 `AC_CustomControl_PID.cpp` 同一个模式')
+      '真正生效的表在 AC_PID_Basic 里。与卷 8 第 15 章 `AC_CustomControl_PID.cpp` 同一个模式')
 
 # --- 前飞控制器：加速度限幅 + 圆形约束 ---
 fw = func_body(src_arot, r'void AC_Autorotation::update_forward_speed_controller')
@@ -827,7 +828,7 @@ check(decay < 0.01,
 sdt = func_body(src_arot, r'void AC_Autorotation::set_dt')
 check(re.search(r'_dt = 2\.5e-3;', sdt) is not None and '400 Hz' in sdt,
       '★★ set_dt() 的兜底是 `_dt = 2.5e-3;` 且注释直接写 "Assume 400 Hz" —— '
-      '与第 11 篇 FreqResp 里那个硬编码 dt 是同一个模式')
+      '与卷 8 第 16 章 FreqResp 里那个硬编码 dt 是同一个模式')
 check(re.search(r'g2\.arot\.set_dt\(last_loop_time_s\)', src_mode) is not None,
       '   Copter 侧每拍都会用真实 dt 覆盖它（所以实际不会走到兜底）')
 
@@ -847,7 +848,7 @@ stage = enum_values(slurp('libraries/AP_Quicktune/AP_Quicktune.h'), 'Stage')
 qt_assigned = set(re.findall(r'current_stage\s*=\s*Stage::(\w+)',
                              slurp('libraries/AP_Quicktune/AP_Quicktune.cpp')))
 check(stage is not None and len(stage) == 10 and len(qt_assigned) == 2,
-      '★ 第 11 篇那个：Stage 有 %d 个值，而 current_stage 只被赋过 %d 个'
+      '★ 卷 8 第 16 章那个：Stage 有 %d 个值，而 current_stage 只被赋过 %d 个'
       % (len(stage) if stage else 0, len(qt_assigned)))
 
 rows = [

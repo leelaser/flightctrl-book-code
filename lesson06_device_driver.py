@@ -1,6 +1,6 @@
 """
 ============================================================================
- NuttX 教程 · 第 6 课 · 设备驱动与文件系统
+ 卷 6 第 5 章 · 设备驱动与文件系统
  配套实验代码
 ============================================================================
 
@@ -14,7 +14,7 @@
    5. ioctl 命令号编码        —— _IOC / _IOC_TYPE / _IOC_NR
 
  对照的真实源码:
-   实物参考  D:/DEVLib/PX4APM/Nuttx/stm32h7_fmu-master/src/drivers/led/led_main.c
+   实物参考  $SRC_NUTTX_SRC/stm32h7_fmu-master/src/drivers/led/led_main.c
    内核源码  platforms/nuttx/NuttX/nuttx/
       include/nuttx/fs/fs.h              struct file_operations / file / inode
       fs/vfs/fs_open.c                   nx_open
@@ -1047,7 +1047,7 @@ def exp5_ioctl_encoding():
 # ============================================================================
 if __name__ == "__main__":
     print("=" * 76)
-    print("  NuttX 教程 · 第 6 课 · 设备驱动与文件系统")
+    print("  卷 6 第 5 章 · 设备驱动与文件系统")
     print("=" * 76)
 
     exp1_fd_and_path()
@@ -1056,7 +1056,7 @@ if __name__ == "__main__":
     exp4_toy_vs_standard()
     exp5_ioctl_encoding()
 
-    sep("本课小结")
+    sep("本章小结")
     print("""
   1. NuttX 设备模型: 一切皆文件
      open/read/write/ioctl/close → 一套统一的 VFS 接口
@@ -1090,5 +1090,5 @@ if __name__ == "__main__":
   8. 内建命令链: ROMFS rcS → NSH 查 g_builtins[] → <MAIN>_main()
      g_builtins[] 由 CMake 从 fmu_add_module 的 MAIN 属性生成
 
-  下一课: 07-中断处理与下半部.md
+  下一课: 卷 6 第 6 章
 """)

@@ -177,8 +177,8 @@ def main():
     print()
     print('=' * 74)
     print('口径：本脚本**读两个真实工程的源码**，逐行核对锚点。')
-    print('      BSP ：D:/DEVLib/PX4APM/硬件/版本V1.4 …/fmu-v6x-qgbf/')
-    print('      PX4 ：D:/DEVLib/PX4APM/PX4/PX4-Autopilot/')
+    print('      BSP ：' + BSP)
+    print('      PX4 ：' + PX4)
     print('      ⚠️ 链上任何一环被改动，本脚本会**红** —— 这是刻意的。')
     print('=' * 74)
     return 0

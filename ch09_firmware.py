@@ -236,7 +236,7 @@ def main():
     print()
     print('=' * 74)
     print('口径：本脚本**直接解析 BSP 目录里的配置文件与产物**。')
-    print('      根目录：D:/DEVLib/PX4APM/硬件/版本V1.4 …/fmu-v6x-qgbf/')
+    print('      根目录：' + BSP)
     print('      ⚠️ 配置与产物随版本变化 —— 换版本后输出会变（这是刻意的）。')
     print('=' * 74)
     return 0

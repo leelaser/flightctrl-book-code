@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """反向注入：确认 lesson52（SIM_* 参数全解）的断言【真的会红】。
 
-★ 本课的核心是**三个算出来的数**（319 / 289 / 440），
+★ 本章的核心是**三个算出来的数**（319 / 289 / 440），
   所以注入的重点是：**把这三个数改错，看脚本抓不抓得到**。
 """
 import io
+import _srcdirs
 import os
 import subprocess
 import sys
@@ -12,7 +13,7 @@ import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-TUT = r'D:\DEVLib\PX4APM\飞控学习教程'
+TUT = _srcdirs.src("MAT")
 SRC = os.path.join(HERE, 'lesson52_simparams.py')
 # ★★ 这一个**必须**把变异副本写在 `code/` 里，不能放临时目录：
 #    `lesson52_simparams.py` 的独立基准 `sim_pdef_arducopter471.txt`
@@ -89,7 +90,7 @@ INJECTIONS = [
      "    ('VIB_FREQ', 339), ('VIB_MOT_MAX', 507), ('VIB_MOT_HMNC', 498),",
      ['在 4.7.1 上逐行命中'], "('VIB_FREQ', 339)"),
 
-    # ---- 319 → 593 这条桥（本课的核心，2026-10 重写后新增）----
+    # ---- 319 → 593 这条桥（本章的核心，2026-10 重写后新增）----
     ('S25 运行时名字数说成 592', "check(len(base_names) == 593,",
      "check(len(base_names) == 592,", ['运行时参数名'], "== 592,"),
     ('S26 编入条数说成 307', "check(tot_live == 308,",

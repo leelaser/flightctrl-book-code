@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """按出现频次统计每个算法库"在哪一课讲" —— 让数据决定地图，不靠印象。"""
 import io
+import _srcdirs
 import os
 import re
 import collections
@@ -10,7 +11,7 @@ def _find_tut():
     here = os.path.dirname(os.path.abspath(__file__))
     for c in (os.path.join(here, '飞控学习教程'),
               os.path.join(os.path.dirname(here), '飞控学习教程'),
-              'D:/DEVLib/PX4APM/飞控学习教程'):
+              _srcdirs.src("MAT")):
         if os.path.isdir(os.path.join(c, '01-数学基础')):
             return c
     raise SystemExit('找不到素材树 `飞控学习教程`。')

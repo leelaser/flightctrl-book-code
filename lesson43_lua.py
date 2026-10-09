@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""第 33 周 · 09 Lua 脚本 —— 可执行验证
+"""卷 8 第 14 章 · Lua 脚本 —— 可执行验证
 
-配套课文：`10-ArduPilot算法全解/09-Lua脚本.md`
+配套课文：`卷 8 第 14 章`
 源码：`ardupilot-Copter-4.7.1/libraries/AP_Scripting/`
       `generator/description/bindings.desc`（1164 行）
       `docs/docs.lua`（4463 行，生成 + 手改）
@@ -23,6 +23,7 @@
 运行：`python lesson43_lua.py`   —— 全部断言通过才返回 0
 """
 from __future__ import print_function
+import _srcdirs
 
 import io
 import os
@@ -46,8 +47,8 @@ def check(cond, msg):
 
 # ══════════════════════════════════════════════════════════════
 CANDIDATES = [
-    r'D:\DEVLib\PX4APM\APM\ardupilot-Copter-4.7.1\libraries\AP_Scripting',
-    r'D:\DEVLib\PX4APM\APM\ardupilot-Plane-4.7.1\libraries\AP_Scripting',
+    _srcdirs.src("APM_471", "libraries", "AP_Scripting"),
+    _srcdirs.src("PLANE", "libraries", "AP_Scripting"),
 ]
 SRC = next((p for p in CANDIDATES if os.path.isdir(p)), None)
 print('=' * 74)
@@ -295,8 +296,8 @@ print('      ② **一致性检查依赖一个可能不在树里的 expected 文
 print('         文件缺失时 docs_check.py 直接 open() 报错，不会"静默通过"，')
 print('         所以这一点上它比本仓库其它检查器【更安全】。')
 print()
-print('    📌 对照 `04-返航与备降.md` 的 SMARTRTL_PRUNING_DELTA、'
-      '`07-风估计与磁偏角.md` 的磁偏角表：')
+print('    📌 对照 `卷 8 第 9 章` 的 SMARTRTL_PRUNING_DELTA、'
+      '`卷 8 第 12 章` 的磁偏角表：')
 print('       **"两个文件各写一半"** 这个形状又出现了 —— ')
 print('      但那两处【没有守卫】，这里【有 docs_check.py + CI】。')
 print('      同一种结构，有守卫和没守卫的差别就是这一节。')

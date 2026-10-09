@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-第 27 周 · 09-进阶与创新 9.4.4 —— 自抗扰控制（ADRC）对比实验
+卷 11 第 4 章 —— 自抗扰控制（ADRC）对比实验
 
     实验 1  ★   ADRC 到底长什么样：TD + ESO + PD，逐项跑给你看
     实验 2  ★★  模型失配：J 变 3 倍、Kt 变一半，PID 和 ADRC 谁先崩
@@ -47,9 +47,9 @@
 
 【关于「PX4 / ArduPilot 到底有没有 ADRC」】
 
-  这是本课唯一需要「查源码」而不是「推导」的结论。已实测：
+  这是本章唯一需要「查源码」而不是「推导」的结论。已实测：
 
-    PX4 1.15.4   D:/DEVLib/PX4APM/PX4/PX4-Autopilot-1.15.4/PX4-Autopilot-1.15.4/
+    PX4 1.15.4   $SRC_PX4_115/
                  grep -ril "adrc" src/  → 1 个文件，且是误命中：
                     src/drivers/distance_sensor/broadcom/afbrs50/argus_hal_test.c
                     里面的 ReadRcoTrim() / RcoTrim —— 是「RCO 温补」，
@@ -57,7 +57,7 @@
                  grep -rn "MC_ADRC" .    → 0 处
                  grep -ril "disturbance.rejection|auto-disturbance" → 0 处
 
-    ArduPilot   D:/DEVLib/PX4APM/APM/ardupilot-Copter-4.5.7/ardupilot-Copter-4.5.7/
+    ArduPilot   $SRC_APM/
       Copter 4.5.7
                  grep -ril "adrc" libraries/ ArduCopter/  → 0 个文件
                  grep -ril "disturbance.rejection"        → 0 个文件
@@ -67,7 +67,7 @@
   PX4 的 MC_ 前缀是 **M**ulti**c**opter，MC_ADRC_* 这个参数根本不存在。
 
 参考：
-    本教程 09-进阶与创新/01-现有飞控的不足与改进方向.md  §9.4.4
+    本教程 卷 11 第 4 章  §9.4.4
     本教程 08-调参实战/code/lesson25_tuning.py（PID 实现与调参的范本）
     韩京清《自抗扰控制技术》§4.3, §4.4, §4.8, §6.8
     朱斌《自抗扰控制入门》§3.3.2, §3.3.3, §4.1, §5.2
@@ -148,7 +148,7 @@ def sub(title):
 #          = f(θ, θ̇, d) + b_true·u            ← f 就是「总扰动」
 #
 #   再加上一段**纯延迟** Td（陀螺滤波 + 调度 + 通信）。
-#   Td 是「P 加上去为什么会振荡」的真正原因，也是本课对比的关键。
+#   Td 是「P 加上去为什么会振荡」的真正原因，也是本章对比的关键。
 #
 PLANT = dict(
     J=1.0e-3,      # 转动惯量        [kg·m²]（5 寸机俯仰/滚转量级）
@@ -1076,7 +1076,7 @@ def exp5():
       多出来的状态要进日志（否则出事故无法归因）、
       要多一组参数进参数系统、要改调参工具、要有一个辨识器定 b0。
       这些「非算法成本」才是飞控不换控制律的真正原因 ——
-      详见本课正文 9.4.4 第 5 节。""" % (t_adrc / t_pid))
+      详见本章正文 9.4.4 第 5 节。""" % (t_adrc / t_pid))
 
 
 # ===========================================================================

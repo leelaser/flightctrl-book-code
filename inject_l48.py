@@ -174,9 +174,9 @@ INJECTIONS = [
      ['跨文件对质'], "INITIAL_THERMAL_RADIUS = 40.0'"),
 
     ('J31 声称源码里的参数名自带 SIM_ 前缀',
-     "r'AP_GROUPINFO\(\"THML_SCENARI\",\s*12,\s*SIM,\s*thermal_scenario,\s*0\)'",
-     "r'AP_GROUPINFO\(\"SIM_THML_SCENARI\",\s*12,\s*SIM,\s*thermal_scenario,\s*0\)'",
-     ['不带 `SIM_` 前缀'], 'AP_GROUPINFO\("SIM_THML_SCENARI"'),
+     "r'AP_GROUPINFO\\(\"THML_SCENARI\",\\s*12,\\s*SIM,\\s*thermal_scenario,\\s*0\\)'",
+     "r'AP_GROUPINFO\\(\"SIM_THML_SCENARI\",\\s*12,\\s*SIM,\\s*thermal_scenario,\\s*0\\)'",
+     ['不带 `SIM_` 前缀'], 'AP_GROUPINFO\\("SIM_THML_SCENARI"'),
 ]
 
 

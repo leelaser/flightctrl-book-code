@@ -1,0 +1,19 @@
+{
+  "tag": "demo_pitchlim",
+  "maneuver": "level",
+  "time": "2026-09-29T09:00:24",
+  "build": {
+    "sec": 12.3,
+    "targets": 66
+  },
+  "metrics": {
+    "ok": true,
+    "samples": 9600,
+    "duration_s": 60.0,
+    "max_alt_m": 20.94,
+    "max_spd": 24.03,
+    "frac_flying": 0.045,
+    "flew": false,
+    "reason": "未进入稳定飞行（高度>8m 且地速>8m/s 的样本占比 5%）"
+  }
+}

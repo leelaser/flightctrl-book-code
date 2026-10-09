@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-第 10 课配套实验：NuttX vs FreeRTOS vs ChibiOS
+卷 6 第 10 章配套实验：NuttX vs FreeRTOS vs ChibiOS
 
 设计原则（和前 9 课一致）：
   1. 每个实验都能独立运行，输出的是**可验证的数字或结构**，不是形容词
@@ -14,9 +14,9 @@
     python lesson10_rtos_comparison.py 3        # 只跑实验 3
 
 本文件所有关于 NuttX 的数据，来源仓库：
-    D:/DEVLib/PX4APM/PX4/PX4-Autopilot/platforms/nuttx/NuttX/nuttx
+    $SRC_PX4/platforms/nuttx/NuttX/nuttx
 所有关于 ArduPilot/ChibiOS 的数据，来源仓库：
-    D:/DEVLib/PX4APM/APM/ardupilot-Copter-4.5.7/ardupilot-Copter-4.5.7
+    $SRC_APM
 """
 
 import sys
@@ -182,7 +182,7 @@ def exp1_ready_list():
     #   · 交错顺序                  → 平均 O(N/2)
     # 我第一版把方向写反了（以为升序是最坏），跑出来表里全是 1.0x 才发现。
     # 这个错误本身值得留在这里当提醒：**读实现时"哪个方向更贵"必须靠跑
-    # 数字确认，不能靠直觉** —— 而这恰好也是本课要传达的方法论。
+    # 数字确认，不能靠直觉** —— 而这恰好也是本章要传达的方法论。
 
     print("  任务数 N | NuttX最好(升序) | NuttX平均(交错) | NuttX最坏(降序) | FreeRTOS | 最坏/FR")
     print("  ---------+------------------+-----------------+-----------------+----------+--------")
@@ -478,7 +478,7 @@ def exp3_isr_api():
     也就是 cpsid i / primask，这个操作在任务上下文和 ISR 上下文里
     **完全一样** —— 都不需要"再锁一次"的概念。
     NuttX 的"我要不要在返回时切任务"的决策，是通过
-    arm_doirq() **返回值**这个机制推迟的（第 7 课详细讲过）：
+    arm_doirq() **返回值**这个机制推迟的（卷 6 第 6 章详细讲过）：
 
         uint32_t *arm_doirq(int irq, uint32_t *regs) {
           ...
@@ -648,7 +648,7 @@ def exp4_ipc():
   NuttX 的最近似物是"线程私有信号"，但没有"每个任务自带一个计数器"这种东西。
 
 【行 13：VFS —— NuttX 独有的降维打击】
-  这一行是三家最大的能力差距，也是第 6 课整节课的内容。
+  这一行是三家最大的能力差距，也是卷 6 第 5 章整节课的内容。
   FreeRTOS / ChibiOS 里"设备"是一个编译期决定的东西；
   NuttX 里它是一个运行期可以 open/read/write/ioctl/poll 的 fd。
   后果：NuttX 上的应用代码可以完全不知道底下是什么硬件 ——
@@ -951,7 +951,7 @@ def exp6_memory():
       - 编译期声明多块内存区域，内核在启动时把它们**合并成统一堆**：
             boards/ark/fmu-v6x/nuttx-config/nsh/defconfig 中
             CONFIG_MM_REGIONS=4
-        （第 8 课已核实：四块不连续 RAM ≈ 992 KB 合并为一个堆 ——
+        （卷 6 第 7 章已核实：四块不连续 RAM ≈ 992 KB 合并为一个堆 ——
           AXI SRAM 512K + SRAM123 288K + SRAM4 64K + DTCM 128K）
       - 提供两套分配器：
             mm_alloc.c  —— 通用堆（小块 + 大块混合，带 per-region 锁）
@@ -1027,7 +1027,7 @@ def exp6_memory():
                         #   (a) 与插入点【前】一块：检查 pxIterator + size == 新块
                         #   (b) 与插入点【后】一块：检查 新块 + size == pxIterator->next
                         #
-                        # 【修正】本课第一版在这里写的是"与上一块合并是通过上一块
+                        # 【修正】本章第一版在这里写的是"与上一块合并是通过上一块
                         # 插入时向前合并完成的"——**机制说错了**。实际两个方向都在
                         # 这一次插入里完成，见 heap_4.c:509-545 的两段
                         # "Do the block being inserted, and the block it is being
@@ -1090,7 +1090,7 @@ def exp6_memory():
   ⇒ 工程结论：
     1) **永远不要用 heap_2 做通用分配器** —— 但理由要说准。
 
-       【修正】本课第一版说 heap_2 是"heap_4 去掉合并"，理由是
+       【修正】本章第一版说 heap_2 是"heap_4 去掉合并"，理由是
        "块大小固定时省掉合并开销"。**补拉 FreeRTOS 源码复核后
        发现这个描述不准确。** 实际的差异是**空闲链表的排序准则**：
 
@@ -1137,7 +1137,7 @@ def exp6_memory():
        是**最优解**，不是妥协。而且"误用 free 会被断言抓住"
        这一点让它比"空操作"版本更安全。
        PX4 的等价物是"启动时一次性分配 + 运行期不再 malloc"
-       （第 9 课提到的那些工作队列栈、uORB 缓冲区都是启动时分配的），
+       （卷 6 第 8 章提到的那些工作队列栈、uORB 缓冲区都是启动时分配的），
        哲学上和 heap_1 一致 —— 但 NuttX 没有提供"编译期禁用 free"
        这种模式，所以你无法从内核层面保证没人偷偷 malloc。
        这是一个**真实的能力差异**，值得在选型时考虑。
@@ -1241,7 +1241,7 @@ def exp7_driver_model():
     print("  [NuttX] 有完整的 VFS + 运行期注册")
     print("  " + "-" * 78)
     print("""
-  第 6 课整节课讲的就是这条链路：
+  卷 6 第 5 章整节课讲的就是这条链路：
       register_driver("/dev/baro0", &g_baro_fops, 0666, priv)
         → inode_reserve()  建立 /dev/baro0 的 inode（自动创建中间目录）
         → inode->u.i_ops = &g_baro_fops
@@ -1260,15 +1260,15 @@ def exp7_driver_model():
   受益：
     - **运行期**注册/注销（模块可以 insmod/rmmod 风格地加载）
     - 上层完全硬件无关：同一份应用代码读 /dev/baro0 就能工作
-    - 天然的权限、命名空间、fd 生命周期管理（虽然是弱权限，见第 6 课）
+    - 天然的权限、命名空间、fd 生命周期管理（虽然是弱权限，见卷 6 第 5 章）
     - 可以并挂多实例
     - 可以在用户态用 shell 直接调试：`cat /dev/baro0`、`ioctl` 工具
   代价：
     - VFS 是间接层，每次 read/ioctl 多一次函数指针跳转（可忽略）
     - 一个 inode 树要占内存（PX4 上通常几 KB）
     - 驱动作者必须理解 VFS 的三层结构（file / inode / fops），
-      第 6 课列了 12 个常见错误就是这个门槛的体现
-    - **NuttX 的 VFS 不检查权限位**（第 6 课已核实：
+      卷 6 第 5 章列了 12 个常见错误就是这个门槛的体现
+    - **NuttX 的 VFS 不检查权限位**（卷 6 第 5 章已核实：
       inode_checkflags() 只看 f_ops 里的回调是否为 NULL，
       从不读 i_mode）—— 也就是说 `register_driver(..., 0666, ...)` 里的
       0666 只影响 `ls -l` 的显示，不提供任何保护。
@@ -1329,7 +1329,7 @@ def exp8_summary():
     print("  【代码规模】—— 单位：行")
     print("  " + "=" * 100)
     print("""
-  NuttX（实测：D:/DEVLib/PX4APM/PX4/PX4-Autopilot/platforms/nuttx/NuttX/nuttx）
+  NuttX（实测：$SRC_PX4/platforms/nuttx/NuttX/nuttx）
       sched/            52,540    调度器 + 同步 + IPC + 信号 + 工作队列
          ├ semaphore     3,750    含优先级继承（sem_holder.c 是其中大头）
          ├ irq           2,360
@@ -1415,7 +1415,7 @@ def exp8_summary():
          这**不是因为链接例外**，而是因为 **ArduPilot 本身是 GPL3** ——
          它按完整 GPL3 条款行事，用不上例外。
 
-      但这里有一个真实的陷阱（本课实测发现）：
+      但这里有一个真实的陷阱（本章实测发现）：
          ArduPilot 有三处代码**直接访问 ChibiOS 内核内部数据结构**：
            Semaphores.cpp:76-80    mtx->owner             ← 读 mutex_t 内部字段
            HAL_ChibiOS_Class.cpp:190  daemon_task->hdr.pqueue.prio
@@ -1576,7 +1576,7 @@ EXPERIMENTS = {
 def main():
     banner = """
 ================================================================================
- 第 10 课：NuttX vs FreeRTOS vs ChibiOS
+ 本章：NuttX vs FreeRTOS vs ChibiOS
  配套实验代码 —— 所有数字都可在本机仓库复现
 
  实验列表：
@@ -1610,7 +1610,7 @@ def main():
 
     print("""
 ================================================================================
- 本课三条最重要的结论（如果只记三件事）
+ 本章三条最重要的结论（如果只记三件事）
 ================================================================================
 
 1. 优先级永远不要跨 RTOS 照搬数字，要搬**语义档位**。

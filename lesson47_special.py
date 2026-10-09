@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-lesson47_special.py —— 第 13 篇《特种功能》配套自验证脚本
+lesson47_special.py —— 卷 8 第 18 章《特种功能》配套自验证脚本
 
 四个库，一个共同主题：**飞机与外部世界的关系**
   ① AC_Fence    —— 我能去哪（禁飞区 / 高度层）
@@ -17,6 +17,7 @@ lesson47_special.py —— 第 13 篇《特种功能》配套自验证脚本
 """
 
 import io
+import _srcdirs
 import math
 import os
 import re
@@ -41,8 +42,8 @@ print('[0] 定位源码（4.7.1）')
 print('=' * 76)
 
 REPO = None
-for cand in (r'D:\DEVLib\PX4APM\APM\ardupilot-Copter-4.7.1',
-             r'D:\DEVLib\PX4APM\APM\ardupilot-Plane-4.7.1'):
+for cand in (_srcdirs.src("APM_471"),
+             _srcdirs.src("PLANE")):
     if os.path.isdir(os.path.join(cand, 'libraries')):
         REPO = cand
         break
@@ -728,7 +729,7 @@ check(o is not None and o.get('AcceptOldData') == 4,
       '★★ 复算：`AcceptOldData = (1U<<2)` = **%s**' % (o.get('AcceptOldData') if o else '?'))
 
 # 版本边界：4.5.7 树里没有这个字段
-ALT = r'D:\DEVLib\PX4APM\APM\ardupilot-Copter-4.5.7\ardupilot-Copter-4.5.7'
+ALT = _srcdirs.src("APM")
 if os.path.isdir(ALT):
     old = io.open(os.path.join(ALT, 'libraries/AP_Terrain/AP_Terrain.h'),
                   encoding='utf-8', errors='replace').read()
