@@ -74,9 +74,10 @@ python inject_l52.py     # 例：对 lesson52_simparams.py 做 39 条注入，�
 
 - 正文里的数**不都**出自脚本：源码里的参数默认值、端口号、工业界量级、
   手算的派生量都不是 —— 书里对此有说明（见卷首语「配套代码与里面的数字」）。
-- 卷 1 第 17 章、卷 3 第 10 章是**理论/案例章**：`ch17_rigid.py` / `ch10_adcs.py`
-  只复算关键关系（惯量/主轴/中间轴、指向预算/轮子容量/TRIAD 等），
-  **不是“每个数都出自脚本”**；检查器对这两章按“部分覆盖”报告。
+- 卷 1 第 17、18 章、卷 3 第 10 章是**理论/案例章**：`ch17_rigid.py` /
+  `ch18_analytics.py` / `ch10_adcs.py` 只复算关键关系（惯量/主轴/中间轴、
+  单摆/简正模态/哈密顿、指向预算/轮子容量/TRIAD 等），
+  **不是“每个数都出自脚本”**；检查器对这三章按“部分覆盖”报告。
 - 脚本引的上游源码**按版本核对过**（行号会随版本漂），版本表见各卷卷首语 §一。
 - 有些实验要 WSL/Linux（`ch07_*.sh`，卷 7 的启动链与抖动实测），Windows 下会跳过。
 
@@ -84,7 +85,7 @@ python inject_l52.py     # 例：对 lesson52_simparams.py 做 39 条注入，�
 
 | 是什么 | 例子 |
 |---|---|
-| 数值实验（每章一套） | `lesson23_sitl.py`、`ch09_clocks.py`、`ch17_rigid.py`、`ch10_adcs.py` |
+| 数值实验（每章一套） | `lesson23_sitl.py`、`ch09_clocks.py`、`ch17_rigid.py`、`ch18_analytics.py`、`ch10_adcs.py` |
 | 反向注入（验证断言真的在守） | `inject_l38.py` … `inject_l53.py` |
 | Linux 实验（需 WSL） | `ch07_boot.sh`、`ch07_jitter.sh` |
 | 绘图脚本 → `*.png` | `figures_ch6.py` |
