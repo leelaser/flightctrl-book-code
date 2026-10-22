@@ -29,7 +29,7 @@
 ★ 本章的写法有一个背景：卷 5 第 9 章的预告里我写错了三个论断，
   所以这一课的方法改成**"先数，再写"**（实验 1 就是那个"数"）。
 
-源码版本：FreeRTOS V11.1.0 / ArduPilot 4.5.7 / PX4 1.15.x
+源码版本：FreeRTOS V11.1.0 / ArduPilot 4.7.2 / PX4 1.15.x
 """
 
 import io
@@ -41,8 +41,7 @@ import sys
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.normpath(os.path.join(SCRIPT_DIR, "..", ".."))
 FREERTOS = os.path.join(BASE, "FreeRTOS")
-APM_ROOT = os.path.join(BASE, "APM", "ardupilot-Copter-4.5.7",
-                        "ardupilot-Copter-4.5.7")
+APM_ROOT = os.path.join(BASE, "APM", "ardupilot-Copter-4.7.2")
 PX4_ROOT = os.path.join(BASE, "PX4", "PX4-Autopilot")
 CHIBIOS = os.path.join(APM_ROOT, "modules", "ChibiOS")
 NUTTX = os.path.join(PX4_ROOT, "platforms", "nuttx", "NuttX", "nuttx")

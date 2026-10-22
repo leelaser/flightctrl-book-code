@@ -2257,7 +2257,7 @@ def exp4():
     sub("⑥ PX4 / ArduPilot 里到底有没有 LQR / MPC")
 
     PX4_SRC = _srcdirs.src("PX4_115", "src")
-    APM_SRC = _srcdirs.src("APM")
+    APM_SRC = _srcdirs.src("APM_472")
 
     APM_ROOTS = [APM_SRC + "/libraries", APM_SRC + "/ArduCopter"]
     checks = [

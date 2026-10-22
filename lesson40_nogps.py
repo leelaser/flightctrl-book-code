@@ -2,7 +2,7 @@
 """卷 8 第 11 章 · 无 GPS 导航 —— 可执行验证
 
 配套课文：`卷 8 第 11 章`
-源码：`ardupilot-Copter-4.7.1/libraries/AP_NavEKF3/AP_NavEKF3_OptFlowFusion.cpp`（光流观测）
+源码：`ardupilot-Copter-4.7.2/libraries/AP_NavEKF3/AP_NavEKF3_OptFlowFusion.cpp`（光流观测）
       `libraries/AP_NavEKF3/AP_NavEKF3.h`（DCM33FlowMin / FLOW_USE_*）
       `libraries/AP_NavEKF/AP_NavEKF_Source.{h,cpp}`（★ 源集机制）
       `libraries/AP_Scripting/examples/ahrs-source-gps-optflow.lua`（★ 降级策略）

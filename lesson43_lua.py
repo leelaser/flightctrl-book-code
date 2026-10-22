@@ -2,7 +2,7 @@
 """卷 8 第 14 章 · Lua 脚本 —— 可执行验证
 
 配套课文：`卷 8 第 14 章`
-源码：`ardupilot-Copter-4.7.1/libraries/AP_Scripting/`
+源码：`ardupilot-Copter-4.7.2/libraries/AP_Scripting/`
       `generator/description/bindings.desc`（1164 行）
       `docs/docs.lua`（4463 行，生成 + 手改）
       `tests/docs_check.py`（一致性检查器）

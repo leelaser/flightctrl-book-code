@@ -2,7 +2,7 @@
 """卷 8 第 8 章 · 自动着陆系统 —— 可执行验证
 
 配套课文：`卷 8 第 8 章`
-源码：`ardupilot-Plane-4.7.1/libraries/AP_Landing/`
+源码：`ardupilot-Plane-4.7.2/libraries/AP_Landing/`
       AP_Landing.cpp(777) / AP_Landing_Slope.cpp(448) / AP_Landing_Deepstall.cpp(667)
 
 验证三件事：

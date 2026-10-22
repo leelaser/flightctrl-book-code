@@ -24,7 +24,7 @@
 
 源码版本：
     FreeRTOS V11.1.0
-    ChibiOS 6a85082c / ArduPilot 4.5.7
+    ChibiOS d103983f / ArduPilot 4.7.2
     NuttX（PX4 1.15.x 打包版本）
 """
 
@@ -37,8 +37,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(SCRIPT_DIR, "..", ".."))
 
 FREERTOS = os.path.join(ROOT, "FreeRTOS")
-APM_ROOT = os.path.join(ROOT, "APM", "ardupilot-Copter-4.5.7",
-                        "ardupilot-Copter-4.5.7")
+APM_ROOT = os.path.join(ROOT, "APM", "ardupilot-Copter-4.7.2")
 PX4_ROOT = os.path.join(ROOT, "PX4", "PX4-Autopilot")
 
 CHIBIOS = os.path.join(APM_ROOT, "modules", "ChibiOS")

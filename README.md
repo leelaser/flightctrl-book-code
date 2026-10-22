@@ -61,7 +61,7 @@ export SRC_BSP=/path/to/fmu-v6x-qgbf       # 本书自研板的 BSP（卷 9）
 - **断言**：脚本把结论写成 `check(条件, 说明)`。有条件不成立就报错并给非零退出码 ——
   这是"数字能被复算"的第一层保证。
 - **反向注入**：光有断言还不够 —— **断言可能根本没在验东西**。
-  `inject_l*.py`（15 个）就是为此存在的：它们把被测脚本里的某个事实/公式**故意改错**，
+  `inject_l*.py`（16 个）就是为此存在的：它们把被测脚本里的某个事实/公式**故意改错**，
   然后要求断言**变红**。变红 = 那条断言确实在守；没变红 = 那条断言是空的。
 
 ```bash
@@ -82,7 +82,7 @@ python inject_l52.py     # 例：对 lesson52_simparams.py 做 39 条注入，�
 | 是什么 | 例子 |
 |---|---|
 | 数值实验（每章一套） | `lesson23_sitl.py`、`ch09_clocks.py` |
-| 反向注入（验证断言真的在守） | `inject_l38.py` … `inject_l52.py` |
+| 反向注入（验证断言真的在守） | `inject_l38.py` … `inject_l53.py` |
 | Linux 实验（需 WSL） | `ch07_boot.sh`、`ch07_jitter.sh` |
 | 绘图脚本 → `*.png` | `figures_ch6.py` |
 | 数据文件（脚本的独立基准） | `sim_pdef_arducopter471.txt` |

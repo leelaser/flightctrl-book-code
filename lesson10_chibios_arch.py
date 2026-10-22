@@ -20,8 +20,8 @@
 期望值会被对照检查，对不上就报错。
 这样如果哪天源码变了而文档没改，跑一遍就能发现。
 
-源码版本：6a85082c（2023-12-29，ChibiOS 内核 7.0.4）
-          = ArduPilot 4.5.7 实际 pin 的提交
+源码版本：d103983f（2026-07-22，ChibiOS 内核 7.0.4）
+          = ArduPilot 4.7.2 实际 pin 的提交
 """
 
 import os
@@ -35,10 +35,10 @@ import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# 源码根（相对本脚本：../../APM/ardupilot-Copter-4.5.7/...）
+# 源码根（相对本脚本：../../APM/ardupilot-Copter-4.7.2/...）
 APM_ROOT = os.path.normpath(
     os.path.join(SCRIPT_DIR, "..", "..", "APM",
-                 "ardupilot-Copter-4.5.7", "ardupilot-Copter-4.5.7")
+                 "ardupilot-Copter-4.7.2")
 )
 CHIBIOS = os.path.join(APM_ROOT, "modules", "ChibiOS")
 CHCONF = os.path.join(APM_ROOT, "libraries", "AP_HAL_ChibiOS",
@@ -1224,8 +1224,8 @@ def main():
         print()
         print("  请先拉取（见《总纲》的版本确定方法）：")
         print("      cd modules/ChibiOS")
-        print("      git fetch --depth 1 origin 6a85082c715457d1e0cc9627f9939f349de1143e")
-        print("      git checkout 6a85082c715457d1e0cc9627f9939f349de1143e")
+        print("      git fetch --depth 1 origin d103983f4362e5506bcf7062ccacf345fc0c0859")
+        print("      git checkout d103983f4362e5506bcf7062ccacf345fc0c0859")
         print()
         return 1
 

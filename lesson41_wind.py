@@ -2,7 +2,7 @@
 """卷 8 第 12 章 · 风估计与磁偏角 —— 可执行验证
 
 配套课文：`卷 8 第 12 章`
-源码：`ardupilot-Copter-4.7.1/libraries/AP_Declination/`（`AP_Declination.cpp` 146 + `tables.cpp` 77）
+源码：`ardupilot-Copter-4.7.2/libraries/AP_Declination/`（`AP_Declination.cpp` 146 + `tables.cpp` 77）
       `libraries/AP_WindVane/AP_WindVane.cpp`（503）
       `libraries/AP_NavEKF3/`（风状态）
 

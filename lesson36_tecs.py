@@ -2,7 +2,7 @@
 """卷 8 第 7 章 · TECS 总能量控制 —— 可执行验证
 
 配套课文：`卷 8 第 7 章`
-源码：`ardupilot-Plane-4.7.1/libraries/AP_TECS/`（AP_TECS.cpp 1593 行 + .h 514 行）
+源码：`ardupilot-Plane-4.7.2/libraries/AP_TECS/`（AP_TECS.cpp 1593 行 + .h 514 行）
 
 验证六件事：
 

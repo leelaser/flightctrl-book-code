@@ -2,7 +2,7 @@
 """卷 8 第 6 章 · 任务系统与航线 —— AP_Mission 的可执行验证
 
 配套课文：`卷 8 第 6 章`
-源码：`ardupilot-Plane-4.7.1/libraries/AP_Mission/`
+源码：`ardupilot-Plane-4.7.2/libraries/AP_Mission/`
       AP_Mission.cpp(3199) / AP_Mission.h(979) / AP_Mission_Commands.cpp(377)
 
 本脚本【用 Python 重新实现】AP_Mission 的两套核心编码，然后双向验证：

@@ -87,6 +87,15 @@ ROOTS = [
     #   它们的 `libraries/` 与 Plane 树重复 —— 加进来只会把**同名文件的稀释放大 4 倍**
     #   （见本文件反复强调的「同名文件是这类检查器的天敌」），**一个引用也覆盖不到新的**。
     _srcdirs.src("PLANE"),
+    # ★★ 2026-10 加：**ArduPilot 4.7.2**（书稿迁移的目标版本）。
+    #   它是一份完整仓库，Plane 的内容也在里面 ⇒ 只加这一棵。
+    #   过渡期内旧的两棵（APM 4.5.7 / PLANE 4.7.1）**暂时保留**：
+    #   迁移工具要用它们把老引用解析出来、再映射到 4.7.2。
+    #   迁移完成后，`check_pinned_versions.PINNED` 只留 4.7.2。
+    _srcdirs.src("APM_472"),
+    # ★ 固定翼锚定的 Plane 4.7.2（与上面共同文件逐字节相同；
+    #   加它只是为了"固定翼引用的出处"能落到 Plane 树上）。
+    _srcdirs.src("APM_472_PLANE"),
     _srcdirs.src("PX4"),
     _srcdirs.src("DOC_NUTTX"),
     # ★ NuttX **源码树**（2026-09 补）——

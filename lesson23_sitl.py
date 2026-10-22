@@ -138,7 +138,7 @@ PX4_CANDIDATES = [
 ]
 
 AP_CANDIDATES = [
-    _srcdirs.src("APM"),
+    _srcdirs.src("APM_472"),
     r"~/ardupilot",
     r"~/src/ardupilot",
 ]
@@ -854,7 +854,7 @@ def exp3():
       5. 拉起 MAVProxy（--console --map），让你在地面站里操作
 """)
 
-    print("  ★ 源码里的对应位置（本机 ardupilot-Copter-4.5.7 核对过）：")
+    print("  ★ 源码里的对应位置（本机 ardupilot-Copter-4.7.2 核对过）：")
     print()
     tab([
         ["命令行参数 -v / -f", "Tools/autotest/sim_vehicle.py:1030, :1035"],

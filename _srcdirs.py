@@ -43,6 +43,26 @@ DEFAULTS = {
     'PX4_115': u'D:/DEVLib/PX4APM/PX4/PX4-Autopilot-1.15.4/PX4-Autopilot-1.15.4',
     'APM': u'D:/DEVLib/PX4APM/APM/ardupilot-Copter-4.5.7/ardupilot-Copter-4.5.7',
     'APM_471': u'D:/DEVLib/PX4APM/APM/ardupilot-Copter-4.7.1',
+    # ★ 2026-10 加：书稿迁移的目标版本。
+    #   这是一份**完整 ArduPilot 仓库**（ArduCopter/ArduPlane/ArduSub/Rover/
+    #   libraries/Tools 全在），所以 **Plane 也用它**，不要再单列一棵
+    #   `PLANE_472` —— `ardupilot-Plane-4.7.2/` 与它逐字节相同，
+    #   并排登记只会把同名文件的歧义放大一倍
+    #   （`_check_citations.py` 里反复强调过这个坑）。
+    #
+    #   ★ 子模块 pin（2026-10-19 从 GitHub API 查得，下载补齐）：
+    #       ArduPilot Copter-4.7.2 → modules/ChibiOS @
+    #       d103983f4362e5506bcf7062ccacf345fc0c0859
+    #     （4.5.7 是 6a85082c715457d1e0cc9627f9939f349de1143e —— **不同提交**，
+    #      所以卷5 的 ChibiOS 引用不能拿 4.5.7 的源码顶上。）
+    'APM_472': u'D:/DEVLib/PX4APM/APM/ardupilot-Copter-4.7.2',
+    # ★ 固定翼章锚定这一棵（2026-10-19 用户指定）。
+    #   实测：它与 `APM_472` 的**共同文件逐字节完全相同**
+    #   （全量 MD5 比对 7770 个文件，0 处不同）；唯一差别是 `APM_472`
+    #   多了一份已补齐的 `modules/ChibiOS/` 子模块（5514 个文件）。
+    #   所以固定翼引用换到这棵树**不需要改任何行号**，
+    #   区别只在出处与版本声明的诚实性。
+    'APM_472_PLANE': u'D:/DEVLib/PX4APM/APM/ardupilot-Plane-4.7.2',
     'PLANE': u'D:/DEVLib/PX4APM/APM/ardupilot-Plane-4.7.1',
     'NUTTX': u'D:/DEVLib/PX4APM/PX4/PX4-Autopilot/platforms/nuttx/NuttX/nuttx',
     'NUTTX_SRC': u'D:/DEVLib/PX4APM/Nuttx',

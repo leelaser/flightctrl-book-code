@@ -11,7 +11,7 @@ ArduPilot 里"自动调参"不是一个东西，是**三份互不共享代码的
 本脚本做的事：
   ① 把这些库的**归属、常量、判据**从源码里解析出来（不靠印象）
   ② 把判据和增益迭代**移植成 Python 并用独立基准验**
-  ③ 把 4.5.7 → 4.7.1 的差异**逐条量出来**（默认值、判据位置、阈值）
+  ③ 把 4.5.7 → 4.7.2 的差异**逐条量出来**（默认值、判据位置、阈值）
 
 运行： python3 lesson45_autotune.py     （全过 EXIT=0）
 """
@@ -38,12 +38,12 @@ def check(cond, msg):
 
 
 print('=' * 76)
-print('[0] 定位源码（4.7.1 是本章基准版本）')
+print('[0] 定位源码（4.7.2 是本章基准版本）')
 print('=' * 76)
 
 REPO = None
-for cand in (_srcdirs.src("APM_471"),
-             _srcdirs.src("PLANE")):
+for cand in (_srcdirs.src("APM_472"),
+             _srcdirs.src("APM_472_PLANE")):
     if os.path.isdir(os.path.join(cand, 'libraries')):
         REPO = cand
         break
@@ -85,7 +85,7 @@ src_fr, src_frh = slurp(F_FR), slurp(F_FRH)
 src_plane, src_planeh = slurp(F_PLANE), slurp(F_PLANEH)
 src_qt, src_qth = slurp(F_QT), slurp(F_QTH)
 
-print('    4.7.1 = %s' % REPO)
+print('    4.7.2 = %s' % REPO)
 check(len(src_multi) > 30000, 'AC_AutoTune_Multi.cpp 读入 %d 字节' % len(src_multi))
 check(OLD is not None, '找到 4.5.7 对照树（教程 08 章的行号基准）')
 
@@ -273,10 +273,10 @@ m = re.search(r'void AC_AutoTune_Multi::twitching_test_rate\((.*?)\n\}', src_mul
 check(m is not None, '整段取出 twitching_test_rate()')
 TW = m.group(0) if m else ''
 
-# --- 函数签名（4.7.1 是 6 参，4.5.7 是 5 参）---
+# --- 函数签名（4.7.2 是 6 参，4.5.7 是 5 参）---
 sig = re.search(r'twitching_test_rate\(([^)]*)\)', TW)
 n_par = len([p for p in sig.group(1).split(',')]) if sig else 0
-check(n_par == 6, '★ 4.7.1 的签名有 %d 个参数（多了 angle 与 meas_angle_min）' % n_par)
+check(n_par == 6, '★ 4.7.2 的签名有 %d 个参数（多了 angle 与 meas_angle_min）' % n_par)
 
 # --- 四个门限数字 ---
 for num, label in (('0.6321', '早期超时门限'),
@@ -314,17 +314,17 @@ for a in (0.01, 0.1, 1.0, 5.0):
           '★ 反向对照：零均值数据上 反弹比恒 = %.1f（幅值 %.2f）—— 远超任何 AGGR，'
           '所以这条判据**不能**用在没有阶跃的数据上' % (bounce_ratio_on_hover(a), a))
 
-# --- AGGR 默认值：4.7.1 vs 4.5.7 ---
+# --- AGGR 默认值：4.7.2 vs 4.5.7 ---
 AGGR = src_defines(src_multi)  # 只抓数值型，AGGR 是参数不是 define
 m_new = re.search(r'AP_GROUPINFO\("AGGR",\s*\d+,\s*AC_AutoTune_Multi,\s*aggressiveness,\s*([\d.]+)f\)',
                   src_multi)
 m_min = re.search(r'AP_GROUPINFO\("MIN_D",\s*\d+,\s*AC_AutoTune_Multi,\s*min_d,\s*([\d.]+)f\)',
                   src_multi)
-check(m_new is not None and m_min is not None, '解析出 4.7.1 的 AGGR / MIN_D 默认值')
+check(m_new is not None and m_min is not None, '解析出 4.7.2 的 AGGR / MIN_D 默认值')
 AGGR_NEW = float(m_new.group(1)) if m_new else -1
 MIND_NEW = float(m_min.group(1)) if m_min else -1
-check(abs(AGGR_NEW - 0.075) < 1e-9, '★ 4.7.1 的 AUTOTUNE_AGGR 默认 = %s' % AGGR_NEW)
-check(abs(MIND_NEW - 0.0005) < 1e-9, '★ 4.7.1 的 AUTOTUNE_MIN_D 默认 = %s' % MIND_NEW)
+check(abs(AGGR_NEW - 0.075) < 1e-9, '★ 4.7.2 的 AUTOTUNE_AGGR 默认 = %s' % AGGR_NEW)
+check(abs(MIND_NEW - 0.0005) < 1e-9, '★ 4.7.2 的 AUTOTUNE_MIN_D 默认 = %s' % MIND_NEW)
 check(re.search(r'//\s*@Range:\s*0\.05 0\.10', src_multi) is not None,
       '   AGGR 的 @Range 仍是 0.05 0.10')
 
@@ -845,7 +845,7 @@ check(23 in over,
 check(7 not in over,
       '   而文档里那个 "7:All" 恰好 6 项、**正好卡满**（这就是为什么一直没人发现）')
 
-# --- 4.7.1 Heli 保留的旧角度常量 ---
+# --- 4.7.2 Heli 保留的旧角度常量 ---
 check(re.search(r'// angle limits preserved from previous behaviour as Multi changed', src_heli)
       is not None,
       '★ Heli 里有一段注释 "angle limits preserved from previous behaviour as Multi changed" —— '
@@ -1038,7 +1038,7 @@ check(re.search(r'current\.rmax_pos\.get\(\)-20', src_plane) is not None
 # ==========================================================================
 print()
 print('=' * 76)
-print('[10] 4.5.7 → 4.7.1：哪些数字/位置真的变了')
+print('[10] 4.5.7 → 4.7.2：哪些数字/位置真的变了')
 print('=' * 76)
 
 if OLD is None:
@@ -1069,14 +1069,14 @@ else:
     l_new = find_line(src_multi, r'void AC_AutoTune_Multi::twitching_test_rate\(')
     l_old = find_line(old_multi, r'void AC_AutoTune_Multi::twitching_test_rate\(')
     check(l_new == 687 and l_old == 522,
-          '★★ 判据函数从 4.5.7 的第 %d 行搬到 4.7.1 的第 %d 行（搬了 %d 行）'
+          '★★ 判据函数从 4.5.7 的第 %d 行搬到 4.7.2 的第 %d 行（搬了 %d 行）'
           % (l_old, l_new, l_new - l_old))
 
     # ③ 函数签名
     sig_old = re.search(r'twitching_test_rate\(([^)]*)\)', old_multi)
     n_old = len(sig_old.group(1).split(',')) if sig_old else 0
     check(n_old == 4 and n_par == 6,
-          '★★ 签名从 4.5.7 的 %d 个参数变成 4.7.1 的 %d 个（多了开头的 angle 与结尾的 '
+          '★★ 签名从 4.5.7 的 %d 个参数变成 4.7.2 的 %d 个（多了开头的 angle 与结尾的 '
           'meas_angle_min，净增 2 个）' % (n_old, n_par))
 
     # ④ 阈值数字

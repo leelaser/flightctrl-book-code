@@ -2,8 +2,8 @@
 """卷 8 第 10 章 · 避障三层 —— 可执行验证
 
 配套课文：`卷 8 第 10 章`
-源码：`ardupilot-Copter-4.7.1/libraries/AC_Avoidance/AC_Avoid.cpp`（1584 行）
-      `ardupilot-Copter-4.7.1/libraries/AP_Math/control.cpp`（sqrt_controller / inv_sqrt_controller）
+源码：`ardupilot-Copter-4.7.2/libraries/AC_Avoidance/AC_Avoid.cpp`（1584 行）
+      `ardupilot-Copter-4.7.2/libraries/AP_Math/control.cpp`（sqrt_controller / inv_sqrt_controller）
 
 验证六件事（全部是【两个独立来源】对撞，不是自证）：
 

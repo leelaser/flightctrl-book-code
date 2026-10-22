@@ -15,7 +15,7 @@
     ...
     python lesson20_ardupilot_chibios.py      # 全部
 
-源码版本：ArduPilot 4.5.7 + ChibiOS 6a85082c
+源码版本：ArduPilot 4.7.2 + ChibiOS d103983f
 """
 
 import os
@@ -26,7 +26,7 @@ import sys
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 APM_ROOT = os.path.normpath(
     os.path.join(SCRIPT_DIR, "..", "..", "APM",
-                 "ardupilot-Copter-4.5.7", "ardupilot-Copter-4.5.7")
+                 "ardupilot-Copter-4.7.2")
 )
 PX4_ROOT = os.path.normpath(
     os.path.join(SCRIPT_DIR, "..", "..", "PX4", "PX4-Autopilot")

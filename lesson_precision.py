@@ -58,7 +58,7 @@ float32 精度审计 —— 教程结论的「适用边界」实验
           **Joseph 形式 + 只写下三角再镜像（对称是构造保证的）+ 方差限幅**
           —— 见 `src/modules/ekf2/EKF/ekf.h:458-501`。
 
-    ardupilot-Copter-4.5.7：`libraries/AP_Math/ftype.h:14-15,33-34`
+    ardupilot-Copter-4.7.2：`libraries/AP_Math/ftype.h:14-15,33-34`
         `#if HAL_WITH_EKF_DOUBLE` → `typedef double ftype;`
         `#else`                    → `typedef float  ftype;`  ← F4 板走这条；H7 板走上面那条（double！）
         这条开关来自 `libraries/AP_HAL/board/chibios.h:59`：

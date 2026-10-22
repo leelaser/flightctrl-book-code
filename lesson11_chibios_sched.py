@@ -28,7 +28,7 @@
 模拟能证明的是【算法的语义】，不能证明【真实时序】。
 凡涉及真实时序的结论，本文档都会标 [未亲验]。
 
-源码版本：6a85082c（2023-12-29，ChibiOS 内核 7.0.4）
+源码版本：d103983f（2026-07-22，ChibiOS 内核 7.0.4）
 """
 
 import os
@@ -39,7 +39,7 @@ import sys
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 APM_ROOT = os.path.normpath(
     os.path.join(SCRIPT_DIR, "..", "..", "APM",
-                 "ardupilot-Copter-4.5.7", "ardupilot-Copter-4.5.7")
+                 "ardupilot-Copter-4.7.2")
 )
 CHIBIOS = os.path.join(APM_ROOT, "modules", "ChibiOS")
 
@@ -935,7 +935,7 @@ def main():
         print("  [错误] 找不到 ChibiOS 源码：")
         print("         %s" % CHIBIOS)
         print()
-        print("  请先按《总纲》的方法拉取 6a85082c 版本。")
+        print("  请先按《总纲》的方法拉取 d103983f 版本。")
         print()
         return 1
 

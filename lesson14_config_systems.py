@@ -23,7 +23,7 @@
 这【证明不了】这些符号将来会变，只能证明【它们的值不在这块板子的控制之下】。
 
 源码版本：
-    ChibiOS 6a85082c / ArduPilot 4.5.7 / PX4 1.15.x + 其打包的 NuttX
+    ChibiOS d103983f / ArduPilot 4.7.2 / PX4 1.15.x + 其打包的 NuttX
 """
 
 import os
@@ -34,8 +34,7 @@ import sys
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(SCRIPT_DIR, "..", ".."))   # 工作区根
 
-APM_ROOT = os.path.join(ROOT, "APM", "ardupilot-Copter-4.5.7",
-                        "ardupilot-Copter-4.5.7")
+APM_ROOT = os.path.join(ROOT, "APM", "ardupilot-Copter-4.7.2")
 PX4_ROOT = os.path.join(ROOT, "PX4", "PX4-Autopilot")
 
 HWDEF = os.path.join(APM_ROOT, "libraries", "AP_HAL_ChibiOS", "hwdef")

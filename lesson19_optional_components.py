@@ -24,7 +24,7 @@
 都会进最终固件（还有 `HAL_USE_*` 之类的开关）—— 但对
 "用/不用"这个粗判已经足够。
 
-源码版本：ArduPilot 4.5.7 pin 的 ChibiOS 6a85082c（内核 7.0.4）
+源码版本：ArduPilot 4.7.2 pin 的 ChibiOS d103983f（内核 7.0.4）
 """
 
 import io
@@ -36,7 +36,7 @@ import sys
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 APM_ROOT = os.path.normpath(
     os.path.join(SCRIPT_DIR, "..", "..", "APM",
-                 "ardupilot-Copter-4.5.7", "ardupilot-Copter-4.5.7")
+                 "ardupilot-Copter-4.7.2")
 )
 CHIBIOS = os.path.join(APM_ROOT, "modules", "ChibiOS")
 VARIOUS = os.path.join(CHIBIOS, "os", "various")
@@ -446,7 +446,7 @@ def main():
         print("  [错误] 找不到 ChibiOS 源码：")
         print("         %s" % CHIBIOS)
         print()
-        print("  请先按《总纲》的方法拉取 6a85082c 版本。")
+        print("  请先按《总纲》的方法拉取 d103983f 版本。")
         print()
         return 1
 

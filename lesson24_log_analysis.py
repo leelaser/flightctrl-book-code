@@ -159,7 +159,7 @@ PX4_CANDIDATES = [
 ]
 
 AP_CANDIDATES = [
-    _srcdirs.src("APM"),
+    _srcdirs.src("APM_472"),
     r"~/ardupilot",
     r"~/src/ardupilot",
 ]

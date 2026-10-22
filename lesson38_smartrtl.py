@@ -2,8 +2,8 @@
 """卷 8 第 9 章 · 返航与备降 —— 可执行验证
 
 配套课文：`卷 8 第 9 章`
-源码：`ardupilot-Plane-4.7.1/libraries/AP_SmartRTL/`（AP_SmartRTL.cpp 914 + .h 246）
-      `ardupilot-Plane-4.7.1/libraries/AP_Rally/`（AP_Rally.cpp 209 + .h 110）
+源码：`ardupilot-Plane-4.7.2/libraries/AP_SmartRTL/`（AP_SmartRTL.cpp 914 + .h 246）
+      `ardupilot-Plane-4.7.2/libraries/AP_Rally/`（AP_Rally.cpp 209 + .h 110）
 
 验证四件事：
 

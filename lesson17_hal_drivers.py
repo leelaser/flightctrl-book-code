@@ -24,7 +24,7 @@
     · DMA 与缓存的交互（H7 上还有 D-Cache 一致性这一层，本章不展开）
     · 硬件 FIFO（USARTv3 支持，模拟里按"一次一个字节"算）
 
-源码版本：ArduPilot 4.5.7 pin 的 ChibiOS 6a85082c（内核 7.0.4）
+源码版本：ArduPilot 4.7.2 pin 的 ChibiOS d103983f（内核 7.0.4）
 """
 
 import io
@@ -36,7 +36,7 @@ import sys
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 APM_ROOT = os.path.normpath(
     os.path.join(SCRIPT_DIR, "..", "..", "APM",
-                 "ardupilot-Copter-4.5.7", "ardupilot-Copter-4.5.7")
+                 "ardupilot-Copter-4.7.2")
 )
 CHIBIOS = os.path.join(APM_ROOT, "modules", "ChibiOS")
 HAL = os.path.join(CHIBIOS, "os", "hal")
@@ -756,7 +756,7 @@ def main():
         print("  [错误] 找不到 ChibiOS 源码：")
         print("         %s" % CHIBIOS)
         print()
-        print("  请先按《总纲》的方法拉取 6a85082c 版本。")
+        print("  请先按《总纲》的方法拉取 d103983f 版本。")
         print()
         return 1
 
